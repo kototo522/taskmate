@@ -1,3 +1,5 @@
+package com.example.taskmate.navigation
+
 import androidx.compose.foundation.background
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -6,6 +8,7 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavHostController
 
 @Composable
@@ -18,7 +21,7 @@ fun BottomNavBar(screenItems: List<BottomNavBarItems>, currentRoute: String?, na
     ) {
         screenItems.forEach { screen ->
             NavigationBarItem(
-                icon = { Icon(imageVector = screen.icon, contentDescription = null) },
+                icon = { Icon(painter = painterResource(id = screen.icon), contentDescription = null) },
                 label = { Text(text = screen.title) },
                 selected = currentRoute == screen.route,
                 onClick = {
