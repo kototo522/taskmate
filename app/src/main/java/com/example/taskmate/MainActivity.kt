@@ -1,5 +1,6 @@
 package com.example.taskmate
 
+import Navigation
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -20,10 +21,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             TaskmateTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    Navigation(modifier = Modifier.padding(innerPadding))
                 }
             }
         }
