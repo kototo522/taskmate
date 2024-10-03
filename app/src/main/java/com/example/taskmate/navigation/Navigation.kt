@@ -5,12 +5,14 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.taskmate.ui.HomeScreen
 import com.example.taskmate.ui.MyPageScreen
+import com.example.taskmate.ui.SettingScreen
 import com.example.taskmate.ui.TaskScreen
 
 @Composable
@@ -25,6 +27,9 @@ fun Navigation(modifier: Modifier) {
     val navStackBackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navStackBackEntry?.destination?.route
 
+    val navToSettingScreen = { navController.navigate("SettingScreen") }
+    val popBackStack = { navController.popBackStack() }
+
     Scaffold(
         bottomBar = {
             BottomNavBar(screenItems = screenItems, currentRoute = currentRoute, navController = navController)
@@ -36,13 +41,16 @@ fun Navigation(modifier: Modifier) {
                 startDestination = BottomNavBarItems.Home.route,
             ) {
                 composable(route = BottomNavBarItems.Home.route) {
-                    HomeScreen()
+                    HomeScreen(navToSettingScreen)
                 }
                 composable(route = BottomNavBarItems.Task.route) {
-                    TaskScreen()
+                    TaskScreen(navToSettingScreen)
                 }
                 composable(route = BottomNavBarItems.MyPage.route) {
-                    MyPageScreen()
+                    MyPageScreen(navToSettingScreen)
+                }
+                composable(route = "SettingScreen") {
+                    SettingScreen(popBackStack)
                 }
             }
         }
