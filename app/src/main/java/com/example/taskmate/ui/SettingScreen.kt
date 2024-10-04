@@ -24,13 +24,13 @@ fun SettingScreen(popBackStack: () -> Unit) {
                 popBackScreen = popBackStack,
                 modifier = Modifier,
             )
-        }
+        },
     ) { innerPadding ->
         Box(
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize(),
-            contentAlignment = Alignment.Center
+            contentAlignment = Alignment.Center,
         ) {
             Text("SettingScreen", style = MaterialTheme.typography.bodyLarge)
         }

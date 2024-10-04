@@ -13,7 +13,7 @@ import com.example.taskmate.R
 fun PopBackTaskMateAppBar(
     title: @Composable () -> Unit,
     popBackScreen: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     TaskMateAppBar(
         title = title,

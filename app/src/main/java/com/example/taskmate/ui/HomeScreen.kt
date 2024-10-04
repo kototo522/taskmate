@@ -16,13 +16,13 @@ fun HomeScreen(navToSettingScreen: () -> Unit) {
     Scaffold(
         topBar = {
             MainTaskMateAppBar(navToSettingScreen, Modifier)
-        }
+        },
     ) { innerPadding ->
         Box(
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize(),
-            contentAlignment = Alignment.Center
+            contentAlignment = Alignment.Center,
         ) {
             Text("HomeScreen", style = MaterialTheme.typography.bodyLarge)
         }
