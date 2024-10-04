@@ -1,4 +1,6 @@
 package com.example.taskmate.navigation
+import SelectSubjectScreen
+import Subject
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.foundation.layout.Box
@@ -11,11 +13,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.taskmate.ui.addTask.SelectSubjectScreen
 import com.example.taskmate.ui.HomeScreen
 import com.example.taskmate.ui.MyPageScreen
 import com.example.taskmate.ui.SettingScreen
 import com.example.taskmate.ui.TaskScreen
+import com.example.taskmate.ui.addTask.AddTaskScreen
 
 @Composable
 fun Navigation(modifier: Modifier) {
@@ -30,6 +32,7 @@ fun Navigation(modifier: Modifier) {
     val currentRoute = navStackBackEntry?.destination?.route
     val navToSettingScreen = { navController.navigate("SettingScreen") }
     val navToSelectSubjectScreen = { navController.navigate("SelectSubjectScreen") }
+    val navToAddTaskScreen: (Subject) -> Unit = { navController.navigate("AddTaskScreen") }
     val popBackStack: () -> Unit = { navController.popBackStack() }
 
     Scaffold(
@@ -61,7 +64,10 @@ fun Navigation(modifier: Modifier) {
                     SettingScreen(popBackStack)
                 }
                 composable(route = "SelectSubjectScreen") {
-                    SelectSubjectScreen(popBackStack)
+                    SelectSubjectScreen(navToAddTaskScreen, popBackStack)
+                }
+                composable(route = "AddTaskScreen") {
+                    AddTaskScreen(popBackStack = popBackStack)
                 }
             }
         }
