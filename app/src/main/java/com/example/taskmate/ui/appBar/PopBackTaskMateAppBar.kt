@@ -19,7 +19,13 @@ fun PopBackTaskMateAppBar(
         title = title,
         actions = {},
         onNavigationClick = {},
-        navigation = { Icon(painter = painterResource(id = R.drawable.back_arrow), contentDescription = null, tint = MaterialTheme.colorScheme.secondary) },
+        navigation = {
+            Icon(
+                painter = painterResource(id = R.drawable.back_arrow),
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.secondary,
+            )
+        },
         popBackClick = popBackScreen,
         modifier = modifier,
     )
