@@ -18,7 +18,10 @@ import com.example.taskmate.R
 import com.example.taskmate.ui.appBar.MainTaskMateAppBar
 
 @Composable
-fun TaskScreen(navToSettingScreen: () -> Unit) {
+fun TaskScreen(
+    navToSettingScreen: () -> Unit,
+    navToAddTaskScreen: () -> Unit,
+) {
     val context = LocalContext.current
     Scaffold(
         topBar = {
@@ -27,7 +30,7 @@ fun TaskScreen(navToSettingScreen: () -> Unit) {
         floatingActionButton = {
             Box(modifier = Modifier.padding(end = 8.dp)) {
                 FloatingActionButton(
-                    onClick = {},
+                    onClick = navToAddTaskScreen,
                     containerColor = MaterialTheme.colorScheme.primary,
                     elevation = FloatingActionButtonDefaults.elevation(8.dp)
                 ) {
