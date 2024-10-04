@@ -26,9 +26,8 @@ fun Navigation(modifier: Modifier) {
         )
     val navStackBackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navStackBackEntry?.destination?.route
-
     val navToSettingScreen = { navController.navigate("SettingScreen") }
-    val popBackStack = { navController.popBackStack() }
+    val popBackStack: () -> Unit = { navController.popBackStack() }
 
     Scaffold(
         bottomBar = {

@@ -28,6 +28,8 @@ fun TaskMateAppBar(
     title: @Composable () -> Unit,
     actions: @Composable () -> Unit,
     onNavigationClick: () -> Unit,
+    navigation: @Composable () -> Unit,
+    popBackClick: () -> Unit,
     modifier: Modifier
 ) {
     Column {
@@ -36,6 +38,11 @@ fun TaskMateAppBar(
             actions = {
                 IconButton(onClick = onNavigationClick) {
                     actions()
+                }
+            },
+            navigationIcon = {
+                IconButton(onClick = popBackClick) {
+                    navigation()
                 }
             },
             modifier = modifier,
@@ -62,6 +69,8 @@ fun PreviewTaskMateAppBar(){
                 modifier = Modifier.size(24.dp)
             )
         },
+        navigation = {},
+        popBackClick = {},
         onNavigationClick = {},
         modifier = Modifier
     )

@@ -16,6 +16,8 @@ fun MainTaskMateAppBar(navToSettingScreen: () -> Unit, modifier: Modifier = Modi
         title = { Text(context.getString(R.string.app_name_jp), color = MaterialTheme.colorScheme.secondary) },
         actions = { Icon(painter = painterResource(id = R.drawable.setting), contentDescription = null, tint = MaterialTheme.colorScheme.secondary) },
         onNavigationClick = navToSettingScreen,
+        navigation = {},
+        popBackClick = {},
         modifier = modifier,
     )
 }
