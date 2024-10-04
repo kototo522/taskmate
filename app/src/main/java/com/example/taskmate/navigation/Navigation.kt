@@ -1,4 +1,6 @@
 package com.example.taskmate.navigation
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -37,6 +39,12 @@ fun Navigation(modifier: Modifier) {
             NavHost(
                 navController = navController,
                 startDestination = BottomNavBarItems.Home.route,
+                enterTransition = {
+                    EnterTransition.None // 画面遷移時のアニメーション無効化
+                },
+                exitTransition = {
+                    ExitTransition.None // 画面遷移時のアニメーション無効化
+                },
             ) {
                 composable(route = BottomNavBarItems.Home.route) {
                     HomeScreen(navToSettingScreen)
