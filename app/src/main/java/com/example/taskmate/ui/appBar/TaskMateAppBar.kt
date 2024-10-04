@@ -54,24 +54,3 @@ fun TaskMateAppBar(
         Spacer(modifier = modifier.fillMaxWidth().height(2.dp).background(MaterialTheme.colorScheme.onSecondary).alpha(1f))
     }
 }
-
-@Preview
-@Composable
-fun PreviewTaskMateAppBar(){
-    val context = LocalContext.current
-    TaskMateAppBar(
-        title = {Text(text = context.getString(R.string.app_name_jp), color = MaterialTheme.colorScheme.secondary)},
-        actions = {
-            Icon(
-                painter = painterResource(id = R.drawable.setting),
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.secondary,
-                modifier = Modifier.size(24.dp)
-            )
-        },
-        navigation = {},
-        popBackClick = {},
-        onNavigationClick = {},
-        modifier = Modifier
-    )
-}
