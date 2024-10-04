@@ -61,7 +61,7 @@ fun Navigation(modifier: Modifier) {
                     SettingScreen(popBackStack)
                 }
                 composable(route = "AddTaskScreen") {
-                    AddTaskScreen()
+                    AddTaskScreen(popBackStack)
                 }
             }
         }

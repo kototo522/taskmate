@@ -3,4 +3,5 @@
     <string name="app_name_jp">タスクメイト</string>
     <string name="setting">設定</string>
     <string name="add_icon">+</string>
+    <string name="add_task">タスクの追加</string>
 </resources>
