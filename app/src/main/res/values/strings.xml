@@ -2,4 +2,17 @@
     <string name="app_name">taskmate</string>
     <string name="app_name_jp">タスクメイト</string>
     <string name="setting">設定</string>
+    <string name="add_icon">+</string>
+    <string name="add_task">タスクの追加</string>
+    <string name="task_name">課題名</string>
+    <string name="task_place">提出場所</string>
+    <string name="deadline_date">締切日付</string>
+    <string name="deadline_time">締切時間</string>
+    <string name="remind">リマインド</string>
+    <string name="not_remind">リマインドなし</string>
+    <string name="before_1day">1日前</string>
+    <string name="before_2day">2日前</string>
+    <string name="publication_range">公開範囲</string>
+    <string name="task_public">公開</string>
+    <string name="task_private">非公開</string>
 </resources>
