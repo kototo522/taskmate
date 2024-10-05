@@ -14,7 +14,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.taskmate.ui.HomeScreen
 import com.example.taskmate.ui.MyPageScreen
 import com.example.taskmate.ui.SettingScreen
-import com.example.taskmate.ui.TaskScreen
+import com.example.taskmate.ui.task.TaskScreen
 
 @Composable
 fun Navigation(modifier: Modifier) {

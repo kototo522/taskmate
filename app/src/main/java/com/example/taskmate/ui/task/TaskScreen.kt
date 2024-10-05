@@ -6,8 +6,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -16,17 +14,32 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.example.taskmate.R
 import com.example.taskmate.ui.appBar.MainTaskMateAppBar
+import java.sql.Time
+import java.util.Date
+
+data class Task(
+    val title: String,
+//    val destination: String,
+//    val deadlineDate: Date,
+//    val deadlineTime: Time,
+//    val remind: Int,
+    )
 
 @Composable
 fun TaskScreen(navToSettingScreen: () -> Unit) {
     val context = LocalContext.current
     val tasks = listOf(
-        "タスク1",
-        "タスク2",
-        "タスク3",
-        "タスク4",
-        "タスク5"
+        Task("タスク1"),
+        Task("タスク2"),
+        Task("タスク3"),
+        Task("タスク4"),
+        Task("タスク5"),
+        Task("タスク6"),
+        Task("タスク7"),
+        Task("タスク8"),
+        Task("タスク9"),
     )
     Scaffold(
         topBar = {
@@ -41,7 +54,6 @@ fun TaskScreen(navToSettingScreen: () -> Unit) {
         ) {
             Column() {
                 Box(modifier = Modifier.align(Alignment.End)) {
-
                 }
                 LazyColumn(
                     modifier = Modifier.fillMaxSize()
