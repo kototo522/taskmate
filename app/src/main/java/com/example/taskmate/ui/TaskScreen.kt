@@ -32,12 +32,12 @@ fun TaskScreen(
                 FloatingActionButton(
                     onClick = navToAddTaskScreen,
                     containerColor = MaterialTheme.colorScheme.primary,
-                    elevation = FloatingActionButtonDefaults.elevation(8.dp)
+                    elevation = FloatingActionButtonDefaults.elevation(8.dp),
                 ) {
                     Text(text = context.getString(R.string.add_icon), fontSize = 24.sp)
                 }
             }
-        }
+        },
     ) { innerPadding ->
         Box(
             modifier = Modifier

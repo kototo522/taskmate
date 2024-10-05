@@ -1,7 +1,6 @@
 package com.example.taskmate.ui.addTask
 
 import Subject
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
@@ -31,23 +30,23 @@ fun SubjectCard(subject: Subject, onClick: () -> Unit) {
             .border(2.dp, subject.color, RoundedCornerShape(8.dp))
             .fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.onPrimary)
+        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.onPrimary),
     ) {
         Row(
             modifier = Modifier.padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.book),
                 contentDescription = null,
                 tint = subject.color,
-                modifier = Modifier.size(24.dp)
+                modifier = Modifier.size(24.dp),
             )
             Text(
                 text = subject.name,
                 modifier = Modifier.padding(start = 16.dp),
                 fontSize = 20.sp,
-                color = MaterialTheme.colorScheme.secondary
+                color = MaterialTheme.colorScheme.secondary,
             )
         }
     }
