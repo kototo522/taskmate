@@ -23,6 +23,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.taskmate.R
+import com.example.taskmate.ui.addTask.SubjectCard
 import com.example.taskmate.ui.appBar.PopBackTaskMateAppBar
 
 data class Subject(
@@ -59,42 +60,12 @@ fun SelectSubjectScreen(
             contentAlignment = Alignment.Center,
         ) {
             LazyColumn(
-                modifier = Modifier.padding(horizontal = 16.dp)
+                modifier = Modifier.padding(horizontal = 8.dp)
             ) {
                 items(subjects) { subject ->
                     SubjectCard(subject = subject, onClick = { navToAddTaskScreen(subject) })
                 }
             }
-        }
-    }
-}
-
-@Composable
-fun SubjectCard(subject: Subject, onClick: () -> Unit) {
-    Card(
-        modifier = Modifier
-            .padding(vertical = 8.dp)
-            .fillMaxWidth()
-            .clickable(onClick = onClick)
-            .border(2.dp, subject.color, RoundedCornerShape(8.dp)),
-        shape = RoundedCornerShape(16.dp),
-    ) {
-        Row(
-            modifier = Modifier.padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Icon(
-                painter = painterResource(id = R.drawable.book),
-                contentDescription = null,
-                tint = subject.color,
-                modifier = Modifier.size(24.dp)
-            )
-            Text(
-                text = subject.name,
-                modifier = Modifier.padding(start = 16.dp),
-                fontSize = 20.sp,
-                color = MaterialTheme.colorScheme.onSurface
-            )
         }
     }
 }

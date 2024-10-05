@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -26,10 +27,11 @@ fun SubjectCard(subject: Subject, onClick: () -> Unit) {
     Card(
         modifier = Modifier
             .padding(horizontal = 24.dp, vertical = 8.dp)
-            .fillMaxWidth()
             .clickable(onClick = onClick)
-            .background(MaterialTheme.colorScheme.background),
+            .border(2.dp, subject.color, RoundedCornerShape(8.dp))
+            .fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.onPrimary)
     ) {
         Row(
             modifier = Modifier.padding(16.dp),
