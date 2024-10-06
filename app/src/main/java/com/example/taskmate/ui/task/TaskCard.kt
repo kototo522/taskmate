@@ -30,7 +30,7 @@ fun TaskCard(task: Task, modifier: Modifier = Modifier) {
         ),
         modifier =
         Modifier
-            .padding(start = 8.dp, top = 4.dp, end = 8.dp)
+            .padding(start = 12.dp, top = 8.dp, end = 12.dp)
             .border(
                 width = 1.dp,
                 color = MaterialTheme.colorScheme.primary,
@@ -43,16 +43,16 @@ fun TaskCard(task: Task, modifier: Modifier = Modifier) {
                 text = task.title,
                 style =
                 TextStyle(
-                    fontSize = 16.sp,
-                    lineHeight = 16.sp,
+                    fontSize = 18.sp,
+                    lineHeight = 18.sp,
                     fontWeight = FontWeight(700),
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
                     letterSpacing = 0.5.sp,
                 ),
-                modifier = Modifier.padding(4.dp),
+                modifier = Modifier.padding(start = 20.dp, top = 8.dp),
             )
             Text(
-                text = "aaa",
+                text = "提出場所：WebClass",
                 modifier = Modifier.padding(start = 20.dp, top = 4.dp),
                 style =
                 TextStyle(
@@ -71,7 +71,7 @@ fun TaskCard(task: Task, modifier: Modifier = Modifier) {
                     .height(40.dp),
             ) {
                 Text(
-                    text = "aaa",
+                    text = "提出締切：2024/11/10",
                     modifier =
                     Modifier
                         .weight(4f)
