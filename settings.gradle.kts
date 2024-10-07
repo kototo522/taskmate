@@ -21,3 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "taskmate"
 include(":app")
+include(":data:api")
