@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -18,107 +17,135 @@ import com.example.taskmate.ui.appBar.MainTaskMateAppBar
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 
+data class Class(
+    val day: String,
+    val classList: List<String>,
+)
+
 @Composable
 fun HomeScreen(navToSettingScreen: () -> Unit) {
+    val dayClassList = listOf("1限", "2限", "3限", "4限")
+
+    val mockClassList =
+        listOf(
+            Class(day = "月", classList = listOf("プロマネ", "シス工", "実験", "実験")),
+            Class(day = "火", classList = listOf("英語", "電磁気", "情報理論", "")),
+            Class(day = "水", classList = listOf("制御演習", "数学", "卒研", "")),
+            Class(day = "木", classList = listOf("ネト応", "人文", "卒研", "卒研")),
+            Class(day = "金", classList = listOf("信号処理", "他コース", "制御理論", "")),
+        )
+
     Scaffold(
         topBar = {
             MainTaskMateAppBar(navToSettingScreen, Modifier)
         },
     ) { innerPadding ->
-        Box(
-            modifier = Modifier
-                .padding(innerPadding)
-                .fillMaxSize(),
-            contentAlignment = Alignment.Center,
-        ) {
-            Timetable()
+        Column(modifier = Modifier.fillMaxSize().padding(innerPadding), horizontalAlignment = Alignment.CenterHorizontally) {
+            Text(text = "グループ名", style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(16.dp))
+            TimeSchedule(dayClassList, mockClassList) // 　時間割
         }
     }
 }
 
 @Composable
-fun Timetable() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(8.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+fun TimeSchedule(
+    dayClassList: List<String>,
+    mockClassList: List<Class>,
+) {
+    DayOfWeekList(mockClassList.map { it.day }) // 月火水木金
+    DayClassList(dayClassList, mockClassList)
+}
+
+
+@Composable
+fun DayOfWeekList(dayOfWeekList: List<String>) {
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Spacer(modifier = Modifier.width(50.dp))
+        dayOfWeekList.forEach { day ->
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier =
+                Modifier
+                    .width(50.dp)
+                    .height(30.dp)
+                    .background(
+                        color = MaterialTheme.colorScheme.primary,
+                        shape = RoundedCornerShape(size = 5.dp),
+                    ),
+            ) {
+                Text(text = day, color = MaterialTheme.colorScheme.background)
+            }
+        }
+    }
+}
+
+
+@Composable
+fun DayClassList(
+    dayClassList: List<String>,
+    mockClassList: List<Class>,
+) {
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.padding(vertical = 6.dp),
     ) {
         Column(
-            modifier = Modifier.fillMaxWidth().weight(1f, fill = false),
-            verticalArrangement = Arrangement.SpaceBetween
+            verticalArrangement = Arrangement.spacedBy(6.dp, Alignment.CenterVertically),
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-
+            dayClassList.forEach { day ->
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier =
+                    Modifier
+                        .width(50.dp)
+                        .height(60.dp)
+                        .background(
+                            color = MaterialTheme.colorScheme.primary,
+                            shape = RoundedCornerShape(size = 5.dp),
+                        ),
+                ) {
+                    Text(text = day, color = MaterialTheme.colorScheme.background)
+                }
+            }
         }
-        // ヘッダー行（曜日）
+
         Row(
-            modifier = Modifier.fillMaxWidth().weight(1f, fill = false),
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
-            TimeTableHeader(text = "Time")
-            TimeTableHeader(text = "Mon")
-            TimeTableHeader(text = "Tue")
-            TimeTableHeader(text = "Wed")
-            TimeTableHeader(text = "Thu")
-            TimeTableHeader(text = "Fri")
+            mockClassList.forEachIndexed { index, classData ->
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(6.dp, Alignment.CenterVertically),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    classData.classList.forEachIndexed { classIndex, className ->
+                        val boxColor =
+                            if (index % 2 == 0 && classIndex % 2 == 0 || (index % 2 == 1 && classIndex % 2 == 1)) {
+                                MaterialTheme.colorScheme.primaryContainer
+                            } else {
+                                MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f)
+                            }
+                        Box(
+                            contentAlignment = Alignment.Center,
+                            modifier =
+                            Modifier
+                                .width(50.dp)
+                                .height(60.dp)
+                                .background(
+                                    color = boxColor,
+                                    shape = RoundedCornerShape(size = 5.dp),
+                                ),
+                        ) {
+                            Text(text = className)
+                        }
+                    }
+                }
+            }
         }
-        TimeTableRow(time = "1限目", subjects = listOf("数学", "物理", "英語", "体育", "美術"))
-        TimeTableRow(time = "2限目", subjects = listOf("化学", "生物", "歴史", "音楽", "数学"))
-        TimeTableRow(time = "3限目", subjects = listOf("化学", "生物", "歴史", "音楽", "数学"))
-        TimeTableRow(time = "4限目", subjects = listOf("化学", "生物", "歴史", "音楽", "数学"))
-    }
-}
-
-@Composable
-fun TimeTableHeader(text: String) {
-    Box(
-        modifier = Modifier
-            .background(
-                color = MaterialTheme.colorScheme.primary,
-                shape = RoundedCornerShape(5.dp)
-            )
-            .padding(12.dp),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = text,
-            style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.onPrimary
-        )
-    }
-}
-
-@Composable
-fun TimeTableRow(time: String, subjects: List<String>) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 4.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        TimeTableHeader(text = time)
-        subjects.forEach { subject ->
-            TimeTableCell(text = subject)
-        }
-    }
-}
-
-@Composable
-fun TimeTableCell(text: String) {
-    Box(
-        modifier = Modifier
-            .background(
-                color = MaterialTheme.colorScheme.secondaryContainer,
-                shape = RoundedCornerShape(5.dp)
-            )
-            .padding(8.dp),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = text,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSecondaryContainer
-        )
     }
 }
