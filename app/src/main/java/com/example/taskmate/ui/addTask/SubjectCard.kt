@@ -27,7 +27,11 @@ fun SubjectCard(subject: Subject, onClick: () -> Unit) {
         modifier = Modifier
             .padding(horizontal = 24.dp, vertical = 8.dp)
             .clickable(onClick = onClick)
-            .border(2.dp, subject.color, RoundedCornerShape(8.dp))
+            .border(
+                width = 1.dp,
+                color = MaterialTheme.colorScheme.primary,
+                shape = RoundedCornerShape(size = 5.dp),
+            )
             .fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(MaterialTheme.colorScheme.onPrimary),
