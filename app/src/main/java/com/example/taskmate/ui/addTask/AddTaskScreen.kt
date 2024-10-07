@@ -54,6 +54,7 @@ fun AddTaskScreen(popBackStack: () -> Unit) {
     var expanded by remember { mutableStateOf(false) }
     var selectedText by remember { mutableStateOf(context.getString(R.string.not_remind)) }
     val remindTime = listOf(
+        context.getString(R.string.not_remind),
         context.getString(R.string.before_1day),
         context.getString(R.string.before_2day),
     )

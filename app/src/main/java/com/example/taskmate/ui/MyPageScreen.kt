@@ -2,9 +2,11 @@ package com.example.taskmate.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -12,6 +14,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -51,7 +54,7 @@ fun MyPageScreen(navToSettingScreen: () -> Unit) {
                     .padding(40.dp)
                     .fillMaxSize()
                     .background(
-                        color = MaterialTheme.colorScheme.onSecondary,
+                        color = MaterialTheme.colorScheme.primaryContainer,
                         shape = RoundedCornerShape(16.dp)
                     ),
                 contentAlignment = Alignment.Center
@@ -69,8 +72,14 @@ fun MyPageScreen(navToSettingScreen: () -> Unit) {
                             text = context.getString(R.string.add_icon),
                             fontSize = 28.sp,
                             modifier = Modifier
-                                .clickable { }
                                 .padding(8.dp)
+                                .clickable(
+                                indication = rememberRipple(
+                                    radius = 20.dp, // リップル半径
+                                    bounded = false // 範囲をビューに制限しない（丸く広がる）
+                                ),
+                                interactionSource = remember { MutableInteractionSource() }
+                            ){}
                         )
                         Icon(
                             painter = painterResource(id = R.drawable.account),
@@ -109,14 +118,27 @@ fun MyPageScreen(navToSettingScreen: () -> Unit) {
                                 .padding(4.dp)
                                 .weight(5f)
                         )
-                        Text(
-                            text = context.getString(R.string.add_icon),
-                            fontSize = 24.sp,
+                        // ボタンのリップルがズレるためBoxでかこむ
+                        Box(
+                            contentAlignment = Alignment.Center,
                             modifier = Modifier
-                                .clickable {}
                                 .weight(1f)
                                 .padding(4.dp)
-                        )
+                        ) {
+                            Text(
+                                text = context.getString(R.string.add_icon),
+                                fontSize = 24.sp,
+                                modifier = Modifier.clickable(
+                                    indication = rememberRipple(
+                                        radius = 20.dp, // リップル半径
+                                        bounded = false // 範囲をビューに制限しない（丸く広がる）
+                                    ),
+                                    interactionSource = remember { MutableInteractionSource() }
+                                ){
+
+                                }
+                            )
+                        }
                     }
 
                     LazyRow(
