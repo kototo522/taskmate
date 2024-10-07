@@ -1,9 +1,17 @@
-package com.example.taskmate.ui
+package com.example.taskmate.ui.mypage
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ripple.rememberRipple
@@ -35,7 +43,7 @@ fun MyPageScreen(navToSettingScreen: () -> Unit) {
     val context = LocalContext.current
     val tags = listOf(
         Tag("タグ1", Color(0xFF42A5F5)),
-        Tag("タグ2", Color(0xFF66BB6A))
+        Tag("タグ2", Color(0xFF66BB6A)),
     )
 
     Scaffold(
@@ -49,24 +57,23 @@ fun MyPageScreen(navToSettingScreen: () -> Unit) {
                 .fillMaxSize(),
             contentAlignment = Alignment.Center,
         ) {
-            Box(
+            Card(
                 modifier = Modifier
                     .padding(40.dp)
-                    .fillMaxSize()
-                    .background(
-                        color = MaterialTheme.colorScheme.primaryContainer,
-                        shape = RoundedCornerShape(16.dp)
-                    ),
-                contentAlignment = Alignment.Center
+                    .fillMaxSize(),
+                shape = RoundedCornerShape(16.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f),
+                ),
             ) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.padding(16.dp)
+                    modifier = Modifier.padding(16.dp),
                 ) {
                     Box(
                         contentAlignment = Alignment.TopEnd,
                         modifier = Modifier
-                            .size(140.dp)
+                            .size(140.dp),
                     ) {
                         Text(
                             text = context.getString(R.string.add_icon),
@@ -74,29 +81,29 @@ fun MyPageScreen(navToSettingScreen: () -> Unit) {
                             modifier = Modifier
                                 .padding(8.dp)
                                 .clickable(
-                                indication = rememberRipple(
-                                    radius = 20.dp, // リップル半径
-                                    bounded = false // 範囲をビューに制限しない（丸く広がる）
-                                ),
-                                interactionSource = remember { MutableInteractionSource() }
-                            ){}
+                                    indication = rememberRipple(
+                                        radius = 20.dp, // リップル半径
+                                        bounded = false, // 範囲をビューに制限しない（丸く広がる）
+                                    ),
+                                    interactionSource = remember { MutableInteractionSource() },
+                                ) {},
                         )
                         Icon(
                             painter = painterResource(id = R.drawable.account),
                             contentDescription = null,
                             modifier = Modifier
                                 .height(140.dp)
-                                .width(140.dp)
+                                .width(140.dp),
                         )
                     }
                     Spacer(modifier = Modifier.height(40.dp))
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth(),
                     ) {
                         Text(
                             text = "ユーザ名",
-                            style = MaterialTheme.typography.bodyLarge
+                            style = MaterialTheme.typography.bodyLarge,
                         )
                     }
 
@@ -104,26 +111,26 @@ fun MyPageScreen(navToSettingScreen: () -> Unit) {
                         text = "ユーザネーム",
                         fontSize = 24.sp,
                         style = MaterialTheme.typography.bodyLarge,
-                        modifier = Modifier.padding(4.dp)
+                        modifier = Modifier.padding(4.dp),
                     )
                     Spacer(modifier = Modifier.height(40.dp))
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth(),
                     ) {
                         Text(
                             text = "所属グループ",
                             style = MaterialTheme.typography.bodyLarge,
                             modifier = Modifier
                                 .padding(4.dp)
-                                .weight(5f)
+                                .weight(5f),
                         )
                         // ボタンのリップルがズレるためBoxでかこむ
                         Box(
                             contentAlignment = Alignment.Center,
                             modifier = Modifier
                                 .weight(1f)
-                                .padding(4.dp)
+                                .padding(4.dp),
                         ) {
                             Text(
                                 text = context.getString(R.string.add_icon),
@@ -131,33 +138,20 @@ fun MyPageScreen(navToSettingScreen: () -> Unit) {
                                 modifier = Modifier.clickable(
                                     indication = rememberRipple(
                                         radius = 20.dp, // リップル半径
-                                        bounded = false // 範囲をビューに制限しない（丸く広がる）
+                                        bounded = false, // 範囲をビューに制限しない（丸く広がる）
                                     ),
-                                    interactionSource = remember { MutableInteractionSource() }
-                                ){
-
-                                }
+                                    interactionSource = remember { MutableInteractionSource() },
+                                ) {
+                                },
                             )
                         }
                     }
 
                     LazyRow(
-                        modifier = Modifier.padding(8.dp)
+                        modifier = Modifier.padding(8.dp),
                     ) {
                         items(tags.size) { tag ->
-                            Card(
-                                colors = CardDefaults.cardColors(containerColor = tags[tag].color),
-                                modifier = Modifier
-                                    .padding(horizontal = 4.dp)
-                                    .wrapContentSize()
-                            ) {
-                                Text(
-                                    text = tags[tag].name,
-                                    fontSize = 20.sp,
-                                    style = MaterialTheme.typography.bodyLarge,
-                                    modifier = Modifier.padding(8.dp)
-                                )
-                            }
+                            TagCard(tags[tag])
                         }
                     }
                 }
