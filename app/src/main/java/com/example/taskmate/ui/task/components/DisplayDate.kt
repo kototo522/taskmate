@@ -21,7 +21,7 @@ fun DisplayDate(modifier: Modifier = Modifier) {
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .height(100.dp)
-            .padding(vertical = 4.dp, horizontal = 18.dp)
+            .padding(vertical = 4.dp, horizontal = 18.dp),
     ) {
         Text(
             text = "2024",
@@ -32,7 +32,7 @@ fun DisplayDate(modifier: Modifier = Modifier) {
                 fontWeight = FontWeight(700),
                 color = MaterialTheme.colorScheme.onPrimaryContainer,
             ),
-            modifier = Modifier.padding(vertical = 8.dp)
+            modifier = Modifier.padding(vertical = 8.dp),
         )
         Box {
             Text(
