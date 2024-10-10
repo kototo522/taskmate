@@ -63,7 +63,7 @@ fun MyPageScreen(navToSettingScreen: () -> Unit) {
                     .fillMaxSize(),
                 shape = RoundedCornerShape(16.dp),
                 colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f),
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
                 ),
             ) {
                 Column(
@@ -77,7 +77,7 @@ fun MyPageScreen(navToSettingScreen: () -> Unit) {
                     ) {
                         Text(
                             text = context.getString(R.string.add_icon),
-                            fontSize = 28.sp,
+                            fontSize = 38.sp,
                             modifier = Modifier
                                 .padding(8.dp)
                                 .clickable(
@@ -103,23 +103,25 @@ fun MyPageScreen(navToSettingScreen: () -> Unit) {
                     ) {
                         Text(
                             text = "ユーザ名",
+                            fontSize = 18.sp,
                             style = MaterialTheme.typography.bodyLarge,
                         )
                     }
 
                     Text(
                         text = "ユーザネーム",
-                        fontSize = 24.sp,
+                        fontSize = 28.sp,
                         style = MaterialTheme.typography.bodyLarge,
                         modifier = Modifier.padding(4.dp),
                     )
-                    Spacer(modifier = Modifier.height(40.dp))
+                    Spacer(modifier = Modifier.height(28.dp))
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.fillMaxWidth(),
                     ) {
                         Text(
                             text = "所属グループ",
+                            fontSize = 18.sp,
                             style = MaterialTheme.typography.bodyLarge,
                             modifier = Modifier
                                 .padding(4.dp)
