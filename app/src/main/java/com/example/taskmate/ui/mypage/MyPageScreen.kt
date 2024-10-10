@@ -28,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.taskmate.R
@@ -111,6 +112,7 @@ fun MyPageScreen(navToSettingScreen: () -> Unit) {
                     Text(
                         text = "ユーザネーム",
                         fontSize = 28.sp,
+                        fontWeight = FontWeight(700),
                         style = MaterialTheme.typography.bodyLarge,
                         modifier = Modifier.padding(4.dp),
                     )

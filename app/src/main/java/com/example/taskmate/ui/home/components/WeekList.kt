@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -21,20 +22,20 @@ fun WeekList(dayOfWeekList: List<String>) {
         horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Spacer(modifier = Modifier.width(50.dp))
+        Spacer(modifier = Modifier.width(60.dp))
         dayOfWeekList.forEach { day ->
             Box(
                 contentAlignment = Alignment.Center,
                 modifier =
                 Modifier
-                    .width(50.dp)
-                    .height(30.dp)
+                    .width(60.dp)
+                    .height(40.dp)
                     .background(
                         color = MaterialTheme.colorScheme.primary,
                         shape = RoundedCornerShape(size = 5.dp),
                     ),
             ) {
-                Text(text = day, color = MaterialTheme.colorScheme.background)
+                Text(text = day, fontWeight = FontWeight(700), color = MaterialTheme.colorScheme.background)
             }
         }
     }

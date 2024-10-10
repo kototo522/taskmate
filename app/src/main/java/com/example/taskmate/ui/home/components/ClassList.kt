@@ -14,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.taskmate.ui.home.Class
 
@@ -36,14 +37,14 @@ fun ClassList(
                     contentAlignment = Alignment.Center,
                     modifier =
                     Modifier
-                        .width(50.dp)
-                        .height(60.dp)
+                        .width(60.dp)
+                        .height(80.dp)
                         .background(
                             color = MaterialTheme.colorScheme.primary,
                             shape = RoundedCornerShape(size = 5.dp),
                         ),
                 ) {
-                    Text(text = day, color = MaterialTheme.colorScheme.background)
+                    Text(text = day, fontWeight = FontWeight(600), color = MaterialTheme.colorScheme.background)
                 }
             }
         }
@@ -62,20 +63,20 @@ fun ClassList(
                             if (index % 2 == 0 && classIndex % 2 == 0 || (index % 2 == 1 && classIndex % 2 == 1)) {
                                 MaterialTheme.colorScheme.primaryContainer
                             } else {
-                                MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f)
+                                MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f)
                             }
                         Box(
                             contentAlignment = Alignment.Center,
                             modifier =
                             Modifier
-                                .width(50.dp)
-                                .height(60.dp)
+                                .width(60.dp)
+                                .height(80.dp)
                                 .background(
                                     color = boxColor,
                                     shape = RoundedCornerShape(size = 5.dp),
                                 ),
                         ) {
-                            Text(text = className)
+                            Text(text = className, fontWeight = FontWeight(700))
                         }
                     }
                 }
