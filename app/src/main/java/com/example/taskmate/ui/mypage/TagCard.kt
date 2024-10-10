@@ -8,6 +8,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -21,6 +22,7 @@ fun TagCard(tag: Tag) {
     ) {
         Text(
             text = "#${tag.name}",
+            fontWeight = FontWeight(500),
             fontSize = 20.sp,
             style = MaterialTheme.typography.bodyLarge,
             modifier = Modifier.padding(8.dp),
