@@ -13,7 +13,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.taskmate.ui.SettingScreen
+import com.example.taskmate.ui.setting.SettingScreen
 import com.example.taskmate.ui.addTask.AddTaskScreen
 import com.example.taskmate.ui.home.HomeScreen
 import com.example.taskmate.ui.mypage.MyPageScreen

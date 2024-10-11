@@ -1,21 +1,37 @@
-package com.example.taskmate.ui
+package com.example.taskmate.ui.setting
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import com.example.taskmate.R
 import com.example.taskmate.ui.appBar.PopBackTaskMateAppBar
+import com.example.taskmate.ui.setting.componets.SettingCard
+
+data class SettingItem(
+    val title: String,
+    val subTitle: String = "",
+    val icon: Int,
+    val onClick: () -> Unit = {},
+)
 
 @Composable
 fun SettingScreen(popBackStack: () -> Unit) {
     val context = LocalContext.current
+
+    val settingsItems = listOf(
+        SettingItem(title = "Apps", subTitle = "Assistant, recent apps, default apps", icon = R.drawable.setting),
+        SettingItem(title = "Notifications", subTitle = "Notification history, conversations", icon = R.drawable.setting),
+        SettingItem(title = "Battery",  subTitle = "100%", icon = R.drawable.setting),
+    )
+
 
     Scaffold(
         topBar = {
@@ -30,9 +46,16 @@ fun SettingScreen(popBackStack: () -> Unit) {
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize(),
-            contentAlignment = Alignment.Center,
         ) {
-            Text("SettingScreen", style = MaterialTheme.typography.bodyLarge)
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
+            ) {
+                items(settingsItems.size) { item ->
+                    SettingCard(settingsItems[item])
+                }
+            }
         }
     }
 }
