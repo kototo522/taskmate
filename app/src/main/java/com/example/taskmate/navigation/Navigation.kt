@@ -17,6 +17,7 @@ import com.example.taskmate.ui.setting.SettingScreen
 import com.example.taskmate.ui.addTask.AddTaskScreen
 import com.example.taskmate.ui.home.HomeScreen
 import com.example.taskmate.ui.mypage.MyPageScreen
+import com.example.taskmate.ui.setting.setting_item_screen.CreateGroup
 import com.example.taskmate.ui.task.TaskScreen
 
 @Composable
@@ -68,6 +69,9 @@ fun Navigation(modifier: Modifier) {
                 }
                 composable(route = "AddTaskScreen") {
                     AddTaskScreen(popBackStack = popBackStack)
+                }
+                composable(route = "CreateGroup") {
+                    CreateGroup(popBackStack = popBackStack)
                 }
             }
         }
