@@ -1,4 +1,4 @@
-package com.example.taskmate.ui.setting.setting_item_screen
+package com.example.taskmate.ui.setting.settingItemScreen
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
@@ -10,7 +10,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import com.example.taskmate.R
 import com.example.taskmate.ui.appBar.PopBackTaskMateAppBar
-
 
 @Composable
 fun CreateGroup(popBackStack: () -> Unit, modifier: Modifier = Modifier) {
@@ -25,7 +24,7 @@ fun CreateGroup(popBackStack: () -> Unit, modifier: Modifier = Modifier) {
             )
         },
     ) { innerPadding ->
-        Box(modifier = Modifier.padding(innerPadding)){
+        Box(modifier = Modifier.padding(innerPadding)) {
             Text("Create Group")
         }
     }

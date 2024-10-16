@@ -13,11 +13,14 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.taskmate.ui.setting.SettingScreen
 import com.example.taskmate.ui.addTask.AddTaskScreen
+import com.example.taskmate.ui.auth.FirstAuthScreen
+import com.example.taskmate.ui.auth.LoginScreen
+import com.example.taskmate.ui.auth.SignUpScreen
 import com.example.taskmate.ui.home.HomeScreen
 import com.example.taskmate.ui.mypage.MyPageScreen
-import com.example.taskmate.ui.setting.setting_item_screen.CreateGroup
+import com.example.taskmate.ui.setting.SettingScreen
+import com.example.taskmate.ui.setting.settingItemScreen.CreateGroup
 import com.example.taskmate.ui.task.TaskScreen
 
 @Composable
@@ -34,6 +37,8 @@ fun Navigation(modifier: Modifier) {
     val navToSettingScreen = { navController.navigate("SettingScreen") }
     val navToSelectSubjectScreen = { navController.navigate("SelectSubjectScreen") }
     val navToAddTaskScreen: (Subject) -> Unit = { navController.navigate("AddTaskScreen") }
+    val navToLoginScreen: () -> Unit = { navController.navigate("LoginScreen") }
+    val navToSignUpScreen: () -> Unit = { navController.navigate("SignUpScreen") }
     val popBackStack: () -> Unit = { navController.popBackStack() }
 
     Scaffold(
@@ -63,6 +68,15 @@ fun Navigation(modifier: Modifier) {
                 }
                 composable(route = "SettingScreen") {
                     SettingScreen(popBackStack)
+                }
+                composable(route = "FirstAuthScreen") {
+                    FirstAuthScreen(navToLoginScreen, navToSignUpScreen)
+                }
+                composable(route = "SignUpScreen") {
+                    SignUpScreen(popBackStack = popBackStack)
+                }
+                composable(route = "LoginScreen") {
+                    LoginScreen(popBackStack = popBackStack)
                 }
                 composable(route = "SelectSubjectScreen") {
                     SelectSubjectScreen(navToAddTaskScreen, popBackStack)

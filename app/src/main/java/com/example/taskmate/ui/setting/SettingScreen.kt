@@ -29,9 +29,8 @@ fun SettingScreen(popBackStack: () -> Unit) {
     val settingsItems = listOf(
         SettingItem(title = "Apps", subTitle = "Assistant, recent apps, default apps", icon = R.drawable.setting),
         SettingItem(title = "Notifications", subTitle = "Notification history, conversations", icon = R.drawable.setting),
-        SettingItem(title = "Battery",  subTitle = "100%", icon = R.drawable.setting),
+        SettingItem(title = "Battery", subTitle = "100%", icon = R.drawable.setting),
     )
-
 
     Scaffold(
         topBar = {

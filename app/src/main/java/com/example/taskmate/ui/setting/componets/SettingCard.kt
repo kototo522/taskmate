@@ -30,13 +30,13 @@ fun SettingCard(item: SettingItem) {
             .clickable { item.onClick }
             .background(color = MaterialTheme.colorScheme.background, RoundedCornerShape(10.dp))
             .padding(8.dp),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Icon(
             painter = painterResource(id = item.icon),
             contentDescription = null,
             modifier = Modifier.size(24.dp),
-            tint = MaterialTheme.colorScheme.onSurface
+            tint = MaterialTheme.colorScheme.onSurface,
         )
         Spacer(modifier = Modifier.width(16.dp))
         Column(modifier = Modifier.weight(1f)) {
@@ -44,13 +44,13 @@ fun SettingCard(item: SettingItem) {
                 text = item.title,
                 fontSize = 18.sp,
                 color = MaterialTheme.colorScheme.onSurface,
-                style = MaterialTheme.typography.bodyMedium
+                style = MaterialTheme.typography.bodyMedium,
             )
             if (item.subTitle.isNotEmpty()) {
                 Text(
                     text = item.subTitle,
                     fontSize = 14.sp,
-                    color = MaterialTheme.colorScheme.onSurface
+                    color = MaterialTheme.colorScheme.onSurface,
                 )
             }
         }
