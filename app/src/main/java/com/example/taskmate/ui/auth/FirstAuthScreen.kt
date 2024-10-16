@@ -23,23 +23,23 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun FirstAuthScreen(
     navToLoginScreen: () -> Unit,
-    navToSignUpScreen: () -> Unit
+    navToSignUpScreen: () -> Unit,
 ) {
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.6f)),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier.padding(32.dp)
+            modifier = Modifier.padding(32.dp),
         ) {
             Text(
                 text = "タスクメイト",
                 style = MaterialTheme.typography.headlineMedium,
-                color = MaterialTheme.colorScheme.onPrimaryContainer
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
             )
             Spacer(modifier = Modifier.height(24.dp))
             Button(
@@ -47,7 +47,7 @@ fun FirstAuthScreen(
                 modifier = Modifier
                     .fillMaxWidth(0.8f)
                     .height(56.dp),
-                shape = RoundedCornerShape(12.dp)
+                shape = RoundedCornerShape(12.dp),
             ) {
                 Text(
                     text = "ログイン",
@@ -60,7 +60,7 @@ fun FirstAuthScreen(
                 modifier = Modifier
                     .fillMaxWidth(0.8f)
                     .height(56.dp),
-                shape = RoundedCornerShape(12.dp)
+                shape = RoundedCornerShape(12.dp),
             ) {
                 Text(
                     text = "サインアップ",

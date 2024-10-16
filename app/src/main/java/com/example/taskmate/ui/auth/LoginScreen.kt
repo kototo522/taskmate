@@ -40,7 +40,7 @@ fun LoginScreen(popBackStack: () -> Unit) {
                 popBackScreen = popBackStack,
                 modifier = Modifier,
             )
-        }
+        },
     ) { innerPadding ->
         Box(
             modifier = Modifier
@@ -54,12 +54,12 @@ fun LoginScreen(popBackStack: () -> Unit) {
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 modifier = Modifier
                     .fillMaxWidth(0.9f)
-                    .padding(16.dp)
+                    .padding(16.dp),
             ) {
                 Text(
                     text = "おかえりなさい！",
                     style = MaterialTheme.typography.headlineSmall,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
                 )
 
                 OutlinedTextField(
@@ -68,8 +68,8 @@ fun LoginScreen(popBackStack: () -> Unit) {
                     label = { Text("メールアドレス") },
                     modifier = Modifier.fillMaxWidth(),
                     keyboardOptions = KeyboardOptions.Default.copy(
-                        keyboardType = KeyboardType.Email
-                    )
+                        keyboardType = KeyboardType.Email,
+                    ),
                 )
 
                 OutlinedTextField(
@@ -77,9 +77,8 @@ fun LoginScreen(popBackStack: () -> Unit) {
                     onValueChange = { password = it },
                     label = { Text("パスワード") },
                     modifier = Modifier.fillMaxWidth(),
-                    visualTransformation = PasswordVisualTransformation()
+                    visualTransformation = PasswordVisualTransformation(),
                 )
-
 
                 Spacer(modifier = Modifier.height(24.dp))
 
@@ -88,7 +87,7 @@ fun LoginScreen(popBackStack: () -> Unit) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(56.dp),
-                    shape = RoundedCornerShape(12.dp)
+                    shape = RoundedCornerShape(12.dp),
                 ) {
                     Text("ログインする", style = MaterialTheme.typography.bodyLarge)
                 }

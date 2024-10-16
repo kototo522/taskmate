@@ -41,7 +41,7 @@ fun SignUpScreen(popBackStack: () -> Unit) {
                 popBackScreen = popBackStack,
                 modifier = Modifier,
             )
-        }
+        },
     ) { innerPadding ->
         Box(
             modifier = Modifier
@@ -55,19 +55,19 @@ fun SignUpScreen(popBackStack: () -> Unit) {
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 modifier = Modifier
                     .fillMaxWidth(0.9f)
-                    .padding(16.dp)
+                    .padding(16.dp),
             ) {
                 Text(
                     text = "アカウントを作成",
                     style = MaterialTheme.typography.headlineSmall,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
                 )
 
                 OutlinedTextField(
                     value = username,
                     onValueChange = { username = it },
                     label = { Text("ユーザ名") },
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
                 )
 
                 OutlinedTextField(
@@ -76,8 +76,8 @@ fun SignUpScreen(popBackStack: () -> Unit) {
                     label = { Text("メールアドレス") },
                     modifier = Modifier.fillMaxWidth(),
                     keyboardOptions = KeyboardOptions.Default.copy(
-                        keyboardType = KeyboardType.Email
-                    )
+                        keyboardType = KeyboardType.Email,
+                    ),
                 )
 
                 OutlinedTextField(
@@ -85,7 +85,7 @@ fun SignUpScreen(popBackStack: () -> Unit) {
                     onValueChange = { password = it },
                     label = { Text("パスワード") },
                     modifier = Modifier.fillMaxWidth(),
-                    visualTransformation = PasswordVisualTransformation()
+                    visualTransformation = PasswordVisualTransformation(),
                 )
 
                 Spacer(modifier = Modifier.height(24.dp))
@@ -97,7 +97,7 @@ fun SignUpScreen(popBackStack: () -> Unit) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(56.dp),
-                    shape = RoundedCornerShape(12.dp)
+                    shape = RoundedCornerShape(12.dp),
                 ) {
                     Text("登録する", style = MaterialTheme.typography.bodyLarge)
                 }
