@@ -76,6 +76,6 @@ dependencies {
 kapt {
     correctErrorTypes = true
     arguments {
-        arg("dagger.fastInit", "true") // Daggerの初期化プロセスを高速化
+        arg("dagger.fastInit", "ENABLED") // Daggerの初期化プロセスを高速化
     }
 }
