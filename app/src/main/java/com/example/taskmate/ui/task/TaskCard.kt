@@ -37,8 +37,8 @@ fun TaskCard(task: Task, modifier: Modifier = Modifier) {
                     text = task.title,
                     style =
                     TextStyle(
-                        fontSize = 24.sp,
-                        lineHeight = 24.sp,
+                        fontSize = 20.sp,
+                        lineHeight = 20.sp,
                         fontWeight = FontWeight(700),
                         color = MaterialTheme.colorScheme.onPrimaryContainer,
                         letterSpacing = 0.5.sp,
