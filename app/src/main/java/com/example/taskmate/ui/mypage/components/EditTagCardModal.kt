@@ -5,6 +5,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
@@ -16,10 +19,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.taskmate.R
 import com.example.taskmate.ui.mypage.Tag
+import com.example.taskmate.ui.taskmateComponents.TaskmateAlertDialog
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -32,6 +38,7 @@ fun EditTagCardModal(
     isSheetOpen: MutableState<Boolean>
 ) {
     var checked by remember { mutableStateOf(true) }
+    var showDeleteConfirm = remember { mutableStateOf(false) }
 
     ModalBottomSheet(
         onDismissRequest = {
@@ -74,6 +81,13 @@ fun EditTagCardModal(
                                 fontWeight = FontWeight.Bold,
                                 modifier = Modifier.weight(2f)
                             )
+                            IconButton(onClick = { showDeleteConfirm.value = true }) {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.setting),
+                                    contentDescription = "削除",
+                                    tint = MaterialTheme.colorScheme.secondary,
+                                )
+                            }
                         }
                     }
                 }
@@ -111,5 +125,25 @@ fun EditTagCardModal(
                 }
             }
         }
+    }
+    if (showDeleteConfirm.value) {
+        TaskmateAlertDialog(
+            title = "確認",
+            text = "本当に削除しますか？",
+            confirmButton = {
+                Button(
+                    onClick = {
+                        // 削除処理
+                        showDeleteConfirm.value = false
+                    }
+                ) { Text("削除") }
+            },
+            dismissButton = {
+                Button(onClick = { showDeleteConfirm.value = false }) {
+                    Text("キャンセル")
+                }
+            },
+            isOpenDialog = showDeleteConfirm,
+        )
     }
 }
