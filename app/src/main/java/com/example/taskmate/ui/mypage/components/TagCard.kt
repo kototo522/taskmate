@@ -1,4 +1,4 @@
-package com.example.taskmate.ui.mypage
+package com.example.taskmate.ui.mypage.components
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.taskmate.ui.mypage.Tag
 
 @Composable
 fun TagCard(tag: Tag) {
