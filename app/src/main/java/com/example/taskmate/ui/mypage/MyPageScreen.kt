@@ -17,12 +17,18 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,15 +39,22 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.taskmate.R
 import com.example.taskmate.ui.appBar.MainTaskMateAppBar
+import com.example.taskmate.ui.mypage.components.EditTagCardModal
+import com.example.taskmate.ui.mypage.components.TagCard
+import kotlinx.coroutines.launch
 
 data class Tag(
     val name: String,
     val color: Color,
 )
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyPageScreen(navToSettingScreen: () -> Unit) {
     val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val isSheetOpen = remember { mutableStateOf(false) }
     val tags = listOf(
         Tag("タグ1", Color(0xFF42A5F5)),
         Tag("タグ2", Color(0xFF66BB6A)),
@@ -146,6 +159,10 @@ fun MyPageScreen(navToSettingScreen: () -> Unit) {
                                     ),
                                     interactionSource = remember { MutableInteractionSource() },
                                 ) {
+                                    scope.launch {
+                                        isSheetOpen.value = true
+                                        sheetState.show()
+                                    }
                                 },
                             )
                         }
@@ -160,6 +177,9 @@ fun MyPageScreen(navToSettingScreen: () -> Unit) {
                     }
                 }
             }
+        }
+        if (isSheetOpen.value) {
+            EditTagCardModal(scope, sheetState, isSheetOpen)
         }
     }
 }

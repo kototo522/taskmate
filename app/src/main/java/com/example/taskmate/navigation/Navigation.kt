@@ -19,6 +19,7 @@ import com.example.taskmate.ui.auth.LoginScreen
 import com.example.taskmate.ui.auth.SignUpScreen
 import com.example.taskmate.ui.home.HomeScreen
 import com.example.taskmate.ui.mypage.MyPageScreen
+import com.example.taskmate.ui.mypage.components.EditTagCardModal
 import com.example.taskmate.ui.setting.SettingScreen
 import com.example.taskmate.ui.setting.settingItemScreen.CreateGroup
 import com.example.taskmate.ui.task.TaskScreen
