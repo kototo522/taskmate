@@ -1,6 +1,5 @@
 package com.example.taskmate.ui.addTask
 
-import Subject
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
@@ -19,10 +18,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.core.model.TaskmateSubject
 import com.example.taskmate.R
 
 @Composable
-fun SubjectCard(subject: Subject, onClick: () -> Unit) {
+fun SubjectCard(subject: TaskmateSubject, onClick: () -> Unit) {
     Card(
         modifier = Modifier
             .padding(horizontal = 24.dp, vertical = 8.dp)

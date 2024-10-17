@@ -24,11 +24,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -43,11 +41,6 @@ import com.example.taskmate.ui.mypage.components.EditTagCardModal
 import com.example.taskmate.ui.mypage.components.TagCard
 import kotlinx.coroutines.launch
 
-data class Tag(
-    val name: String,
-    val color: Color,
-)
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyPageScreen(navToSettingScreen: () -> Unit) {
@@ -56,8 +49,8 @@ fun MyPageScreen(navToSettingScreen: () -> Unit) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val isSheetOpen = remember { mutableStateOf(false) }
     val tags = listOf(
-        Tag("タグ1", Color(0xFF42A5F5)),
-        Tag("タグ2", Color(0xFF66BB6A)),
+        com.example.core.model.Tag("タグ1", Color(0xFF42A5F5)),
+        com.example.core.model.Tag("タグ2", Color(0xFF66BB6A)),
     )
 
     Scaffold(

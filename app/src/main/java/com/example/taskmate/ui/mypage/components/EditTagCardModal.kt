@@ -31,8 +31,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.core.model.Tag
 import com.example.taskmate.R
-import com.example.taskmate.ui.mypage.Tag
 import com.example.taskmate.ui.taskmateComponents.TaskmateAlertDialog
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch

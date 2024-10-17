@@ -11,16 +11,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import com.example.core.model.SettingItem
 import com.example.taskmate.R
 import com.example.taskmate.ui.appBar.PopBackTaskMateAppBar
 import com.example.taskmate.ui.setting.componets.SettingCard
-
-data class SettingItem(
-    val title: String,
-    val subTitle: String = "",
-    val icon: Int,
-    val onClick: () -> Unit = {},
-)
 
 @Composable
 fun SettingScreen(popBackStack: () -> Unit) {
