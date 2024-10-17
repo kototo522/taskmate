@@ -49,7 +49,7 @@ fun Navigation(modifier: Modifier) {
         Box(modifier = Modifier.padding(it)) {
             NavHost(
                 navController = navController,
-                startDestination = "CreateGroup",
+                startDestination = BottomNavBarItems.Home.route,
                 enterTransition = {
                     EnterTransition.None // 画面遷移時のアニメーション無効化
                 },
