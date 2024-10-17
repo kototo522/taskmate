@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.taskmate.ui.mypage.Tag
+import com.example.core.model.Tag
 
 @Composable
 fun TagCard(tag: Tag) {

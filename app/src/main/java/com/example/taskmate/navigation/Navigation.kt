@@ -12,7 +12,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.core.model.TaskMateSubject
+import com.example.core.model.TaskmateSubject
 import com.example.taskmate.ui.addTask.AddTaskScreen
 import com.example.taskmate.ui.auth.FirstAuthScreen
 import com.example.taskmate.ui.auth.LoginScreen
@@ -36,7 +36,7 @@ fun Navigation(modifier: Modifier) {
     val currentRoute = navStackBackEntry?.destination?.route
     val navToSettingScreen = { navController.navigate("SettingScreen") }
     val navToSelectSubjectScreen = { navController.navigate("SelectSubjectScreen") }
-    val navToAddTaskScreen: (TaskMateSubject) -> Unit = { navController.navigate("AddTaskScreen") }
+    val navToAddTaskScreen: (TaskmateSubject) -> Unit = { navController.navigate("AddTaskScreen") }
     val navToLoginScreen: () -> Unit = { navController.navigate("LoginScreen") }
     val navToSignUpScreen: () -> Unit = { navController.navigate("SignUpScreen") }
     val popBackStack: () -> Unit = { navController.popBackStack() }

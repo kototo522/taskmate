@@ -16,16 +16,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.core.model.Task
 import com.example.taskmate.R
 import com.example.taskmate.ui.appBar.MainTaskMateAppBar
-
-data class Task(
-    val title: String,
-//    val destination: String,
-//    val deadlineDate: Date,
-//    val deadlineTime: Time,
-//    val remind: Int,
-)
 
 @Composable
 fun TaskScreen(

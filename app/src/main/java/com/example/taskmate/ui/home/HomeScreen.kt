@@ -12,13 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.core.model.Class
 import com.example.taskmate.ui.appBar.MainTaskMateAppBar
 import com.example.taskmate.ui.home.components.TimeSchedule
-
-data class Class(
-    val day: String,
-    val classList: List<String>,
-)
 
 @Composable
 fun HomeScreen(navToSettingScreen: () -> Unit) {
@@ -26,10 +22,22 @@ fun HomeScreen(navToSettingScreen: () -> Unit) {
 
     val mockClassList =
         listOf(
-            Class(day = "月", classList = listOf("プロマネ", "シス工", "実験", "実験")),
-            Class(day = "火", classList = listOf("英語", "電磁気", "情報理論", "")),
-            Class(day = "水", classList = listOf("制御演習", "数学", "卒研", "")),
-            Class(day = "木", classList = listOf("ネト応", "人文", "卒研", "卒研")),
+            Class(
+                day = "月",
+                classList = listOf("プロマネ", "シス工", "実験", "実験")
+            ),
+            Class(
+                day = "火",
+                classList = listOf("英語", "電磁気", "情報理論", "")
+            ),
+            Class(
+                day = "水",
+                classList = listOf("制御演習", "数学", "卒研", "")
+            ),
+            Class(
+                day = "木",
+                classList = listOf("ネト応", "人文", "卒研", "卒研")
+            ),
             Class(day = "金", classList = listOf("信号処理", "他コース", "制御理論", "")),
         )
 

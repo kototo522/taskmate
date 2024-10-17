@@ -1,7 +1,7 @@
 package com.example.taskmate.ui.home.components
 
 import androidx.compose.runtime.Composable
-import com.example.taskmate.ui.home.Class
+import com.example.core.model.Class
 
 @Composable
 fun TimeSchedule(

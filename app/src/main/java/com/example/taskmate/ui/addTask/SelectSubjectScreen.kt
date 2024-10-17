@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import com.example.core.model.TaskMateSubject
+import com.example.core.model.TaskmateSubject
 import com.example.taskmate.R
 import com.example.taskmate.ui.addTask.SubjectCard
 import com.example.taskmate.ui.appBar.PopBackTaskMateAppBar
@@ -20,14 +20,14 @@ import com.example.taskmate.ui.appBar.PopBackTaskMateAppBar
 
 @Composable
 fun SelectSubjectScreen(
-    navToAddTaskScreen: (TaskMateSubject) -> Unit,
+    navToAddTaskScreen: (TaskmateSubject) -> Unit,
     popBackStack: () -> Unit,
 ) {
     val context = LocalContext.current
     val subjects = listOf(
-        TaskMateSubject("数学", Color(0xFF42A5F5)), // 青
-        TaskMateSubject("英語", Color(0xFF66BB6A)), // 緑
-        TaskMateSubject("歴史", Color(0xFFFFC107)), // 黄
+        TaskmateSubject("数学", Color(0xFF42A5F5)), // 青
+        TaskmateSubject("英語", Color(0xFF66BB6A)), // 緑
+        TaskmateSubject("歴史", Color(0xFFFFC107)), // 黄
     )
 
     Scaffold(
