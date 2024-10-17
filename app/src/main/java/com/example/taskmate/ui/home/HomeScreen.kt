@@ -24,19 +24,19 @@ fun HomeScreen(navToSettingScreen: () -> Unit) {
         listOf(
             Class(
                 day = "月",
-                classList = listOf("プロマネ", "シス工", "実験", "実験")
+                classList = listOf("プロマネ", "シス工", "実験", "実験"),
             ),
             Class(
                 day = "火",
-                classList = listOf("英語", "電磁気", "情報理論", "")
+                classList = listOf("英語", "電磁気", "情報理論", ""),
             ),
             Class(
                 day = "水",
-                classList = listOf("制御演習", "数学", "卒研", "")
+                classList = listOf("制御演習", "数学", "卒研", ""),
             ),
             Class(
                 day = "木",
-                classList = listOf("ネト応", "人文", "卒研", "卒研")
+                classList = listOf("ネト応", "人文", "卒研", "卒研"),
             ),
             Class(day = "金", classList = listOf("信号処理", "他コース", "制御理論", "")),
         )

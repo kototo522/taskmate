@@ -17,7 +17,6 @@ import com.example.taskmate.R
 import com.example.taskmate.ui.addTask.SubjectCard
 import com.example.taskmate.ui.appBar.PopBackTaskMateAppBar
 
-
 @Composable
 fun SelectSubjectScreen(
     navToAddTaskScreen: (TaskmateSubject) -> Unit,
