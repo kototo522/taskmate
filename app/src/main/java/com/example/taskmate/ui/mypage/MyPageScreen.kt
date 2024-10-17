@@ -179,7 +179,7 @@ fun MyPageScreen(navToSettingScreen: () -> Unit) {
             }
         }
         if (isSheetOpen.value) {
-            EditTagCardModal(scope, sheetState, isSheetOpen)
+            EditTagCardModal(tags, scope, sheetState, isSheetOpen)
         }
     }
 }
