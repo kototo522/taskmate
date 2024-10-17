@@ -1,6 +1,14 @@
 package com.example.taskmate.ui.mypage.components
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
@@ -35,7 +43,7 @@ fun EditTagCardModal(
     tags: List<Tag>,
     scope: CoroutineScope,
     sheetState: SheetState,
-    isSheetOpen: MutableState<Boolean>
+    isSheetOpen: MutableState<Boolean>,
 ) {
     var checked by remember { mutableStateOf(true) }
     var showDeleteConfirm = remember { mutableStateOf(false) }
@@ -53,8 +61,8 @@ fun EditTagCardModal(
             modifier = Modifier
                 .padding(12.dp)
                 .fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ){
+            contentAlignment = Alignment.Center,
+        ) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -73,13 +81,13 @@ fun EditTagCardModal(
                             Checkbox(
                                 checked = checked,
                                 onCheckedChange = { checked = it },
-                                modifier = Modifier.weight(1f)
+                                modifier = Modifier.weight(1f),
                             )
                             Text(
                                 text = tags[index].name,
                                 fontSize = 20.sp,
                                 fontWeight = FontWeight.Bold,
-                                modifier = Modifier.weight(2f)
+                                modifier = Modifier.weight(2f),
                             )
                             IconButton(onClick = { showDeleteConfirm.value = true }) {
                                 Icon(
@@ -97,16 +105,17 @@ fun EditTagCardModal(
                         .fillMaxWidth()
                         .padding(14.dp),
                     verticalAlignment = Alignment.CenterVertically,
-                ){
+                ) {
                     Button(
                         onClick = {
                             scope.launch {
                                 sheetState.hide()
                                 isSheetOpen.value = false
-                            } },
+                            }
+                        },
                         modifier = Modifier
                             .padding(horizontal = 12.dp)
-                            .weight(1f)
+                            .weight(1f),
                     ) {
                         Text("閉じる")
                     }
@@ -115,10 +124,11 @@ fun EditTagCardModal(
                             scope.launch {
                                 sheetState.hide()
                                 isSheetOpen.value = false
-                            } },
+                            }
+                        },
                         modifier = Modifier
                             .padding(horizontal = 12.dp)
-                            .weight(1f)
+                            .weight(1f),
                     ) {
                         Text("登録")
                     }
@@ -135,7 +145,7 @@ fun EditTagCardModal(
                     onClick = {
                         // 削除処理
                         showDeleteConfirm.value = false
-                    }
+                    },
                 ) { Text("削除") }
             },
             dismissButton = {

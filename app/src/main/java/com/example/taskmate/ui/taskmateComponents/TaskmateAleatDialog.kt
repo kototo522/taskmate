@@ -16,7 +16,7 @@ fun TaskmateAlertDialog(
     text: String,
     confirmButton: @Composable () -> Unit,
     dismissButton: @Composable () -> Unit,
-    isOpenDialog: MutableState<Boolean>
+    isOpenDialog: MutableState<Boolean>,
 ) {
     AlertDialog(
         onDismissRequest = { isOpenDialog.value = false },
@@ -24,8 +24,8 @@ fun TaskmateAlertDialog(
             Text(
                 text = title,
                 fontWeight = FontWeight(500),
-                )
-                },
+            )
+        },
         text = { Text(text = text) },
         confirmButton = confirmButton,
         dismissButton = dismissButton,
@@ -35,14 +35,14 @@ fun TaskmateAlertDialog(
 @Preview
 @Composable
 private fun PreviewTaskmateAlertDialog() {
-    var showDeleteConfirm = remember { mutableStateOf(false) }
+    val showDeleteConfirm = remember { mutableStateOf(false) }
 
     TaskmateAlertDialog(
         title = "確認",
         text = "本当に削除しますか？",
         confirmButton = {
             Button(
-                onClick = {}
+                onClick = {},
             ) { Text("削除") }
         },
         dismissButton = {
