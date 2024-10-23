@@ -1,5 +1,4 @@
-import org.jetbrains.kotlin.builtins.StandardNames.FqNames.target
-import org.jetbrains.kotlin.js.translate.context.Namer.kotlin
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {

@@ -63,7 +63,7 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.hilt.android)
     implementation(project(":core"))
-    implementation(project(":feature"))
+    implementation(project(":feature:setting"))
     kapt(libs.hilt.compiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
