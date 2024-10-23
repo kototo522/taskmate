@@ -1,5 +1,4 @@
 package com.example.taskmate.navigation
-import SelectSubjectScreen
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.foundation.layout.Box
@@ -19,6 +18,7 @@ import com.example.feature.home.HomeScreen
 import com.example.feature.mypage.MyPageScreen
 import com.example.feature.setting.SettingScreen
 import com.example.feature.task.AddTaskScreen
+import com.example.feature.task.SelectSubjectScreen
 import com.example.feature.task.TaskScreen
 import com.example.taskmate.ui.auth.FirstAuthScreen
 import com.example.taskmate.ui.auth.LoginScreen

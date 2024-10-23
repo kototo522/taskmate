@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -13,6 +14,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.example.core.model.TaskMateSubject
+import com.example.core.ui.taskmateComponents.appBar.PopBackTaskMateAppBar
+import com.example.feature.R
 import com.example.feature.task.components.SubjectCard
 
 @Composable
@@ -29,11 +32,11 @@ fun SelectSubjectScreen(
 
     Scaffold(
         topBar = {
-//            PopBackTaskMateAppBar(
-//                title = { Text(context.getString(R.string.add_task), color = MaterialTheme.colorScheme.secondary) },
-//                popBackScreen = popBackStack,
-//                modifier = Modifier,
-//            )
+            PopBackTaskMateAppBar(
+                title = { Text(context.getString(R.string.add_task), color = MaterialTheme.colorScheme.secondary) },
+                popBackScreen = popBackStack,
+                modifier = Modifier,
+            )
         },
         containerColor = MaterialTheme.colorScheme.background, // 背景色をテーマに合わせる
     ) { innerPadding ->

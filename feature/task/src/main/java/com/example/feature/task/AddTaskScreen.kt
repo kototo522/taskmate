@@ -36,6 +36,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.core.ui.taskmateComponents.appBar.PopBackTaskMateAppBar
 import com.example.feature.R
 import java.util.Calendar
 
@@ -60,11 +61,11 @@ fun AddTaskScreen(popBackStack: () -> Unit) {
 
     Scaffold(
         topBar = {
-//            PopBackTaskMateAppBar(
-//                title = { Text(text = context.getString(R.string.add_task), color = MaterialTheme.colorScheme.secondary) },
-//                popBackScreen = popBackStack,
-//                modifier = Modifier,
-//            )
+            PopBackTaskMateAppBar(
+                title = { Text(text = context.getString(R.string.add_task), color = MaterialTheme.colorScheme.secondary) },
+                popBackScreen = popBackStack,
+                modifier = Modifier,
+            )
         },
         containerColor = MaterialTheme.colorScheme.background,
     ) { innerPadding ->
