@@ -13,7 +13,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.core.model.Class
-import com.example.taskmate.ui.appBar.MainTaskMateAppBar
 import com.example.taskmate.ui.home.components.TimeSchedule
 
 @Composable
@@ -43,7 +42,7 @@ fun HomeScreen(navToSettingScreen: () -> Unit) {
 
     Scaffold(
         topBar = {
-            MainTaskMateAppBar(navToSettingScreen, Modifier)
+//            MainTaskMateAppBar(navToSettingScreen, Modifier)
         },
     ) { innerPadding ->
         Column(modifier = Modifier.fillMaxSize().padding(innerPadding), horizontalAlignment = Alignment.CenterHorizontally) {
