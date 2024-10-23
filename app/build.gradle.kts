@@ -62,7 +62,7 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.hilt.android)
-    implementation(project(":core"))
+    implementation(project(":core:data"))
     implementation(project(":feature:home"))
     implementation(project(":feature:task"))
     implementation(project(":feature:mypage"))
