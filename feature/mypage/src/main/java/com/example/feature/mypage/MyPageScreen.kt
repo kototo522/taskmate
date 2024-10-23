@@ -35,8 +35,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.taskmate.R
-import com.example.taskmate.ui.appBar.MainTaskMateAppBar
+import com.example.feature.R
 import com.example.taskmate.ui.mypage.components.EditTagCardModal
 import com.example.taskmate.ui.mypage.components.TagCard
 import kotlinx.coroutines.launch
@@ -55,7 +54,7 @@ fun MyPageScreen(navToSettingScreen: () -> Unit) {
 
     Scaffold(
         topBar = {
-            MainTaskMateAppBar(navToSettingScreen, Modifier)
+//            MainTaskMateAppBar(navToSettingScreen, Modifier)
         },
     ) { innerPadding ->
         Box(

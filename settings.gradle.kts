@@ -23,5 +23,6 @@ rootProject.name = "taskmate"
 include(":app")
 include(":feature:home")
 include(":feature:task")
+include(":feature:mypage")
 include(":feature:setting")
 include(":core")
