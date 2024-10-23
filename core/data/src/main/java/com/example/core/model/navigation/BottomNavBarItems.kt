@@ -1,6 +1,7 @@
-package com.example.taskmate.navigation
+package com.example.core.model.navigation
 
-import com.example.taskmate.R
+import com.example.data.R
+
 sealed class BottomNavBarItems(
     val route: String,
     val title: String,

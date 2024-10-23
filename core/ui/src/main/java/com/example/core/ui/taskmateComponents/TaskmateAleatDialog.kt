@@ -1,4 +1,4 @@
-package com.example.taskmate.ui.taskmateComponents
+package com.example.core.ui.taskmateComponents
 
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
