@@ -1,4 +1,4 @@
-package com.example.taskmate.ui.task.components
+package com.example.feature.task.components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column

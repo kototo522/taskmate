@@ -1,4 +1,4 @@
-package com.example.taskmate.ui.task
+package com.example.feature.task.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,7 +16,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.core.model.Task
-import com.example.taskmate.ui.task.components.DisplayDate
 
 @Composable
 fun TaskCard(task: Task, modifier: Modifier = Modifier) {

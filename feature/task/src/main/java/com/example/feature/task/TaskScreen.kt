@@ -1,4 +1,4 @@
-package com.example.taskmate.ui.task
+package com.example.feature.task
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,8 +17,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.core.model.Task
-import com.example.taskmate.R
-import com.example.taskmate.ui.appBar.MainTaskMateAppBar
+import com.example.feature.R
+import com.example.feature.task.components.TaskCard
 
 @Composable
 fun TaskScreen(
@@ -39,7 +39,7 @@ fun TaskScreen(
     )
     Scaffold(
         topBar = {
-            MainTaskMateAppBar(navToSettingScreen, Modifier)
+//            MainTaskMateAppBar(navToSettingScreen, Modifier)
         },
         floatingActionButton = {
             Box(modifier = Modifier.padding(end = 8.dp)) {

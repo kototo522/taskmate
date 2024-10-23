@@ -14,6 +14,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.core.model.TaskmateSubject
 import com.example.feature.setting.SettingScreen
+import com.example.feature.task.TaskScreen
 import com.example.taskmate.ui.addTask.AddTaskScreen
 import com.example.taskmate.ui.auth.FirstAuthScreen
 import com.example.taskmate.ui.auth.LoginScreen
@@ -21,7 +22,7 @@ import com.example.taskmate.ui.auth.SignUpScreen
 import com.example.taskmate.ui.home.HomeScreen
 import com.example.taskmate.ui.mypage.MyPageScreen
 import com.example.taskmate.ui.setting.settingItemScreen.CreateGroup
-import com.example.taskmate.ui.task.TaskScreen
+
 
 @Composable
 fun Navigation(modifier: Modifier) {

@@ -21,5 +21,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "taskmate"
 include(":app")
+include(":feature:task")
 include(":feature:setting")
 include(":core")
