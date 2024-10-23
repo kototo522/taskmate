@@ -1,4 +1,4 @@
-package com.example.taskmate.ui.appBar
+package com.example.core.ui.taskmateComponents.appBar
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.taskmate.R
+import com.example.ui.R
 
 @Composable
 fun MainTaskMateAppBar(navToSettingScreen: () -> Unit, modifier: Modifier = Modifier) {

@@ -1,4 +1,4 @@
-package com.example.taskmate.ui.mypage.components
+package com.example.feature.mypage.components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -32,6 +32,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.core.model.Tag
+import com.example.core.ui.taskmateComponents.TaskMateAlertDialog
 import com.example.feature.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -45,7 +46,7 @@ fun EditTagCardModal(
     isSheetOpen: MutableState<Boolean>,
 ) {
     var checked by remember { mutableStateOf(true) }
-    var showDeleteConfirm = remember { mutableStateOf(false) }
+    val showDeleteConfirm = remember { mutableStateOf(false) }
 
     ModalBottomSheet(
         onDismissRequest = {
@@ -136,23 +137,23 @@ fun EditTagCardModal(
         }
     }
     if (showDeleteConfirm.value) {
-//        TaskmateAlertDialog(
-//            title = "確認",
-//            text = "本当に削除しますか？",
-//            confirmButton = {
-//                Button(
-//                    onClick = {
-//                        // 削除処理
-//                        showDeleteConfirm.value = false
-//                    },
-//                ) { Text("削除") }
-//            },
-//            dismissButton = {
-//                Button(onClick = { showDeleteConfirm.value = false }) {
-//                    Text("キャンセル")
-//                }
-//            },
-//            isOpenDialog = showDeleteConfirm,
-//        )
+        TaskMateAlertDialog(
+            title = "確認",
+            text = "本当に削除しますか？",
+            confirmButton = {
+                Button(
+                    onClick = {
+                        // 削除処理
+                        showDeleteConfirm.value = false
+                    },
+                ) { Text("削除") }
+            },
+            dismissButton = {
+                Button(onClick = { showDeleteConfirm.value = false }) {
+                    Text("キャンセル")
+                }
+            },
+            isOpenDialog = showDeleteConfirm,
+        )
     }
 }

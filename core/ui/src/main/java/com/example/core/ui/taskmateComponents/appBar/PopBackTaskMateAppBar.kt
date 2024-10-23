@@ -1,4 +1,4 @@
-package com.example.taskmate.ui.appBar
+package com.example.core.ui.taskmateComponents.appBar
 
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.taskmate.R
+import com.example.ui.R
 
 @Composable
 fun PopBackTaskMateAppBar(

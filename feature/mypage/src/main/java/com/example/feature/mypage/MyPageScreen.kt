@@ -1,4 +1,4 @@
-package com.example.taskmate.ui.mypage
+package com.example.feature.mypage
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -35,9 +35,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.core.model.Tag
+import com.example.core.ui.taskmateComponents.appBar.MainTaskMateAppBar
 import com.example.feature.R
-import com.example.taskmate.ui.mypage.components.EditTagCardModal
-import com.example.taskmate.ui.mypage.components.TagCard
+import com.example.feature.mypage.components.EditTagCardModal
+import com.example.feature.mypage.components.TagCard
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -48,13 +50,13 @@ fun MyPageScreen(navToSettingScreen: () -> Unit) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val isSheetOpen = remember { mutableStateOf(false) }
     val tags = listOf(
-        com.example.core.model.Tag("タグ1", Color(0xFF42A5F5)),
-        com.example.core.model.Tag("タグ2", Color(0xFF66BB6A)),
+        Tag("タグ1", Color(0xFF42A5F5)),
+        Tag("タグ2", Color(0xFF66BB6A)),
     )
 
     Scaffold(
         topBar = {
-//            MainTaskMateAppBar(navToSettingScreen, Modifier)
+            MainTaskMateAppBar(navToSettingScreen, Modifier)
         },
     ) { innerPadding ->
         Box(

@@ -13,9 +13,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.example.core.model.TaskMateSubject
+import com.example.core.ui.taskmateComponents.appBar.PopBackTaskMateAppBar
 import com.example.taskmate.R
 import com.example.taskmate.ui.addTask.SubjectCard
-import com.example.taskmate.ui.appBar.PopBackTaskMateAppBar
 
 @Composable
 fun SelectSubjectScreen(

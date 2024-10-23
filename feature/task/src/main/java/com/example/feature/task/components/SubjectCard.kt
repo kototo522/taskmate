@@ -18,11 +18,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.core.model.TaskmateSubject
+import com.example.core.model.TaskMateSubject
 import com.example.feature.R
 
 @Composable
-fun SubjectCard(subject: TaskmateSubject, onClick: () -> Unit) {
+fun SubjectCard(subject: TaskMateSubject, onClick: () -> Unit) {
     Card(
         modifier = Modifier
             .padding(horizontal = 24.dp, vertical = 8.dp)

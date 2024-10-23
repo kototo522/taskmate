@@ -17,6 +17,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.core.model.Task
+import com.example.core.ui.taskmateComponents.appBar.MainTaskMateAppBar
 import com.example.feature.R
 import com.example.feature.task.components.TaskCard
 
@@ -39,7 +40,7 @@ fun TaskScreen(
     )
     Scaffold(
         topBar = {
-//            MainTaskMateAppBar(navToSettingScreen, Modifier)
+            MainTaskMateAppBar(navToSettingScreen, Modifier)
         },
         floatingActionButton = {
             Box(modifier = Modifier.padding(end = 8.dp)) {

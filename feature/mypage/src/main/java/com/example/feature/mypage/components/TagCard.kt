@@ -1,4 +1,4 @@
-package com.example.taskmate.ui.mypage.components
+package com.example.feature.mypage.components
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize

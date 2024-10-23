@@ -1,4 +1,4 @@
-package com.example.taskmate.ui.home.components
+package com.example.feature.home.components
 
 import androidx.compose.runtime.Composable
 import com.example.core.model.Class

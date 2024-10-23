@@ -1,6 +1,7 @@
 package com.example.core.model
 
-import android.graphics.Color
+import androidx.compose.ui.graphics.Color
+
 
 data class Tag(
     val name: String,

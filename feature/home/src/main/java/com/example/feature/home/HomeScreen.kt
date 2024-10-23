@@ -1,4 +1,4 @@
-package com.example.taskmate.ui.home
+package com.example.feature.home
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,7 +13,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.core.model.Class
-import com.example.taskmate.ui.home.components.TimeSchedule
+import com.example.core.ui.taskmateComponents.appBar.MainTaskMateAppBar
+import com.example.feature.home.components.TimeSchedule
 
 @Composable
 fun HomeScreen(navToSettingScreen: () -> Unit) {
@@ -37,12 +38,15 @@ fun HomeScreen(navToSettingScreen: () -> Unit) {
                 day = "木",
                 classList = listOf("ネト応", "人文", "卒研", "卒研"),
             ),
-            Class(day = "金", classList = listOf("信号処理", "他コース", "制御理論", "")),
+            Class(
+                day = "金",
+                classList = listOf("信号処理", "他コース", "制御理論", ""),
+            ),
         )
 
     Scaffold(
         topBar = {
-//            MainTaskMateAppBar(navToSettingScreen, Modifier)
+            MainTaskMateAppBar(navToSettingScreen, Modifier)
         },
     ) { innerPadding ->
         Column(modifier = Modifier.fillMaxSize().padding(innerPadding), horizontalAlignment = Alignment.CenterHorizontally) {

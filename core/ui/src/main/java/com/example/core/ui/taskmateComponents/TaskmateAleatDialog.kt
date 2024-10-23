@@ -11,7 +11,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
-fun TaskmateAlertDialog(
+fun TaskMateAlertDialog(
     title: String,
     text: String,
     confirmButton: @Composable () -> Unit,
@@ -23,7 +23,7 @@ fun TaskmateAlertDialog(
         title = {
             Text(
                 text = title,
-                fontWeight = FontWeight(500),
+                fontWeight = FontWeight.W500,
             )
         },
         text = { Text(text = text) },
@@ -34,10 +34,10 @@ fun TaskmateAlertDialog(
 
 @Preview
 @Composable
-private fun PreviewTaskmateAlertDialog() {
+private fun PreviewTaskMateAlertDialog() {
     val showDeleteConfirm = remember { mutableStateOf(false) }
 
-    TaskmateAlertDialog(
+    TaskMateAlertDialog(
         title = "確認",
         text = "本当に削除しますか？",
         confirmButton = {

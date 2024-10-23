@@ -1,4 +1,4 @@
-package com.example.taskmate.ui.appBar
+package com.example.core.ui.taskmateComponents.appBar
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column

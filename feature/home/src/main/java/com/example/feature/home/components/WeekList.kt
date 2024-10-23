@@ -1,4 +1,4 @@
-package com.example.taskmate.ui.home.components
+package com.example.feature.home.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
