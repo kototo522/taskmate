@@ -1,4 +1,4 @@
-package com.example.taskmate.ui.auth
+package com.example.feature.auth
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -29,14 +29,15 @@ import androidx.compose.ui.unit.dp
 import com.example.core.ui.taskmateComponents.appBar.PopBackTaskMateAppBar
 
 @Composable
-fun LoginScreen(popBackStack: () -> Unit) {
+fun SignUpScreen(popBackStack: () -> Unit) {
+    var username by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
     Scaffold(
         topBar = {
             PopBackTaskMateAppBar(
-                title = { Text("ログイン", color = MaterialTheme.colorScheme.secondary) },
+                title = { Text("サインアップ", color = MaterialTheme.colorScheme.secondary) },
                 popBackScreen = popBackStack,
                 modifier = Modifier,
             )
@@ -57,9 +58,16 @@ fun LoginScreen(popBackStack: () -> Unit) {
                     .padding(16.dp),
             ) {
                 Text(
-                    text = "おかえりなさい！",
+                    text = "アカウントを作成",
                     style = MaterialTheme.typography.headlineSmall,
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
+                )
+
+                OutlinedTextField(
+                    value = username,
+                    onValueChange = { username = it },
+                    label = { Text("ユーザ名") },
+                    modifier = Modifier.fillMaxWidth(),
                 )
 
                 OutlinedTextField(
@@ -83,13 +91,15 @@ fun LoginScreen(popBackStack: () -> Unit) {
                 Spacer(modifier = Modifier.height(24.dp))
 
                 Button(
-                    onClick = { println("ログイン: $email, $password") },
+                    onClick = {
+                        println("登録: $username, $email, $password")
+                    },
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(56.dp),
                     shape = RoundedCornerShape(12.dp),
                 ) {
-                    Text("ログインする", style = MaterialTheme.typography.bodyLarge)
+                    Text("登録する", style = MaterialTheme.typography.bodyLarge)
                 }
             }
         }

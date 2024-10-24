@@ -20,7 +20,7 @@ import com.example.feature.setting.SettingScreen
 import com.example.feature.task.AddTaskScreen
 import com.example.feature.task.SelectSubjectScreen
 import com.example.feature.task.TaskScreen
-import com.example.taskmate.ui.auth.FirstAuthScreen
+import com.example.feature.auth.FirstAuthScreen
 import com.example.taskmate.ui.auth.LoginScreen
 import com.example.taskmate.ui.auth.SignUpScreen
 import com.example.taskmate.ui.setting.settingItemScreen.CreateGroup
