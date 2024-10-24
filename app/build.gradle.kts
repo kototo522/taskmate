@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     kotlin("kapt")
     alias(libs.plugins.hilt)
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -62,13 +63,8 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.hilt.android)
-    implementation(project(":core:data"))
-    implementation(project(":core:ui"))
-    implementation(project(":feature:home"))
-    implementation(project(":feature:task"))
-    implementation(project(":feature:mypage"))
-    implementation(project(":feature:auth"))
-    implementation(project(":feature:setting"))
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
     kapt(libs.hilt.compiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
@@ -77,6 +73,13 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    implementation(project(":core:data"))
+    implementation(project(":core:ui"))
+    implementation(project(":feature:home"))
+    implementation(project(":feature:task"))
+    implementation(project(":feature:mypage"))
+    implementation(project(":feature:auth"))
+    implementation(project(":feature:setting"))
 }
 
 kapt {
