@@ -16,7 +16,6 @@ import androidx.compose.ui.unit.dp
 import com.example.core.model.TaskMateSubject
 import com.example.core.model.string.TaskMateStrings
 import com.example.core.ui.taskmateComponents.appBar.PopBackTaskMateAppBar
-import com.example.feature.R
 import com.example.feature.task.components.SubjectCard
 
 @Composable

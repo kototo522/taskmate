@@ -14,15 +14,15 @@ import androidx.navigation.compose.rememberNavController
 import com.example.core.model.TaskMateSubject
 import com.example.core.model.navigation.BottomNavBarItems
 import com.example.core.ui.taskmateComponents.BottomNavBar
+import com.example.feature.auth.FirstAuthScreen
+import com.example.feature.auth.LoginScreen
+import com.example.feature.auth.SignUpScreen
 import com.example.feature.home.HomeScreen
 import com.example.feature.mypage.MyPageScreen
 import com.example.feature.setting.SettingScreen
 import com.example.feature.task.AddTaskScreen
 import com.example.feature.task.SelectSubjectScreen
 import com.example.feature.task.TaskScreen
-import com.example.feature.auth.FirstAuthScreen
-import com.example.feature.auth.LoginScreen
-import com.example.feature.auth.SignUpScreen
 import com.example.taskmate.ui.setting.settingItemScreen.CreateGroup
 
 @Composable

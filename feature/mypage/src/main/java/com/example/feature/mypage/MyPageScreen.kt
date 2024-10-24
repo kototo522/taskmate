@@ -39,7 +39,6 @@ import com.example.core.model.Tag
 import com.example.core.model.string.TaskMateStrings
 import com.example.core.ui.taskmateComponents.appBar.MainTaskMateAppBar
 import com.example.core.ui.taskmateComponents.icon.TaskMateIcons
-import com.example.feature.R
 import com.example.feature.mypage.components.EditTagCardModal
 import com.example.feature.mypage.components.TagCard
 import kotlinx.coroutines.launch

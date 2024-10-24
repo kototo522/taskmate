@@ -2,7 +2,6 @@ package com.example.core.ui.taskmateComponents.icon
 
 import com.example.ui.R
 
-
 object TaskMateIcons {
     val Account = R.drawable.account
     val BackArrow = R.drawable.back_arrow
