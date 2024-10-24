@@ -21,4 +21,10 @@ dependencyResolutionManagement {
 
 rootProject.name = "taskmate"
 include(":app")
-include(":core")
+include(":feature:home")
+include(":feature:task")
+include(":feature:mypage")
+include(":feature:auth")
+include(":feature:setting")
+include(":core:data")
+include(":core:ui")

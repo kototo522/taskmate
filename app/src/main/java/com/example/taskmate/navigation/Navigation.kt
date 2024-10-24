@@ -1,5 +1,4 @@
 package com.example.taskmate.navigation
-import SelectSubjectScreen
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.foundation.layout.Box
@@ -12,16 +11,19 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.core.model.TaskmateSubject
-import com.example.taskmate.ui.addTask.AddTaskScreen
-import com.example.taskmate.ui.auth.FirstAuthScreen
-import com.example.taskmate.ui.auth.LoginScreen
-import com.example.taskmate.ui.auth.SignUpScreen
-import com.example.taskmate.ui.home.HomeScreen
-import com.example.taskmate.ui.mypage.MyPageScreen
-import com.example.taskmate.ui.setting.SettingScreen
+import com.example.core.model.TaskMateSubject
+import com.example.core.model.navigation.BottomNavBarItems
+import com.example.core.ui.taskmateComponents.BottomNavBar
+import com.example.feature.auth.FirstAuthScreen
+import com.example.feature.auth.LoginScreen
+import com.example.feature.auth.SignUpScreen
+import com.example.feature.home.HomeScreen
+import com.example.feature.mypage.MyPageScreen
+import com.example.feature.setting.SettingScreen
+import com.example.feature.task.AddTaskScreen
+import com.example.feature.task.SelectSubjectScreen
+import com.example.feature.task.TaskScreen
 import com.example.taskmate.ui.setting.settingItemScreen.CreateGroup
-import com.example.taskmate.ui.task.TaskScreen
 
 @Composable
 fun Navigation(modifier: Modifier) {
@@ -36,7 +38,7 @@ fun Navigation(modifier: Modifier) {
     val currentRoute = navStackBackEntry?.destination?.route
     val navToSettingScreen = { navController.navigate("SettingScreen") }
     val navToSelectSubjectScreen = { navController.navigate("SelectSubjectScreen") }
-    val navToAddTaskScreen: (TaskmateSubject) -> Unit = { navController.navigate("AddTaskScreen") }
+    val navToAddTaskScreen: (TaskMateSubject) -> Unit = { navController.navigate("AddTaskScreen") }
     val navToLoginScreen: () -> Unit = { navController.navigate("LoginScreen") }
     val navToSignUpScreen: () -> Unit = { navController.navigate("SignUpScreen") }
     val popBackStack: () -> Unit = { navController.popBackStack() }
