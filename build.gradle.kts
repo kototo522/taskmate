@@ -10,6 +10,17 @@ plugins {
     alias(libs.plugins.google.services) apply false
 }
 
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath(libs.gradle)
+        classpath(libs.google.services)
+    }
+}
+
 spotless {
     ratchetFrom("origin/main")
     kotlin {

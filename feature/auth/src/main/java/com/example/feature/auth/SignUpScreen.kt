@@ -22,24 +22,25 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import com.example.core.ui.taskmateComponents.appBar.PopBackTaskMateAppBar
+import com.google.firebase.auth.FirebaseAuth
+import androidx.compose.ui.Modifier
 
 @Composable
 fun SignUpScreen(popBackStack: () -> Unit) {
     var username by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    val auth = FirebaseAuth.getInstance()
 
     Scaffold(
         topBar = {
             PopBackTaskMateAppBar(
                 title = { Text("サインアップ", color = MaterialTheme.colorScheme.secondary) },
                 popBackScreen = popBackStack,
-                modifier = Modifier,
             )
         },
     ) { innerPadding ->
@@ -92,7 +93,14 @@ fun SignUpScreen(popBackStack: () -> Unit) {
 
                 Button(
                     onClick = {
-                        println("登録: $username, $email, $password")
+                        auth.createUserWithEmailAndPassword(email, password)
+                            .addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    println("サインアップ成功: $username, $email")
+                                } else {
+                                    println("サインアップ失敗: ${task.exception?.message}")
+                                }
+                            }
                     },
                     modifier = Modifier
                         .fillMaxWidth()
