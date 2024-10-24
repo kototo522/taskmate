@@ -31,6 +31,7 @@ import com.example.core.ui.taskmateComponents.appBar.PopBackTaskMateAppBar
 
 @Composable
 fun LoginScreen(
+    navToHomeScreen: () -> Unit,
     popBackStack: () -> Unit,
     viewModel: AuthViewModel = viewModel()
 ) {
@@ -97,6 +98,7 @@ fun LoginScreen(
                             onSuccess = {
                                 errorMessage = ""
                                 println("ログイン成功")
+                                navToHomeScreen
                             },
                             onFailure = { error ->
                                 errorMessage = error

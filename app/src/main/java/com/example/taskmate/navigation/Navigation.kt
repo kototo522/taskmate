@@ -1,10 +1,12 @@
 package com.example.taskmate.navigation
+
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
@@ -24,18 +26,19 @@ import com.example.feature.task.AddTaskScreen
 import com.example.feature.task.SelectSubjectScreen
 import com.example.feature.task.TaskScreen
 import com.example.taskmate.ui.setting.settingItemScreen.CreateGroup
+import com.google.firebase.auth.FirebaseAuth
 
 @Composable
 fun Navigation(modifier: Modifier) {
     val navController = rememberNavController()
-    val screenItems =
-        listOf(
-            BottomNavBarItems.Home,
-            BottomNavBarItems.Task,
-            BottomNavBarItems.MyPage,
-        )
+    val screenItems = listOf(
+        BottomNavBarItems.Home,
+        BottomNavBarItems.Task,
+        BottomNavBarItems.MyPage,
+    )
     val navStackBackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navStackBackEntry?.destination?.route
+    val navToHomeScreen = { navController.navigate(BottomNavBarItems.Home.route) }
     val navToSettingScreen = { navController.navigate("SettingScreen") }
     val navToSelectSubjectScreen = { navController.navigate("SelectSubjectScreen") }
     val navToAddTaskScreen: (TaskMateSubject) -> Unit = { navController.navigate("AddTaskScreen") }
@@ -43,51 +46,74 @@ fun Navigation(modifier: Modifier) {
     val navToSignUpScreen: () -> Unit = { navController.navigate("SignUpScreen") }
     val popBackStack: () -> Unit = { navController.popBackStack() }
 
+    val auth = FirebaseAuth.getInstance()
+    val isUserAuthenticated = auth.currentUser != null
+
+    LaunchedEffect(isUserAuthenticated) {
+        if (!isUserAuthenticated && currentRoute != "LoginScreen" && currentRoute != "SignUpScreen") {
+            navController.navigate("FirstAuthScreen") {
+                popUpTo(0)
+            }
+        }
+    }
+
     Scaffold(
         bottomBar = {
-            BottomNavBar(screenItems = screenItems, currentRoute = currentRoute, navController = navController)
+            if (isUserAuthenticated) {
+                BottomNavBar(screenItems = screenItems, currentRoute = currentRoute, navController = navController)
+            }
         },
     ) {
         Box(modifier = Modifier.padding(it)) {
             NavHost(
                 navController = navController,
-                startDestination = "LoginScreen",
-                enterTransition = {
-                    EnterTransition.None // 画面遷移時のアニメーション無効化
-                },
-                exitTransition = {
-                    ExitTransition.None // 画面遷移時のアニメーション無効化
-                },
+                startDestination = if (isUserAuthenticated) BottomNavBarItems.Home.route else "FirstAuthScreen",
+                enterTransition = { EnterTransition.None },
+                exitTransition = { ExitTransition.None },
             ) {
                 composable(route = BottomNavBarItems.Home.route) {
-                    HomeScreen(navToSettingScreen)
+                    if (isUserAuthenticated) {
+                        HomeScreen(navToSettingScreen)
+                    }
                 }
                 composable(route = BottomNavBarItems.Task.route) {
-                    TaskScreen(navToSettingScreen, navToSelectSubjectScreen)
+                    if (isUserAuthenticated) {
+                        TaskScreen(navToSettingScreen, navToSelectSubjectScreen)
+                    }
                 }
                 composable(route = BottomNavBarItems.MyPage.route) {
-                    MyPageScreen(navToSettingScreen)
+                    if (isUserAuthenticated) {
+                        MyPageScreen(navToSettingScreen)
+                    }
                 }
                 composable(route = "SettingScreen") {
-                    SettingScreen(popBackStack)
+                    if (isUserAuthenticated) {
+                        SettingScreen(popBackStack)
+                    }
                 }
                 composable(route = "FirstAuthScreen") {
                     FirstAuthScreen(navToLoginScreen, navToSignUpScreen)
                 }
                 composable(route = "SignUpScreen") {
-                    SignUpScreen(popBackStack = popBackStack)
+                    SignUpScreen(navToHomeScreen = navToHomeScreen, popBackStack = popBackStack)
                 }
                 composable(route = "LoginScreen") {
-                    LoginScreen(popBackStack = popBackStack)
+                    LoginScreen(navToHomeScreen = navToHomeScreen, popBackStack = popBackStack)
                 }
                 composable(route = "SelectSubjectScreen") {
-                    SelectSubjectScreen(navToAddTaskScreen, popBackStack)
+                    if (isUserAuthenticated) {
+                        SelectSubjectScreen(navToAddTaskScreen, popBackStack)
+                    }
                 }
                 composable(route = "AddTaskScreen") {
-                    AddTaskScreen(popBackStack = popBackStack)
+                    if (isUserAuthenticated) {
+                        AddTaskScreen(popBackStack = popBackStack)
+                    }
                 }
                 composable(route = "CreateGroup") {
-                    CreateGroup(popBackStack = popBackStack)
+                    if (isUserAuthenticated) {
+                        CreateGroup(popBackStack = popBackStack)
+                    }
                 }
             }
         }
