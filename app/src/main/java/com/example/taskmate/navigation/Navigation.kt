@@ -51,7 +51,7 @@ fun Navigation(modifier: Modifier) {
         Box(modifier = Modifier.padding(it)) {
             NavHost(
                 navController = navController,
-                startDestination = "SignUpScreen",
+                startDestination = "LoginScreen",
                 enterTransition = {
                     EnterTransition.None // 画面遷移時のアニメーション無効化
                 },
