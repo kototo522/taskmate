@@ -36,7 +36,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.core.model.Tag
+import com.example.core.model.string.TaskMateStrings
 import com.example.core.ui.taskmateComponents.appBar.MainTaskMateAppBar
+import com.example.core.ui.taskmateComponents.icon.TaskMateIcons
 import com.example.feature.R
 import com.example.feature.mypage.components.EditTagCardModal
 import com.example.feature.mypage.components.TagCard
@@ -84,7 +86,7 @@ fun MyPageScreen(navToSettingScreen: () -> Unit) {
                             .size(140.dp),
                     ) {
                         Text(
-                            text = context.getString(R.string.add_icon),
+                            text = context.getString(TaskMateStrings.AddIcon),
                             fontSize = 38.sp,
                             modifier = Modifier
                                 .padding(8.dp)
@@ -97,7 +99,7 @@ fun MyPageScreen(navToSettingScreen: () -> Unit) {
                                 ) {},
                         )
                         Icon(
-                            painter = painterResource(id = R.drawable.account),
+                            painter = painterResource(id = TaskMateIcons.Account),
                             contentDescription = null,
                             modifier = Modifier
                                 .height(140.dp)
@@ -144,7 +146,7 @@ fun MyPageScreen(navToSettingScreen: () -> Unit) {
                                 .padding(4.dp),
                         ) {
                             Text(
-                                text = context.getString(R.string.add_icon),
+                                text = context.getString(TaskMateStrings.AddIcon),
                                 fontSize = 24.sp,
                                 modifier = Modifier.clickable(
                                     indication = rememberRipple(

@@ -36,8 +36,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.core.model.string.TaskMateStrings
 import com.example.core.ui.taskmateComponents.appBar.PopBackTaskMateAppBar
-import com.example.feature.R
+import com.example.core.ui.taskmateComponents.icon.TaskMateIcons
 import java.util.Calendar
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -48,21 +49,21 @@ fun AddTaskScreen(popBackStack: () -> Unit) {
     var destination by remember { mutableStateOf("") }
     var deadlineDate by remember { mutableStateOf("") }
     var deadlineTime by remember { mutableStateOf("") }
-    var visibility by remember { mutableStateOf(context.getString(R.string.task_public)) }
+    var visibility by remember { mutableStateOf(context.getString(TaskMateStrings.TaskPublic)) }
     var showDatePicker by remember { mutableStateOf(false) }
     var showTimePicker by remember { mutableStateOf(false) }
     var expanded by remember { mutableStateOf(false) }
-    var selectedText by remember { mutableStateOf(context.getString(R.string.not_remind)) }
+    var selectedText by remember { mutableStateOf(context.getString(TaskMateStrings.NotRemind)) }
     val remindTime = listOf(
-        context.getString(R.string.not_remind),
-        context.getString(R.string.before_1day),
-        context.getString(R.string.before_2day),
+        context.getString(TaskMateStrings.NotRemind),
+        context.getString(TaskMateStrings.Before1Day),
+        context.getString(TaskMateStrings.Before2Day),
     )
 
     Scaffold(
         topBar = {
             PopBackTaskMateAppBar(
-                title = { Text(text = context.getString(R.string.add_task), color = MaterialTheme.colorScheme.secondary) },
+                title = { Text(text = context.getString(TaskMateStrings.AddTask), color = MaterialTheme.colorScheme.secondary) },
                 popBackScreen = popBackStack,
                 modifier = Modifier,
             )
@@ -83,7 +84,7 @@ fun AddTaskScreen(popBackStack: () -> Unit) {
                 OutlinedTextField(
                     value = title,
                     onValueChange = { title = it },
-                    label = { Text(context.getString(R.string.task_name)) },
+                    label = { Text(context.getString(TaskMateStrings.TaskName)) },
                     modifier = Modifier.fillMaxWidth(),
                 )
 
@@ -91,7 +92,7 @@ fun AddTaskScreen(popBackStack: () -> Unit) {
                 OutlinedTextField(
                     value = destination,
                     onValueChange = { destination = it },
-                    label = { Text(context.getString(R.string.task_place)) },
+                    label = { Text(context.getString(TaskMateStrings.TaskPlace)) },
                     modifier = Modifier.fillMaxWidth(),
                 )
 
@@ -103,7 +104,7 @@ fun AddTaskScreen(popBackStack: () -> Unit) {
                     OutlinedTextField(
                         value = deadlineDate,
                         onValueChange = { deadlineDate = it },
-                        label = { Text(context.getString(R.string.deadline_date)) },
+                        label = { Text(context.getString(TaskMateStrings.DeadlineDate)) },
                         modifier = Modifier
                             .weight(1f)
                             .padding(end = 8.dp),
@@ -120,7 +121,7 @@ fun AddTaskScreen(popBackStack: () -> Unit) {
                     OutlinedTextField(
                         value = deadlineTime,
                         onValueChange = { deadlineTime = it },
-                        label = { Text(context.getString(R.string.deadline_time)) },
+                        label = { Text(context.getString(TaskMateStrings.DeadlineTime)) },
                         modifier = Modifier
                             .weight(1f)
                             .padding(start = 8.dp),
@@ -129,7 +130,7 @@ fun AddTaskScreen(popBackStack: () -> Unit) {
                             IconButton(onClick = {
                                 showTimePicker = true
                             }) {
-                                Icon(painter = painterResource(id = R.drawable.clock), contentDescription = "時計")
+                                Icon(painter = painterResource(id = TaskMateIcons.Clock), contentDescription = "時計")
                             }
                         },
                     )
@@ -143,7 +144,7 @@ fun AddTaskScreen(popBackStack: () -> Unit) {
                     OutlinedTextField(
                         value = selectedText,
                         onValueChange = {},
-                        label = { Text(context.getString(R.string.remind)) },
+                        label = { Text(context.getString(TaskMateStrings.Remind)) },
                         readOnly = true,
                         trailingIcon = {
                             IconButton(onClick = { expanded = !expanded }) {
@@ -170,27 +171,27 @@ fun AddTaskScreen(popBackStack: () -> Unit) {
                     }
                 }
 
-                Text(context.getString(R.string.publication_range))
+                Text(context.getString(TaskMateStrings.PublicationRange))
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceEvenly,
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         RadioButton(
-                            selected = visibility == context.getString(R.string.task_public),
-                            onClick = { visibility = context.getString(R.string.task_public) },
+                            selected = visibility == context.getString(TaskMateStrings.TaskPublic),
+                            onClick = { visibility = context.getString(TaskMateStrings.TaskPublic) },
                         )
-                        Text(context.getString(R.string.task_public))
+                        Text(context.getString(TaskMateStrings.TaskPublic))
                     }
 
                     Spacer(modifier = Modifier.width(16.dp))
 
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         RadioButton(
-                            selected = visibility == context.getString(R.string.task_private),
-                            onClick = { visibility = context.getString(R.string.task_private) },
+                            selected = visibility == context.getString(TaskMateStrings.TaskPrivate),
+                            onClick = { visibility = context.getString(TaskMateStrings.TaskPrivate) },
                         )
-                        Text(context.getString(R.string.task_private))
+                        Text(context.getString(TaskMateStrings.TaskPrivate))
                     }
                 }
 
@@ -200,7 +201,7 @@ fun AddTaskScreen(popBackStack: () -> Unit) {
                     },
                     modifier = Modifier.align(Alignment.End),
                 ) {
-                    Text(text = context.getString(R.string.add_task))
+                    Text(text = context.getString(TaskMateStrings.AddTask))
                 }
             }
         }

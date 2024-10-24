@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.core.model.Tag
 import com.example.core.ui.taskmateComponents.TaskMateAlertDialog
+import com.example.core.ui.taskmateComponents.icon.TaskMateIcons
 import com.example.feature.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -91,7 +92,7 @@ fun EditTagCardModal(
                             )
                             IconButton(onClick = { showDeleteConfirm.value = true }) {
                                 Icon(
-                                    painter = painterResource(id = R.drawable.setting),
+                                    painter = painterResource(id = TaskMateIcons.Setting),
                                     contentDescription = "削除",
                                     tint = MaterialTheme.colorScheme.secondary,
                                 )

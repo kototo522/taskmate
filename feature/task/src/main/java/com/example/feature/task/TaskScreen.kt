@@ -17,8 +17,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.core.model.Task
+import com.example.core.model.string.TaskMateStrings
 import com.example.core.ui.taskmateComponents.appBar.MainTaskMateAppBar
-import com.example.feature.R
 import com.example.feature.task.components.TaskCard
 
 @Composable
@@ -49,7 +49,7 @@ fun TaskScreen(
                     containerColor = MaterialTheme.colorScheme.primary,
                     elevation = FloatingActionButtonDefaults.elevation(8.dp),
                 ) {
-                    Text(text = context.getString(R.string.add_icon), fontSize = 24.sp)
+                    Text(text = context.getString(TaskMateStrings.AddTask), fontSize = 24.sp)
                 }
             }
         },

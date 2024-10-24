@@ -19,6 +19,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.core.model.TaskMateSubject
+import com.example.core.ui.taskmateComponents.icon.TaskMateIcons
 import com.example.feature.R
 
 @Composable
@@ -41,7 +42,7 @@ fun SubjectCard(subject: TaskMateSubject, onClick: () -> Unit) {
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Icon(
-                painter = painterResource(id = R.drawable.book),
+                painter = painterResource(id = TaskMateIcons.Bock),
                 contentDescription = null,
                 tint = subject.color,
                 modifier = Modifier.size(24.dp),

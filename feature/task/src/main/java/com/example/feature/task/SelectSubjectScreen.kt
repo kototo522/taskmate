@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.example.core.model.TaskMateSubject
+import com.example.core.model.string.TaskMateStrings
 import com.example.core.ui.taskmateComponents.appBar.PopBackTaskMateAppBar
 import com.example.feature.R
 import com.example.feature.task.components.SubjectCard
@@ -33,7 +34,7 @@ fun SelectSubjectScreen(
     Scaffold(
         topBar = {
             PopBackTaskMateAppBar(
-                title = { Text(context.getString(R.string.add_task), color = MaterialTheme.colorScheme.secondary) },
+                title = { Text(context.getString(TaskMateStrings.AddIcon), color = MaterialTheme.colorScheme.secondary) },
                 popBackScreen = popBackStack,
                 modifier = Modifier,
             )
