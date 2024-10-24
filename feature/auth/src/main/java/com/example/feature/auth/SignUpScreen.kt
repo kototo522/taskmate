@@ -22,19 +22,22 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.core.ui.taskmateComponents.appBar.PopBackTaskMateAppBar
-import com.google.firebase.auth.FirebaseAuth
-import androidx.compose.ui.Modifier
 
 @Composable
-fun SignUpScreen(popBackStack: () -> Unit) {
+fun SignUpScreen(
+    popBackStack: () -> Unit,
+    viewModel: SignUpViewModel = viewModel()
+) {
     var username by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    val auth = FirebaseAuth.getInstance()
+    var errorMessage by remember { mutableStateOf("") }
 
     Scaffold(
         topBar = {
@@ -89,18 +92,24 @@ fun SignUpScreen(popBackStack: () -> Unit) {
                     visualTransformation = PasswordVisualTransformation(),
                 )
 
+                if (errorMessage.isNotEmpty()) {
+                    Text(text = errorMessage, color = MaterialTheme.colorScheme.error)
+                }
+
                 Spacer(modifier = Modifier.height(24.dp))
 
                 Button(
                     onClick = {
-                        auth.createUserWithEmailAndPassword(email, password)
-                            .addOnCompleteListener { task ->
-                                if (task.isSuccessful) {
-                                    println("サインアップ成功: $username, $email")
-                                } else {
-                                    println("サインアップ失敗: ${task.exception?.message}")
-                                }
+                        viewModel.signUp(email, password, username,
+                            onSuccess = {
+                                errorMessage = ""
+                                println("サインアップ成功: $username, $email")
+                            },
+                            onFailure = { error ->
+                                errorMessage = error
+                                println("サインアップ失敗: $error")
                             }
+                        )
                     },
                     modifier = Modifier
                         .fillMaxWidth()

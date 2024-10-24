@@ -1,6 +1,5 @@
 package com.example.feature.auth
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -27,17 +26,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.core.ui.taskmateComponents.appBar.PopBackTaskMateAppBar
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 
 @Composable
-fun LoginScreen(popBackStack: () -> Unit) {
+fun LoginScreen(
+    popBackStack: () -> Unit,
+    viewModel: AuthViewModel = viewModel()
+) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var errorMessage by remember { mutableStateOf("") }
-    val auth: FirebaseAuth = Firebase.auth
 
     Scaffold(
         topBar = {
@@ -94,15 +93,16 @@ fun LoginScreen(popBackStack: () -> Unit) {
 
                 Button(
                     onClick = {
-                        auth.signInWithEmailAndPassword(email, password)
-                            .addOnCompleteListener { task ->
-                                if (task.isSuccessful) {
-                                    Log.d("LoginScreen", "ログイン成功")
-                                } else {
-                                    Log.w("LoginScreen", "ログイン失敗", task.exception)
-                                    errorMessage = "ログインに失敗しました。再度お試しください。"
-                                }
+                        viewModel.login(email, password,
+                            onSuccess = {
+                                errorMessage = ""
+                                println("ログイン成功")
+                            },
+                            onFailure = { error ->
+                                errorMessage = error
+                                println("ログイン失敗")
                             }
+                        )
                     },
                     modifier = Modifier
                         .fillMaxWidth()
