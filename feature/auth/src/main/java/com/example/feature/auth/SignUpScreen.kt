@@ -26,20 +26,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.core.ui.taskmateComponents.appBar.PopBackTaskMateAppBar
 
 @Composable
-fun SignUpScreen(popBackStack: () -> Unit) {
+fun SignUpScreen(
+    navToHomeScreen: () -> Unit,
+    popBackStack: () -> Unit,
+    viewModel: SignUpViewModel = viewModel(),
+) {
     var username by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var errorMessage by remember { mutableStateOf("") }
 
     Scaffold(
         topBar = {
             PopBackTaskMateAppBar(
                 title = { Text("サインアップ", color = MaterialTheme.colorScheme.secondary) },
                 popBackScreen = popBackStack,
-                modifier = Modifier,
             )
         },
     ) { innerPadding ->
@@ -88,11 +93,28 @@ fun SignUpScreen(popBackStack: () -> Unit) {
                     visualTransformation = PasswordVisualTransformation(),
                 )
 
+                if (errorMessage.isNotEmpty()) {
+                    Text(text = errorMessage, color = MaterialTheme.colorScheme.error)
+                }
+
                 Spacer(modifier = Modifier.height(24.dp))
 
                 Button(
                     onClick = {
-                        println("登録: $username, $email, $password")
+                        viewModel.signUp(
+                            email,
+                            password,
+                            username,
+                            onSuccess = {
+                                errorMessage = ""
+                                println("サインアップ成功: $username, $email")
+                                navToHomeScreen()
+                            },
+                            onFailure = { error ->
+                                errorMessage = error
+                                println("サインアップ失敗: $error")
+                            },
+                        )
                     },
                     modifier = Modifier
                         .fillMaxWidth()

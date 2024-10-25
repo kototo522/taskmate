@@ -26,12 +26,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.core.ui.taskmateComponents.appBar.PopBackTaskMateAppBar
 
 @Composable
-fun LoginScreen(popBackStack: () -> Unit) {
+fun LoginScreen(
+    navToHomeScreen: () -> Unit,
+    popBackStack: () -> Unit,
+    viewModel: LoginViewModel = viewModel(),
+) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var errorMessage by remember { mutableStateOf("") }
 
     Scaffold(
         topBar = {
@@ -80,10 +86,28 @@ fun LoginScreen(popBackStack: () -> Unit) {
                     visualTransformation = PasswordVisualTransformation(),
                 )
 
+                if (errorMessage.isNotEmpty()) {
+                    Text(text = errorMessage, color = MaterialTheme.colorScheme.error)
+                }
+
                 Spacer(modifier = Modifier.height(24.dp))
 
                 Button(
-                    onClick = { println("ログイン: $email, $password") },
+                    onClick = {
+                        viewModel.login(
+                            email,
+                            password,
+                            onSuccess = {
+                                errorMessage = ""
+                                println("ログイン成功")
+                                navToHomeScreen()
+                            },
+                            onFailure = { error ->
+                                errorMessage = error
+                                println("ログイン失敗")
+                            },
+                        )
+                    },
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(56.dp),
