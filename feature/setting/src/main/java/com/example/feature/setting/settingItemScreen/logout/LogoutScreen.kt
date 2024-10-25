@@ -1,5 +1,6 @@
 package com.example.feature.setting.settingItemScreen.logout
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -7,6 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -18,11 +20,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.example.core.model.string.TaskMateStrings
 import com.example.core.ui.taskmateComponents.appBar.PopBackTaskMateAppBar
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
 fun LogoutScreen(
-    onLogoutConfirmed: () -> Unit = {},
-    popBackStack: () -> Unit
+    popBackStack: () -> Unit,
+    logoutViewModel: LogoutViewModel = viewModel()
 ) {
     val context = LocalContext.current
 
@@ -52,12 +55,17 @@ fun LogoutScreen(
             Row {
                 Button(
                     onClick = popBackStack,
-                    modifier = Modifier.padding(end = 8.dp)
+                    modifier = Modifier.padding(end = 8.dp),
                 ) {
                     Text(context.getString(TaskMateStrings.Cansel))
                 }
                 Button(
-                    onClick = onLogoutConfirmed
+                    onClick = {
+                        logoutViewModel.logout(
+                            onLogoutSuccess = { popBackStack() },
+                            onLogoutFailure = { e -> Log.e("logoutError", e.toString()) }
+                        )
+                    },
                 ) {
                     Text(context.getString(TaskMateStrings.Logout))
                 }
