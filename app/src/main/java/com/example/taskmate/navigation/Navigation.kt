@@ -84,7 +84,6 @@ fun Navigation(modifier: Modifier) {
                     settingNavGraph(settingNavigation)
                 }
 
-
                 composable(route = BottomNavBarItems.Home.route) {
                     if (isUserAuthenticated) {
                         HomeScreen(navToSettingScreen)

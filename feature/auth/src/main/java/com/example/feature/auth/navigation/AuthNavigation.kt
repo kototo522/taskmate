@@ -12,7 +12,6 @@ import com.example.feature.auth.FirstAuthScreen
 import com.example.feature.auth.LoginScreen
 import com.example.feature.auth.SignUpScreen
 
-
 fun NavGraphBuilder.authNavGraph(
     authController: AuthNavigation,
 ) {
@@ -23,7 +22,7 @@ fun NavGraphBuilder.authNavGraph(
 
     navigation(
         startDestination = FIRST_AUTH_ROUTE,
-        route = AUTH_GRAPH_ROUTE ,
+        route = AUTH_GRAPH_ROUTE,
     ) {
         composable(FIRST_AUTH_ROUTE) {
             FirstAuthScreen(navToLoginScreen, navToSignUpScreen)
