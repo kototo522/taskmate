@@ -9,7 +9,7 @@ import com.example.core.model.navigation.SettingNavigation.Companion.LOGOUT_ROUT
 import com.example.core.model.navigation.SettingNavigation.Companion.SETTING_GRAPH_ROUTE
 import com.example.core.model.navigation.SettingNavigation.Companion.SETTING_ROUTE
 import com.example.feature.setting.SettingScreen
-import com.example.feature.setting.settingItemScreen.CreateGroup
+import com.example.feature.setting.settingItemScreen.createGroup.CreateGroup
 import com.example.feature.setting.settingItemScreen.logout.LogoutScreen
 
 fun NavGraphBuilder.settingNavGraph(

@@ -1,4 +1,4 @@
-package com.example.feature.setting.settingItemScreen
+package com.example.feature.setting.settingItemScreen.createGroup
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -23,11 +23,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.core.ui.taskmateComponents.appBar.PopBackTaskMateAppBar
 
 @Composable
-fun CreateGroup(popBackStack: () -> Unit, modifier: Modifier = Modifier) {
-    var groupname by remember { mutableStateOf("") }
+fun CreateGroup(
+    popBackStack: () -> Unit,
+    createGroupViewModel: CreateGroupViewModel = viewModel(),
+    modifier: Modifier = Modifier
+) {
+    var groupName by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
     Scaffold(
@@ -59,8 +64,8 @@ fun CreateGroup(popBackStack: () -> Unit, modifier: Modifier = Modifier) {
                 )
 
                 OutlinedTextField(
-                    value = groupname,
-                    onValueChange = { groupname = it },
+                    value = groupName,
+                    onValueChange = { groupName = it },
                     label = { Text("グループ名") },
                     modifier = Modifier.fillMaxWidth(),
                 )
@@ -77,7 +82,10 @@ fun CreateGroup(popBackStack: () -> Unit, modifier: Modifier = Modifier) {
 
                 Button(
                     onClick = {
-                        println("登録: $groupname, $password")
+                        createGroupViewModel.createGroup(
+                            onSuccess = { popBackStack() },
+                            onFailure = { e -> println("Error: $e") }
+                        )
                     },
                     modifier = Modifier
                         .fillMaxWidth()
