@@ -8,7 +8,9 @@ class TaskNavigation(private val navController: NavController)
 
 class MyPageNavigation(private val navController: NavController)
 
-class SettingNavigation(private val navController: NavController)
+class SettingNavigation(private val navController: NavController) {
+    val popBackStack: () -> Unit = { navController.popBackStack() }
+}
 
 class AuthNavigation(private val navController: NavController) {
     val navToHomeScreen: () -> Unit = { navController.navigate(BottomNavBarItems.Home.route) }

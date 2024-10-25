@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.example.core.model.SettingItem
+import com.example.core.model.string.TaskMateStrings
 import com.example.core.ui.taskmateComponents.appBar.PopBackTaskMateAppBar
 import com.example.core.ui.taskmateComponents.icon.TaskMateIcons
 import com.example.feature.setting.componets.SettingCard
@@ -29,7 +30,7 @@ fun SettingScreen(popBackStack: () -> Unit) {
     Scaffold(
         topBar = {
             PopBackTaskMateAppBar(
-                title = { Text(context.getString(TaskMateIcons.Setting), color = MaterialTheme.colorScheme.secondary) },
+                title = { Text(text = context.getString(TaskMateStrings.Setting), color = MaterialTheme.colorScheme.secondary) },
                 popBackScreen = popBackStack,
                 modifier = Modifier,
             )

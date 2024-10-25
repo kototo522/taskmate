@@ -3,6 +3,7 @@ package com.example.core.model.string
 import com.example.data.R
 
 object TaskMateStrings {
+    val Setting = R.string.setting
     val AddIcon = R.string.add_icon
     val AddTask = R.string.add_task
     val TaskName = R.string.task_name
