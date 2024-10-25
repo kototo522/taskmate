@@ -94,17 +94,19 @@ fun LoginScreen(
 
                 Button(
                     onClick = {
-                        viewModel.login(email, password,
-                            onSuccess = {
-                                errorMessage = ""
-                                println("ログイン成功")
-                                navToHomeScreen
-                            },
-                            onFailure = { error ->
-                                errorMessage = error
-                                println("ログイン失敗")
-                            }
-                        )
+                        //TODO:　navTOHomeができたら消す
+                        navToHomeScreen
+//                        viewModel.login(email, password,
+//                            onSuccess = {
+//                                errorMessage = ""
+//                                println("ログイン成功")
+//                                navToHomeScreen
+//                            },
+//                            onFailure = { error ->
+//                                errorMessage = error
+//                                println("ログイン失敗")
+//                            }
+//                        )
                     },
                     modifier = Modifier
                         .fillMaxWidth()
