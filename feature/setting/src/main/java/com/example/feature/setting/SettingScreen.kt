@@ -12,17 +12,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.example.core.model.SettingItem
+import com.example.core.model.navigation.SettingNavigation
 import com.example.core.model.string.TaskMateStrings
 import com.example.core.ui.taskmateComponents.appBar.PopBackTaskMateAppBar
 import com.example.core.ui.taskmateComponents.icon.TaskMateIcons
 import com.example.feature.setting.componets.SettingCard
 
 @Composable
-fun SettingScreen(popBackStack: () -> Unit) {
+fun SettingScreen(
+    settingNavigation: SettingNavigation,
+    popBackStack: () -> Unit
+) {
     val context = LocalContext.current
 
     val settingsItems = listOf(
-        SettingItem(title = "Apps", subTitle = "Assistant, recent apps, default apps", icon = TaskMateIcons.Setting),
+        SettingItem(title = "ログアウト", icon = TaskMateIcons.Setting, onClick = settingNavigation.navToLogoutScreen),
         SettingItem(title = "Notifications", subTitle = "Notification history, conversations", icon = TaskMateIcons.Setting),
         SettingItem(title = "Battery", subTitle = "100%", icon = TaskMateIcons.Setting),
     )

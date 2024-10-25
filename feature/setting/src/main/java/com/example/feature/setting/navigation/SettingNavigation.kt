@@ -18,14 +18,14 @@ fun NavGraphBuilder.settingNavGraph(
     val popBackStack: () -> Unit = { settingController.popBackStack() }
 
     navigation(
-        startDestination = LOGOUT_ROUTE,
+        startDestination = SETTING_ROUTE,
         route = SETTING_GRAPH_ROUTE,
     ) {
         composable(route = SETTING_ROUTE) {
-            SettingScreen(popBackStack)
+            SettingScreen(settingController, popBackStack)
         }
         composable(route = LOGOUT_ROUTE) {
-            LogoutScreen(popBackStack = popBackStack)
+            LogoutScreen(popBackStack)
         }
         composable(route = CREATE_GROUP_ROUTE) {
             CreateGroup(popBackStack = popBackStack)
