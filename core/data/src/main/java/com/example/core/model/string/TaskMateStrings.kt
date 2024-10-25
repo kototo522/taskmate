@@ -17,4 +17,7 @@ object TaskMateStrings {
     val PublicationRange = R.string.publication_range
     val TaskPublic = R.string.task_public
     val TaskPrivate = R.string.task_private
+    val Logout = R.string.logout
+    val IsLogout = R.string.is_logout
+    val Cansel = R.string.cansel
 }

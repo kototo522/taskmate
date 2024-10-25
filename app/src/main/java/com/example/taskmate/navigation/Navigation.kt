@@ -17,14 +17,14 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.core.model.TaskMateSubject
+import com.example.core.model.navigation.AuthNavigation.Companion.AUTH_GRAPH_ROUTE
 import com.example.core.model.navigation.BottomNavBarItems
+import com.example.core.model.navigation.SettingNavigation.Companion.SETTING_GRAPH_ROUTE
 import com.example.core.ui.taskmateComponents.BottomNavBar
-import com.example.feature.auth.navigation.AUTH_GRAPH_ROUTE
 import com.example.feature.auth.navigation.authNavGraph
 import com.example.feature.home.HomeScreen
 import com.example.feature.mypage.MyPageScreen
 import com.example.feature.setting.navigation.settingNavGraph
-import com.example.feature.setting.settingItemScreen.CreateGroup
 import com.example.feature.task.AddTaskScreen
 import com.example.feature.task.SelectSubjectScreen
 import com.example.feature.task.TaskScreen
@@ -53,14 +53,16 @@ fun Navigation(modifier: Modifier) {
         BottomNavBarItems.Task,
         BottomNavBarItems.MyPage,
     )
+
+    val settingNavigation = navController.setting()
+    val authNavigation = navController.auth()
+
     val navStackBackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navStackBackEntry?.destination?.route
-    val navToSettingScreen = { navController.navigate("SettingScreen") }
+    val navToSettingScreen = { navController.navigate(SETTING_GRAPH_ROUTE) }
     val navToSelectSubjectScreen = { navController.navigate("SelectSubjectScreen") }
     val navToAddTaskScreen: (TaskMateSubject) -> Unit = { navController.navigate("AddTaskScreen") }
     val popBackStack: () -> Unit = { navController.popBackStack() }
-    val settingNavigation = navController.setting()
-    val authNavigation = navController.auth()
 
     Scaffold(
         bottomBar = {

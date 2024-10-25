@@ -12,7 +12,8 @@ class SettingNavigation(private val navController: NavController) {
     companion object {
         const val SETTING_GRAPH_ROUTE = "SettingGraph"
         const val SETTING_ROUTE = "SettingScreen"
-        const val CREATE_GROUP__ROUTE = "CreateGroup"
+        const val CREATE_GROUP_ROUTE = "CreateGroup"
+        const val LOGOUT_ROUTE = "LogOut"
     }
     val popBackStack: () -> Unit = { navController.popBackStack() }
 }
