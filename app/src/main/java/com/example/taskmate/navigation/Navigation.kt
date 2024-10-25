@@ -17,17 +17,17 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.core.model.TaskMateSubject
+import com.example.core.model.navigation.AuthNavigation.Companion.AUTH_GRAPH_ROUTE
 import com.example.core.model.navigation.BottomNavBarItems
+import com.example.core.model.navigation.SettingNavigation.Companion.SETTING_GRAPH_ROUTE
 import com.example.core.ui.taskmateComponents.BottomNavBar
-import com.example.feature.auth.navigation.AUTH_GRAPH_ROUTE
 import com.example.feature.auth.navigation.authNavGraph
 import com.example.feature.home.HomeScreen
 import com.example.feature.mypage.MyPageScreen
-import com.example.feature.setting.SettingScreen
+import com.example.feature.setting.navigation.settingNavGraph
 import com.example.feature.task.AddTaskScreen
 import com.example.feature.task.SelectSubjectScreen
 import com.example.feature.task.TaskScreen
-import com.example.taskmate.ui.setting.settingItemScreen.CreateGroup
 import com.google.firebase.auth.FirebaseAuth
 
 @Composable
@@ -53,13 +53,16 @@ fun Navigation(modifier: Modifier) {
         BottomNavBarItems.Task,
         BottomNavBarItems.MyPage,
     )
+
+    val settingNavigation = navController.setting()
+    val authNavigation = navController.auth()
+
     val navStackBackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navStackBackEntry?.destination?.route
-    val navToSettingScreen = { navController.navigate("SettingScreen") }
+    val navToSettingScreen = { navController.navigate(SETTING_GRAPH_ROUTE) }
     val navToSelectSubjectScreen = { navController.navigate("SelectSubjectScreen") }
     val navToAddTaskScreen: (TaskMateSubject) -> Unit = { navController.navigate("AddTaskScreen") }
     val popBackStack: () -> Unit = { navController.popBackStack() }
-    val authNavigation = navController.auth()
 
     Scaffold(
         bottomBar = {
@@ -77,6 +80,10 @@ fun Navigation(modifier: Modifier) {
             ) {
                 authNavGraph(authNavigation)
 
+                if (isUserAuthenticated) {
+                    settingNavGraph(settingNavigation)
+                }
+
                 composable(route = BottomNavBarItems.Home.route) {
                     if (isUserAuthenticated) {
                         HomeScreen(navToSettingScreen)
@@ -92,11 +99,6 @@ fun Navigation(modifier: Modifier) {
                         MyPageScreen(navToSettingScreen)
                     }
                 }
-                composable(route = "SettingScreen") {
-                    if (isUserAuthenticated) {
-                        SettingScreen(popBackStack)
-                    }
-                }
                 composable(route = "SelectSubjectScreen") {
                     if (isUserAuthenticated) {
                         SelectSubjectScreen(navToAddTaskScreen, popBackStack)
@@ -105,11 +107,6 @@ fun Navigation(modifier: Modifier) {
                 composable(route = "AddTaskScreen") {
                     if (isUserAuthenticated) {
                         AddTaskScreen(popBackStack = popBackStack)
-                    }
-                }
-                composable(route = "CreateGroup") {
-                    if (isUserAuthenticated) {
-                        CreateGroup(popBackStack = popBackStack)
                     }
                 }
             }

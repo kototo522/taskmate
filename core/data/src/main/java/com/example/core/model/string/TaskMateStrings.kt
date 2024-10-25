@@ -3,6 +3,7 @@ package com.example.core.model.string
 import com.example.data.R
 
 object TaskMateStrings {
+    val Setting = R.string.setting
     val AddIcon = R.string.add_icon
     val AddTask = R.string.add_task
     val TaskName = R.string.task_name
@@ -16,4 +17,7 @@ object TaskMateStrings {
     val PublicationRange = R.string.publication_range
     val TaskPublic = R.string.task_public
     val TaskPrivate = R.string.task_private
+    val Logout = R.string.logout
+    val IsLogout = R.string.is_logout
+    val Cansel = R.string.cansel
 }

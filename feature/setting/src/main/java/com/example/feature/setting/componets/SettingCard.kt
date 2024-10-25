@@ -27,7 +27,7 @@ fun SettingCard(item: SettingItem) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp)
-            .clickable { item.onClick }
+            .clickable { item.onClick() }
             .background(color = MaterialTheme.colorScheme.background, RoundedCornerShape(10.dp))
             .padding(8.dp),
         verticalAlignment = Alignment.CenterVertically,

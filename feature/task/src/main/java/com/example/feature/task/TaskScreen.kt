@@ -49,7 +49,7 @@ fun TaskScreen(
                     containerColor = MaterialTheme.colorScheme.primary,
                     elevation = FloatingActionButtonDefaults.elevation(8.dp),
                 ) {
-                    Text(text = context.getString(TaskMateStrings.AddTask), fontSize = 24.sp)
+                    Text(text = context.getString(TaskMateStrings.AddIcon), fontSize = 24.sp)
                 }
             }
         },

@@ -15,4 +15,8 @@
     <string name="publication_range">公開範囲</string>
     <string name="task_public">公開</string>
     <string name="task_private">非公開</string>
+    <string name="logout">ログアウト</string>
+    <string name="is_logout">ログアウトしますか？</string>
+    <string name="cansel">キャンセル</string>
+
 </resources>

@@ -55,6 +55,7 @@ dependencies {
     implementation(libs.material)
     implementation(project(":core:data"))
     implementation(project(":core:ui"))
+    implementation(libs.firebase.auth.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
