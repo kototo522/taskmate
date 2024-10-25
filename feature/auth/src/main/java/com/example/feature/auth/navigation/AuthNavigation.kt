@@ -13,7 +13,7 @@ internal const val FIRST_AUTH_ROUTE = "FirstAuthScreen"
 internal const val LOGIN_ROUTE = "LoginScreen"
 internal const val SIGNUP_ROUTE = "SignUpScreen"
 fun NavGraphBuilder.authNavGraph(
-    authController: AuthNavigation
+    authController: AuthNavigation,
 ) {
     val navToHomeScreen: () -> Unit = { authController.navToHomeScreen }
     val navToLoginScreen: () -> Unit = authController.navToLoginScreen
@@ -22,7 +22,7 @@ fun NavGraphBuilder.authNavGraph(
 
     navigation(
         startDestination = FIRST_AUTH_ROUTE,
-        route = AUTH_GRAPH_ROUTE
+        route = AUTH_GRAPH_ROUTE,
     ) {
         composable(FIRST_AUTH_ROUTE) {
             FirstAuthScreen(navToLoginScreen, navToSignUpScreen)

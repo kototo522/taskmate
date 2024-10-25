@@ -33,7 +33,7 @@ import com.example.core.ui.taskmateComponents.appBar.PopBackTaskMateAppBar
 fun SignUpScreen(
     navToHomeScreen: () -> Unit,
     popBackStack: () -> Unit,
-    viewModel: SignUpViewModel = viewModel()
+    viewModel: SignUpViewModel = viewModel(),
 ) {
     var username by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
@@ -101,7 +101,10 @@ fun SignUpScreen(
 
                 Button(
                     onClick = {
-                        viewModel.signUp(email, password, username,
+                        viewModel.signUp(
+                            email,
+                            password,
+                            username,
                             onSuccess = {
                                 errorMessage = ""
                                 println("サインアップ成功: $username, $email")
@@ -110,7 +113,7 @@ fun SignUpScreen(
                             onFailure = { error ->
                                 errorMessage = error
                                 println("サインアップ失敗: $error")
-                            }
+                            },
                         )
                     },
                     modifier = Modifier

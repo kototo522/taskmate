@@ -7,7 +7,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import kotlinx.coroutines.launch
 
-class AuthViewModel : ViewModel() {
+class LoginViewModel : ViewModel() {
 
     private val auth: FirebaseAuth = Firebase.auth
 

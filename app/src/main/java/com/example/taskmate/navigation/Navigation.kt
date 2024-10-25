@@ -66,14 +66,14 @@ fun Navigation(modifier: Modifier) {
             if (isUserAuthenticated) {
                 BottomNavBar(screenItems = screenItems, currentRoute = currentRoute, navController = navController)
             }
-        }
+        },
     ) {
         Box(modifier = modifier.padding(it)) {
             NavHost(
                 navController = navController,
                 startDestination = if (isUserAuthenticated) BottomNavBarItems.Home.route else AUTH_GRAPH_ROUTE,
                 enterTransition = { EnterTransition.None },
-                exitTransition = { ExitTransition.None }
+                exitTransition = { ExitTransition.None },
             ) {
                 authNavGraph(authNavigation)
 
