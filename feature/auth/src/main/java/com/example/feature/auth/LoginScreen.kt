@@ -35,6 +35,7 @@ fun LoginScreen(
     popBackStack: () -> Unit,
     viewModel: AuthViewModel = viewModel()
 ) {
+
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var errorMessage by remember { mutableStateOf("") }
@@ -94,19 +95,17 @@ fun LoginScreen(
 
                 Button(
                     onClick = {
-                        //TODO:　navTOHomeができたら消す
-                        navToHomeScreen
-//                        viewModel.login(email, password,
-//                            onSuccess = {
-//                                errorMessage = ""
-//                                println("ログイン成功")
-//                                navToHomeScreen
-//                            },
-//                            onFailure = { error ->
-//                                errorMessage = error
-//                                println("ログイン失敗")
-//                            }
-//                        )
+                        viewModel.login(email, password,
+                            onSuccess = {
+                                errorMessage = ""
+                                println("ログイン成功")
+                                navToHomeScreen()
+                            },
+                            onFailure = { error ->
+                                errorMessage = error
+                                println("ログイン失敗")
+                            }
+                        )
                     },
                     modifier = Modifier
                         .fillMaxWidth()

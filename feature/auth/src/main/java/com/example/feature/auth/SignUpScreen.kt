@@ -105,7 +105,7 @@ fun SignUpScreen(
                             onSuccess = {
                                 errorMessage = ""
                                 println("サインアップ成功: $username, $email")
-                                navToHomeScreen
+                                navToHomeScreen()
                             },
                             onFailure = { error ->
                                 errorMessage = error

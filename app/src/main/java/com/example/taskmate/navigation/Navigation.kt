@@ -6,7 +6,11 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -29,6 +33,21 @@ import com.google.firebase.auth.FirebaseAuth
 @Composable
 fun Navigation(modifier: Modifier) {
     val navController = rememberNavController()
+    val auth = FirebaseAuth.getInstance()
+
+    var isUserAuthenticated by remember { mutableStateOf(auth.currentUser != null) }
+
+    DisposableEffect(Unit) {
+        val authStateListener = FirebaseAuth.AuthStateListener { auth ->
+            isUserAuthenticated = auth.currentUser != null
+        }
+        auth.addAuthStateListener(authStateListener)
+
+        onDispose {
+            auth.removeAuthStateListener(authStateListener)
+        }
+    }
+
     val screenItems = listOf(
         BottomNavBarItems.Home,
         BottomNavBarItems.Task,
@@ -42,9 +61,6 @@ fun Navigation(modifier: Modifier) {
     val popBackStack: () -> Unit = { navController.popBackStack() }
     val authNavigation = navController.auth()
 
-    val auth = FirebaseAuth.getInstance()
-    val isUserAuthenticated = auth.currentUser != null
-
     Scaffold(
         bottomBar = {
             if (isUserAuthenticated) {
@@ -52,7 +68,7 @@ fun Navigation(modifier: Modifier) {
             }
         }
     ) {
-        Box(modifier = Modifier.padding(it)) {
+        Box(modifier = modifier.padding(it)) {
             NavHost(
                 navController = navController,
                 startDestination = if (isUserAuthenticated) BottomNavBarItems.Home.route else AUTH_GRAPH_ROUTE,
