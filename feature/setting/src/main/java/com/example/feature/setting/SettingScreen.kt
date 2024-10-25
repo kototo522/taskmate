@@ -21,7 +21,7 @@ import com.example.feature.setting.componets.SettingCard
 @Composable
 fun SettingScreen(
     settingNavigation: SettingNavigation,
-    popBackStack: () -> Unit
+    popBackStack: () -> Unit,
 ) {
     val context = LocalContext.current
 
