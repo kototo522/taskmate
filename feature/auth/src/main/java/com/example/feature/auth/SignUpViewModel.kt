@@ -1,5 +1,6 @@
 package com.example.feature.auth
 
+import androidx.compose.ui.text.LinkAnnotation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
@@ -64,7 +65,7 @@ class SignUpViewModel : ViewModel() {
         userId: String,
         userName: String,
         email: String,
-        iconUrl: String?,
+        iconUrl: LinkAnnotation.Url?,
         groupId: List<String?>,
         pastGroupId: List<String?>,
         onSuccess: () -> Unit,

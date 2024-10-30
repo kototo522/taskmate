@@ -38,6 +38,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.ui.graphics.android)
     implementation(libs.androidx.navigation.runtime.ktx)
+    implementation(libs.androidx.ui.text.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

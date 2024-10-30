@@ -1,5 +1,11 @@
 package com.example.feature.mypage
 
+import android.content.Intent
+import android.net.Uri
+import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
@@ -11,14 +17,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -29,12 +34,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import coil3.compose.AsyncImage
 import com.example.core.model.Tag
 import com.example.core.model.TaskMateGroup
 import com.example.core.model.TaskMateUser
@@ -51,6 +59,7 @@ fun MyPageScreen(
     navToSettingScreen: () -> Unit,
     user: TaskMateUser?,
     groups: List<TaskMateGroup>,
+    viewModel: MyPageViewModel = viewModel(),
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -65,6 +74,35 @@ fun MyPageScreen(
             group.groupName
         }
     } ?: emptyList()
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia(),
+        onResult = { uri ->
+            if (uri != null && user != null) {
+                try {
+                    // URI パーミッションの永続化
+                    context.contentResolver.takePersistableUriPermission(
+                        uri,
+                        Intent.FLAG_GRANT_READ_URI_PERMISSION
+                    )
+                } catch (e: SecurityException) {
+                    Log.e("MyPage", "URI パーミッションの永続化に失敗しました: ${e.message}")
+                }
+
+                viewModel.changeIcon(
+                    userId = user.userId,
+                    imageUrl = uri,
+                    onSuccess = {
+                        Log.d("MyPage", "アイコンが正常に更新されました。")
+                    },
+                    onFailure = { error ->
+                        Log.e("MyPage", "エラー: $error")
+                    },
+                )
+            }
+        }
+    )
+
+
 
     val tags = listOf(
         Tag("タグ1", Color(0xFF42A5F5)),
@@ -100,28 +138,35 @@ fun MyPageScreen(
                         modifier = Modifier
                             .size(140.dp),
                     ) {
+                        Column {
+                            Spacer(modifier = Modifier.height(20.dp))
+
+                            user?.iconUrl?.let { Log.e("uri", it)}
+                            AsyncImage(
+                                model = user?.iconUrl?.let { Uri.parse(it) } ?: TaskMateIcons.Account,
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .size(120.dp)
+                                    .clip(CircleShape), // 丸くする
+                                contentScale = ContentScale.Crop,
+                            )
+                        }
                         Text(
                             text = context.getString(TaskMateStrings.AddIcon),
                             fontSize = 38.sp,
                             modifier = Modifier
-                                .padding(8.dp)
+                                .padding(top = 8.dp)
                                 .clickable(
                                     indication = rememberRipple(
-                                        radius = 20.dp, // リップル半径
-                                        bounded = false, // 範囲をビューに制限しない（丸く広がる）
+                                        radius = 20.dp,
+                                        bounded = false,
                                     ),
                                     interactionSource = remember { MutableInteractionSource() },
-                                ) {},
-                        )
-                        Icon(
-                            painter = painterResource(id = TaskMateIcons.Account),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .height(140.dp)
-                                .width(140.dp),
+                                ) {
+                                    launcher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+                                },
                         )
                     }
-                    Spacer(modifier = Modifier.height(40.dp))
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.fillMaxWidth(),
@@ -153,7 +198,7 @@ fun MyPageScreen(
                                 .padding(4.dp)
                                 .weight(5f),
                         )
-                        // ボタンのリップルがズレるためBoxでかこむ
+                        // ボタンのリップルがズレるためBoxで囲む
                         Box(
                             contentAlignment = Alignment.Center,
                             modifier = Modifier
@@ -165,8 +210,8 @@ fun MyPageScreen(
                                 fontSize = 24.sp,
                                 modifier = Modifier.clickable(
                                     indication = rememberRipple(
-                                        radius = 20.dp, // リップル半径
-                                        bounded = false, // 範囲をビューに制限しない（丸く広がる）
+                                        radius = 20.dp,
+                                        bounded = false,
                                     ),
                                     interactionSource = remember { MutableInteractionSource() },
                                 ) {
