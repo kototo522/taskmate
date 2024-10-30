@@ -12,7 +12,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.core.model.Tag
 
 @Composable
 fun TagCard(groupName: String) {
@@ -23,7 +22,7 @@ fun TagCard(groupName: String) {
             .wrapContentSize(),
     ) {
         Text(
-            text = "#${groupName}",
+            text = "#$groupName",
             fontWeight = FontWeight(500),
             fontSize = 20.sp,
             style = MaterialTheme.typography.bodyLarge,
