@@ -5,7 +5,6 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.launch
 
 class CreateGroupViewModel : ViewModel() {

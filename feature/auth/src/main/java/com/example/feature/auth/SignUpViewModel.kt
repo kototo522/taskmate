@@ -2,9 +2,9 @@ package com.example.feature.auth
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.launch
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.launch
 import java.util.Date
 
 class SignUpViewModel : ViewModel() {
@@ -17,7 +17,7 @@ class SignUpViewModel : ViewModel() {
         password: String,
         userName: String,
         onSuccess: () -> Unit,
-        onFailure: (String) -> Unit
+        onFailure: (String) -> Unit,
     ) {
         viewModelScope.launch {
             auth.createUserWithEmailAndPassword(email, password)
@@ -30,7 +30,7 @@ class SignUpViewModel : ViewModel() {
                                 userName = userName,
                                 email = email,
                                 onSuccess = onSuccess,
-                                onFailure = onFailure
+                                onFailure = onFailure,
                             )
                         }
                     } else {
@@ -46,7 +46,7 @@ class SignUpViewModel : ViewModel() {
         userName: String,
         email: String,
         onSuccess: () -> Unit,
-        onFailure: (String) -> Unit
+        onFailure: (String) -> Unit,
     ) {
         saveToFirestore(
             userId = userId,
@@ -56,7 +56,7 @@ class SignUpViewModel : ViewModel() {
             groupsID = null,
             pastGroupID = null,
             onSuccess = onSuccess,
-            onFailure = onFailure
+            onFailure = onFailure,
         )
     }
 
@@ -68,16 +68,17 @@ class SignUpViewModel : ViewModel() {
         groupsID: String?,
         pastGroupID: String?,
         onSuccess: () -> Unit,
-        onFailure: (String) -> Unit
+        onFailure: (String) -> Unit,
     ) {
         val userData = mapOf(
+            "userId" to userId,
             "userName" to userName,
             "email" to email,
             "createdAt" to Date(),
             "lastUpdatedAt" to Date(),
             "iconUrl" to iconUrl,
             "groupsID" to groupsID,
-            "pastGroupID" to pastGroupID
+            "pastGroupID" to pastGroupID,
         )
 
         firestore.collection("users").document(userId)

@@ -30,7 +30,7 @@ import com.example.core.ui.taskmateComponents.appBar.PopBackTaskMateAppBar
 fun CreateGroup(
     popBackStack: () -> Unit,
     createGroupViewModel: CreateGroupViewModel = viewModel(),
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     var groupName by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -84,7 +84,7 @@ fun CreateGroup(
                     onClick = {
                         createGroupViewModel.createGroup(
                             onSuccess = { popBackStack() },
-                            onFailure = { e -> println("Error: $e") }
+                            onFailure = { e -> println("Error: $e") },
                         )
                     },
                     modifier = Modifier

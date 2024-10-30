@@ -36,6 +36,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.core.model.Tag
+import com.example.core.model.TaskMateUser
 import com.example.core.model.string.TaskMateStrings
 import com.example.core.ui.taskmateComponents.appBar.MainTaskMateAppBar
 import com.example.core.ui.taskmateComponents.icon.TaskMateIcons
@@ -45,7 +46,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyPageScreen(navToSettingScreen: () -> Unit) {
+fun MyPageScreen(navToSettingScreen: () -> Unit, user: TaskMateUser?) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
@@ -118,7 +119,7 @@ fun MyPageScreen(navToSettingScreen: () -> Unit) {
                     }
 
                     Text(
-                        text = "ユーザネーム",
+                        text = user?.userName ?: "ユーザーネーム",
                         fontSize = 28.sp,
                         fontWeight = FontWeight(700),
                         style = MaterialTheme.typography.bodyLarge,
