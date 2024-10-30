@@ -59,21 +59,13 @@ fun MyPageScreen(
     val isSheetOpen = remember { mutableStateOf(false) }
 
     val userGroupIds = user?.groupId
-    Log.e("userGroupIds", userGroupIds?.toString() ?: "userGroupIds is null")
     val userGroups = userGroupIds?.let { ids ->
         groups.filter { group ->
-            Log.e("groupId", group.groupId)
             ids.contains(group.groupId)
         }.map { group ->
             group.groupName
         }
     } ?: emptyList()
-
-    if (userGroups.isNotEmpty()) {
-        Log.e("group", userGroups[0])
-    } else {
-        Log.e("group", "No user groups found.")
-    }
 
     val tags = listOf(
         Tag("タグ1", Color(0xFF42A5F5)),
@@ -93,7 +85,7 @@ fun MyPageScreen(
         ) {
             Card(
                 modifier = Modifier
-                    .padding(40.dp)
+                    .padding(horizontal = 40.dp, vertical = 20.dp)
                     .fillMaxSize(),
                 shape = RoundedCornerShape(16.dp),
                 colors = CardDefaults.cardColors(
@@ -192,7 +184,6 @@ fun MyPageScreen(
                         modifier = Modifier.padding(8.dp),
                     ) {
                         items(userGroups.size) { index ->
-                            Log.e("groups", userGroups[index])
                             TagCard(userGroups[index])
                         }
                     }

@@ -67,10 +67,8 @@ class MainActivity : ComponentActivity() {
             .addOnSuccessListener { groupDocuments ->
                 groups = groupDocuments.map { groupDocument ->
                     val group = groupDocument.toObject(TaskMateGroup::class.java)
-                    Log.d("FetchedGroup", group.toString())
                     group
                 }
-                Log.d("AllGroups", groups.toString())
             }
             .addOnFailureListener { exception ->
                 exception.localizedMessage?.let { Log.e("groupsDBError", it) }
