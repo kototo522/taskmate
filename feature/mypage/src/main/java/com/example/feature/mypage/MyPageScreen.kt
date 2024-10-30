@@ -82,7 +82,7 @@ fun MyPageScreen(
                     // URI パーミッションの永続化
                     context.contentResolver.takePersistableUriPermission(
                         uri,
-                        Intent.FLAG_GRANT_READ_URI_PERMISSION
+                        Intent.FLAG_GRANT_READ_URI_PERMISSION,
                     )
                 } catch (e: SecurityException) {
                     Log.e("MyPage", "URI パーミッションの永続化に失敗しました: ${e.message}")
@@ -99,10 +99,8 @@ fun MyPageScreen(
                     },
                 )
             }
-        }
+        },
     )
-
-
 
     val tags = listOf(
         Tag("タグ1", Color(0xFF42A5F5)),
@@ -141,7 +139,7 @@ fun MyPageScreen(
                         Column {
                             Spacer(modifier = Modifier.height(20.dp))
 
-                            user?.iconUrl?.let { Log.e("uri", it)}
+                            user?.iconUrl?.let { Log.e("uri", it) }
                             AsyncImage(
                                 model = user?.iconUrl?.let { Uri.parse(it) } ?: TaskMateIcons.Account,
                                 contentDescription = null,
