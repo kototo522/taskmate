@@ -16,6 +16,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.core.model.TaskMateGroup
 import com.example.core.model.TaskMateSubject
 import com.example.core.model.TaskMateUser
 import com.example.core.model.navigation.AuthNavigation.Companion.AUTH_GRAPH_ROUTE
@@ -32,7 +33,7 @@ import com.example.feature.task.TaskScreen
 import com.google.firebase.auth.FirebaseAuth
 
 @Composable
-fun Navigation(modifier: Modifier, user: TaskMateUser?) {
+fun Navigation(modifier: Modifier, user: TaskMateUser?, groups: List<TaskMateGroup>) {
     val navController = rememberNavController()
     val auth = FirebaseAuth.getInstance()
     var isUserAuthenticated by remember { mutableStateOf(auth.currentUser != null) }
@@ -96,7 +97,7 @@ fun Navigation(modifier: Modifier, user: TaskMateUser?) {
                 }
                 composable(route = BottomNavBarItems.MyPage.route) {
                     if (isUserAuthenticated) {
-                        MyPageScreen(navToSettingScreen, user)
+                        MyPageScreen(navToSettingScreen, user, groups)
                     }
                 }
                 composable(route = "SelectSubjectScreen") {

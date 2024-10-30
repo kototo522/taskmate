@@ -13,6 +13,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import com.example.core.model.TaskMateGroup
 import com.example.core.model.TaskMateUser
 import com.example.taskmate.navigation.Navigation
 import com.example.taskmate.ui.theme.TaskmateTheme
@@ -24,38 +25,55 @@ class MainActivity : ComponentActivity() {
     private val auth = FirebaseAuth.getInstance()
     private var users by mutableStateOf<List<TaskMateUser>>(emptyList())
     private var user by mutableStateOf<TaskMateUser?>(null)
+    private var groups by mutableStateOf<List<TaskMateGroup>>(emptyList())
     private var isUserAuthenticated by mutableStateOf(auth.currentUser != null)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            // Firestoreからユーザデータを取得
-            LaunchedEffect(isUserAuthenticated) {
-                if (isUserAuthenticated) {
-                    db.collection("users")
-                        .whereEqualTo("userId", auth.currentUser?.uid)
-                        .get()
-                        .addOnSuccessListener { documents ->
-                            users = documents.map { document ->
-                                document.toObject(TaskMateUser::class.java)
-                            }
-                            // 現在のユーザーを取得
-                            user = users.find { it.userId == auth.currentUser?.uid }
-                            if (user == null) {
-                                Log.e("user", "User not found")
-                            }
-                        }
-                        .addOnFailureListener { exception ->
-                            exception.localizedMessage?.let { Log.e("dbError", it) }
-                        }
-                }
-            }
             TaskmateTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Navigation(modifier = Modifier.padding(innerPadding), user = user)
+                    Navigation(modifier = Modifier.padding(innerPadding), user = user, groups = groups)
                 }
             }
+            // Firestoreからユーザデータを取得
+            LaunchedEffect(isUserAuthenticated, users, groups) {
+                db.collection("users")
+                    .whereEqualTo("userId", auth.currentUser?.uid)
+                    .get()
+                    .addOnSuccessListener { documents ->
+                        users = documents.map { document ->
+                            document.toObject(TaskMateUser::class.java)
+                        }
+                        // 現在のユーザーを取得
+                        user = users.find { it.userId == auth.currentUser?.uid }
+                        if (user == null) {
+                            Log.e("user", "User not found")
+                        } else {
+                            fetchAllGroups()
+                        }
+                    }
+                    .addOnFailureListener { exception ->
+                        exception.localizedMessage?.let { Log.e("UsersDBError", it) }
+                    }
+            }
         }
+    }
+
+    private fun fetchAllGroups() {
+        db.collection("groups")
+            .get()
+            .addOnSuccessListener { groupDocuments ->
+                groups = groupDocuments.map { groupDocument ->
+                    val group = groupDocument.toObject(TaskMateGroup::class.java)
+                    Log.d("FetchedGroup", group.toString())
+                    group
+                }
+                Log.d("AllGroups", groups.toString())
+            }
+            .addOnFailureListener { exception ->
+                exception.localizedMessage?.let { Log.e("groupsDBError", it) }
+            }
     }
 }

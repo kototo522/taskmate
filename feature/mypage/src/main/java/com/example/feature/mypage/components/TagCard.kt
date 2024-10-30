@@ -8,21 +8,22 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.core.model.Tag
 
 @Composable
-fun TagCard(tag: Tag) {
+fun TagCard(groupName: String) {
     Card(
-        colors = CardDefaults.cardColors(containerColor = tag.color.copy(alpha = 0.7f)),
+        colors = CardDefaults.cardColors(containerColor = Color(0xFF42A5F5).copy(alpha = 0.7f)),
         modifier = Modifier
             .padding(horizontal = 12.dp)
             .wrapContentSize(),
     ) {
         Text(
-            text = "#${tag.name}",
+            text = "#${groupName}",
             fontWeight = FontWeight(500),
             fontSize = 20.sp,
             style = MaterialTheme.typography.bodyLarge,

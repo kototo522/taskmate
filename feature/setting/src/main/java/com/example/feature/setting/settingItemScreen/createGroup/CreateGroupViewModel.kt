@@ -57,7 +57,7 @@ class CreateGroupViewModel : ViewModel() {
     ) {
         firestore.collection("users").document(userId)
             .update(
-                "groupsID", FieldValue.arrayUnion(groupId), // groupsIDリストに追加
+                "groupID", FieldValue.arrayUnion(groupId), // groupsIDリストに追加
                 "pastGroupID", FieldValue.arrayUnion(groupId) // pastGroupIDリストにも追加
             )
             .addOnSuccessListener { onSuccess() }

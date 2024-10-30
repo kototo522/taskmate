@@ -1,5 +1,6 @@
 package com.example.feature.mypage
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
@@ -36,6 +37,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.core.model.Tag
+import com.example.core.model.TaskMateGroup
 import com.example.core.model.TaskMateUser
 import com.example.core.model.string.TaskMateStrings
 import com.example.core.ui.taskmateComponents.appBar.MainTaskMateAppBar
@@ -46,11 +48,33 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyPageScreen(navToSettingScreen: () -> Unit, user: TaskMateUser?) {
+fun MyPageScreen(
+    navToSettingScreen: () -> Unit,
+    user: TaskMateUser?,
+    groups: List<TaskMateGroup>,
+) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val isSheetOpen = remember { mutableStateOf(false) }
+
+    val userGroupIds = user?.groupID
+    Log.e("userGroupIds", userGroupIds?.toString() ?: "userGroupIds is null")
+    val userGroups = userGroupIds?.let { ids ->
+        groups.filter { group ->
+            Log.e("groupID", group.groupID)
+            ids.contains(group.groupID)
+        }.map { group ->
+            group.groupName
+        }
+    } ?: emptyList()
+
+    if (userGroups.isNotEmpty()) {
+        Log.e("group", userGroups[0])
+    } else {
+        Log.e("group", "No user groups found.")
+    }
+
     val tags = listOf(
         Tag("タグ1", Color(0xFF42A5F5)),
         Tag("タグ2", Color(0xFF66BB6A)),
@@ -167,8 +191,9 @@ fun MyPageScreen(navToSettingScreen: () -> Unit, user: TaskMateUser?) {
                     LazyRow(
                         modifier = Modifier.padding(8.dp),
                     ) {
-                        items(tags.size) { tag ->
-                            TagCard(tags[tag])
+                        items(userGroups.size) { index ->
+                            Log.e("groups", userGroups[index])
+                            TagCard(userGroups[index])
                         }
                     }
                 }
