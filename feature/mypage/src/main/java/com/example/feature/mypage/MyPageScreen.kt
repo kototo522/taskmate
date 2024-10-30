@@ -58,12 +58,12 @@ fun MyPageScreen(
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val isSheetOpen = remember { mutableStateOf(false) }
 
-    val userGroupIds = user?.groupID
+    val userGroupIds = user?.groupId
     Log.e("userGroupIds", userGroupIds?.toString() ?: "userGroupIds is null")
     val userGroups = userGroupIds?.let { ids ->
         groups.filter { group ->
-            Log.e("groupID", group.groupID)
-            ids.contains(group.groupID)
+            Log.e("groupId", group.groupId)
+            ids.contains(group.groupId)
         }.map { group ->
             group.groupName
         }

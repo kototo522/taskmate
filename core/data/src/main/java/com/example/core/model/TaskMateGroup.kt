@@ -3,10 +3,10 @@ package com.example.core.model
 import java.util.Date
 
 data class TaskMateGroup(
-    val groupID: String,
+    val groupId: String,
     val groupName: String,
     val password: String,
-    val createUserID: String,
+    val createUserId: String,
     val createdAt: Date,
     val lastUpdatedAt: Date,
 ) {

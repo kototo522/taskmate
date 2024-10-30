@@ -25,10 +25,10 @@ class CreateGroupViewModel : ViewModel() {
             try {
                 val groupId = firestore.collection("groups").document().id // グループIDを生成
                 val groupData = mapOf(
-                    "groupID" to groupId,
+                    "groupId" to groupId,
                     "groupName" to groupName,
                     "password" to password,
-                    "createUserID" to createUserId,
+                    "createUserId" to createUserId,
                     "createdAt" to Date(),
                     "lastUpdatedAt" to Date(),
                 )
@@ -57,8 +57,8 @@ class CreateGroupViewModel : ViewModel() {
     ) {
         firestore.collection("users").document(userId)
             .update(
-                "groupID", FieldValue.arrayUnion(groupId), // groupsIDリストに追加
-                "pastGroupID", FieldValue.arrayUnion(groupId) // pastGroupIDリストにも追加
+                "groupId", FieldValue.arrayUnion(groupId), // groupsIDリストに追加
+                "pastGroupId", FieldValue.arrayUnion(groupId) // pastGroupIDリストにも追加
             )
             .addOnSuccessListener { onSuccess() }
             .addOnFailureListener { exception ->

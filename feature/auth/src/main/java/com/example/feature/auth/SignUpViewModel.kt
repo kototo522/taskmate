@@ -53,8 +53,8 @@ class SignUpViewModel : ViewModel() {
             userName = userName,
             email = email,
             iconUrl = null,
-            groupID = emptyList(),
-            pastGroupID = emptyList(),
+            groupId = emptyList(),
+            pastGroupId = emptyList(),
             onSuccess = onSuccess,
             onFailure = onFailure,
         )
@@ -65,8 +65,8 @@ class SignUpViewModel : ViewModel() {
         userName: String,
         email: String,
         iconUrl: String?,
-        groupID: List<String?>,
-        pastGroupID: List<String?>,
+        groupId: List<String?>,
+        pastGroupId: List<String?>,
         onSuccess: () -> Unit,
         onFailure: (String) -> Unit,
     ) {
@@ -77,8 +77,8 @@ class SignUpViewModel : ViewModel() {
             "createdAt" to Date(),
             "lastUpdatedAt" to Date(),
             "iconUrl" to iconUrl,
-            "groupID" to groupID,
-            "pastGroupID" to pastGroupID,
+            "groupId" to groupId,
+            "pastGroupId" to pastGroupId,
         )
 
         firestore.collection("users").document(userId)
