@@ -16,7 +16,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.core.model.TaskMateGroup
 import com.example.core.model.TaskMateSubject
+import com.example.core.model.TaskMateUser
 import com.example.core.model.navigation.AuthNavigation.Companion.AUTH_GRAPH_ROUTE
 import com.example.core.model.navigation.BottomNavBarItems
 import com.example.core.model.navigation.SettingNavigation.Companion.SETTING_GRAPH_ROUTE
@@ -31,18 +33,17 @@ import com.example.feature.task.TaskScreen
 import com.google.firebase.auth.FirebaseAuth
 
 @Composable
-fun Navigation(modifier: Modifier) {
+fun Navigation(modifier: Modifier, user: TaskMateUser?, groups: List<TaskMateGroup>) {
     val navController = rememberNavController()
     val auth = FirebaseAuth.getInstance()
-
     var isUserAuthenticated by remember { mutableStateOf(auth.currentUser != null) }
 
+    // ユーザ情報があるか確認
     DisposableEffect(Unit) {
         val authStateListener = FirebaseAuth.AuthStateListener { auth ->
             isUserAuthenticated = auth.currentUser != null
         }
         auth.addAuthStateListener(authStateListener)
-
         onDispose {
             auth.removeAuthStateListener(authStateListener)
         }
@@ -81,7 +82,7 @@ fun Navigation(modifier: Modifier) {
                 authNavGraph(authNavigation)
 
                 if (isUserAuthenticated) {
-                    settingNavGraph(settingNavigation)
+                    settingNavGraph(settingNavigation, user)
                 }
 
                 composable(route = BottomNavBarItems.Home.route) {
@@ -96,7 +97,7 @@ fun Navigation(modifier: Modifier) {
                 }
                 composable(route = BottomNavBarItems.MyPage.route) {
                     if (isUserAuthenticated) {
-                        MyPageScreen(navToSettingScreen)
+                        MyPageScreen(navToSettingScreen, user, groups)
                     }
                 }
                 composable(route = "SelectSubjectScreen") {

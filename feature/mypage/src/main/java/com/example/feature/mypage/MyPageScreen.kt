@@ -36,6 +36,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.core.model.Tag
+import com.example.core.model.TaskMateGroup
+import com.example.core.model.TaskMateUser
 import com.example.core.model.string.TaskMateStrings
 import com.example.core.ui.taskmateComponents.appBar.MainTaskMateAppBar
 import com.example.core.ui.taskmateComponents.icon.TaskMateIcons
@@ -45,11 +47,25 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyPageScreen(navToSettingScreen: () -> Unit) {
+fun MyPageScreen(
+    navToSettingScreen: () -> Unit,
+    user: TaskMateUser?,
+    groups: List<TaskMateGroup>,
+) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val isSheetOpen = remember { mutableStateOf(false) }
+
+    val userGroupIds = user?.groupId
+    val userGroups = userGroupIds?.let { ids ->
+        groups.filter { group ->
+            ids.contains(group.groupId)
+        }.map { group ->
+            group.groupName
+        }
+    } ?: emptyList()
+
     val tags = listOf(
         Tag("タグ1", Color(0xFF42A5F5)),
         Tag("タグ2", Color(0xFF66BB6A)),
@@ -68,7 +84,7 @@ fun MyPageScreen(navToSettingScreen: () -> Unit) {
         ) {
             Card(
                 modifier = Modifier
-                    .padding(40.dp)
+                    .padding(horizontal = 40.dp, vertical = 20.dp)
                     .fillMaxSize(),
                 shape = RoundedCornerShape(16.dp),
                 colors = CardDefaults.cardColors(
@@ -118,7 +134,7 @@ fun MyPageScreen(navToSettingScreen: () -> Unit) {
                     }
 
                     Text(
-                        text = "ユーザネーム",
+                        text = user?.userName ?: "ユーザーネーム",
                         fontSize = 28.sp,
                         fontWeight = FontWeight(700),
                         style = MaterialTheme.typography.bodyLarge,
@@ -166,8 +182,8 @@ fun MyPageScreen(navToSettingScreen: () -> Unit) {
                     LazyRow(
                         modifier = Modifier.padding(8.dp),
                     ) {
-                        items(tags.size) { tag ->
-                            TagCard(tags[tag])
+                        items(userGroups.size) { index ->
+                            TagCard(userGroups[index])
                         }
                     }
                 }

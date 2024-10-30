@@ -1,4 +1,4 @@
-package com.example.feature.setting.settingItemScreen
+package com.example.feature.setting.settingItemScreen.createGroup
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -15,21 +15,20 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.core.ui.taskmateComponents.appBar.PopBackTaskMateAppBar
 
 @Composable
-fun CreateGroup(popBackStack: () -> Unit, modifier: Modifier = Modifier) {
-    var groupname by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-
+fun CreateGroup(
+    popBackStack: () -> Unit,
+    createUserId: String,
+    createGroupViewModel: CreateGroupViewModel = viewModel(),
+    modifier: Modifier = Modifier,
+) {
     Scaffold(
         topBar = {
             PopBackTaskMateAppBar(
@@ -59,15 +58,15 @@ fun CreateGroup(popBackStack: () -> Unit, modifier: Modifier = Modifier) {
                 )
 
                 OutlinedTextField(
-                    value = groupname,
-                    onValueChange = { groupname = it },
+                    value = createGroupViewModel.groupName,
+                    onValueChange = { createGroupViewModel.groupName = it },
                     label = { Text("グループ名") },
                     modifier = Modifier.fillMaxWidth(),
                 )
 
                 OutlinedTextField(
-                    value = password,
-                    onValueChange = { password = it },
+                    value = createGroupViewModel.password,
+                    onValueChange = { createGroupViewModel.password = it },
                     label = { Text("公開パスワード") },
                     modifier = Modifier.fillMaxWidth(),
                     visualTransformation = PasswordVisualTransformation(),
@@ -77,7 +76,11 @@ fun CreateGroup(popBackStack: () -> Unit, modifier: Modifier = Modifier) {
 
                 Button(
                     onClick = {
-                        println("登録: $groupname, $password")
+                        createGroupViewModel.createGroup(
+                            createUserId = createUserId,
+                            onSuccess = { popBackStack() },
+                            onFailure = { e -> println("Error: $e") },
+                        )
                     },
                     modifier = Modifier
                         .fillMaxWidth()

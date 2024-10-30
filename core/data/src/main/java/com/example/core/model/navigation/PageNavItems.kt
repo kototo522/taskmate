@@ -16,6 +16,7 @@ class SettingNavigation(private val navController: NavController) {
         const val CREATE_GROUP_ROUTE = "CreateGroup"
         const val LOGOUT_ROUTE = "LogOut"
     }
+    val navToCreateGroupScreen: () -> Unit = { navController.navigate(CREATE_GROUP_ROUTE) }
     val navToLogoutScreen: () -> Unit = { navController.navigate(LOGOUT_ROUTE) }
     val popBackStack: () -> Unit = { navController.popBackStack() }
 }
