@@ -81,7 +81,7 @@ fun Navigation(modifier: Modifier, user: TaskMateUser?) {
                 authNavGraph(authNavigation)
 
                 if (isUserAuthenticated) {
-                    settingNavGraph(settingNavigation)
+                    settingNavGraph(settingNavigation, user)
                 }
 
                 composable(route = BottomNavBarItems.Home.route) {

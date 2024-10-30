@@ -3,6 +3,7 @@ package com.example.feature.setting.navigation
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import com.example.core.model.TaskMateUser
 import com.example.core.model.navigation.SettingNavigation
 import com.example.core.model.navigation.SettingNavigation.Companion.CREATE_GROUP_ROUTE
 import com.example.core.model.navigation.SettingNavigation.Companion.LOGOUT_ROUTE
@@ -14,6 +15,7 @@ import com.example.feature.setting.settingItemScreen.logout.LogoutScreen
 
 fun NavGraphBuilder.settingNavGraph(
     settingController: SettingNavigation,
+    user: TaskMateUser?,
 ) {
     val popBackStack: () -> Unit = { settingController.popBackStack() }
 
@@ -28,7 +30,9 @@ fun NavGraphBuilder.settingNavGraph(
             LogoutScreen(popBackStack)
         }
         composable(route = CREATE_GROUP_ROUTE) {
-            CreateGroup(popBackStack = popBackStack)
+            if (user != null) {
+                CreateGroup(popBackStack = popBackStack, createUserId = user.userId)
+            }
         }
     }
 }

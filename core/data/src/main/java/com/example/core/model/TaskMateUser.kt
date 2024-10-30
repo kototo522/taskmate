@@ -5,8 +5,8 @@ data class TaskMateUser(
     val userName: String = "ユーザーネーム",
     val email: String = "sample@gmail.com",
     val iconUrl: String? = null,
-    val groupsID: String? = null,
-    val pastGroupID: String? = null,
+    val groupID: List<String?> = emptyList(),
+    val pastGroupID: List<String?> = emptyList(),
 ) {
-    constructor() : this("", "ユーザーネーム", "sample@gmail.com", null, null, null)
+    constructor() : this("", "ユーザーネーム", "sample@gmail.com", null, emptyList(), emptyList())
 }

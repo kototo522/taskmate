@@ -1,40 +1,69 @@
 package com.example.feature.setting.settingItemScreen.createGroup
+
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
+import java.util.Date
 
 class CreateGroupViewModel : ViewModel() {
+    private val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
+    private var errorMessage: String = ""
     var groupName by mutableStateOf("")
-        private set
-
     var password by mutableStateOf("")
-        private set
 
-    private val firestore = FirebaseFirestore.getInstance()
-
-    fun createGroup(onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+    fun createGroup(
+        createUserId: String,
+        onSuccess: () -> Unit,
+        onFailure: (String) -> Unit,
+    ) {
         viewModelScope.launch {
             try {
-                // TODO: 保存するデータの型と数を後々決める
-//                // Firestoreに保存するデータ
-//                val groupData = hashMapOf(
-//                    "groupName" to groupName,
-//                    "password" to password
-//                )
-//
-//                // コレクション名 "groups" にドキュメントを追加
-//                firestore.collection("groups")
-//                    .add(groupData)
-//                    .await()
-//
-//                onSuccess()
+                val groupId = firestore.collection("groups").document().id // グループIDを生成
+                val groupData = mapOf(
+                    "groupID" to groupId,
+                    "groupName" to groupName,
+                    "password" to password,
+                    "createUserID" to createUserId,
+                    "createdAt" to Date(),
+                    "lastUpdatedAt" to Date(),
+                )
+
+                firestore.collection("groups").document(groupId)
+                    .set(groupData)
+                    .addOnSuccessListener {
+                        updateUserGroup(createUserId, groupId, onSuccess, onFailure)
+                        onSuccess()
+                    }
+                    .addOnFailureListener { exception ->
+                        errorMessage = exception.message ?: "グループ作成に失敗しました。"
+                        onFailure(errorMessage)
+                    }
             } catch (e: Exception) {
-                onFailure(e)
+                onFailure(e.message ?: "不明なエラーが発生しました。")
             }
         }
+    }
+
+    private fun updateUserGroup(
+        userId: String,
+        groupId: String,
+        onSuccess: () -> Unit,
+        onFailure: (String) -> Unit,
+    ) {
+        firestore.collection("users").document(userId)
+            .update(
+                "groupsID", FieldValue.arrayUnion(groupId), // groupsIDリストに追加
+                "pastGroupID", FieldValue.arrayUnion(groupId) // pastGroupIDリストにも追加
+            )
+            .addOnSuccessListener { onSuccess() }
+            .addOnFailureListener { exception ->
+                errorMessage = exception.message ?: "ユーザー情報の更新に失敗しました。"
+                onFailure(errorMessage)
+            }
     }
 }

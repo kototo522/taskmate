@@ -53,8 +53,8 @@ class SignUpViewModel : ViewModel() {
             userName = userName,
             email = email,
             iconUrl = null,
-            groupsID = null,
-            pastGroupID = null,
+            groupID = emptyList(),
+            pastGroupID = emptyList(),
             onSuccess = onSuccess,
             onFailure = onFailure,
         )
@@ -65,8 +65,8 @@ class SignUpViewModel : ViewModel() {
         userName: String,
         email: String,
         iconUrl: String?,
-        groupsID: String?,
-        pastGroupID: String?,
+        groupID: List<String?>,
+        pastGroupID: List<String?>,
         onSuccess: () -> Unit,
         onFailure: (String) -> Unit,
     ) {
@@ -77,7 +77,7 @@ class SignUpViewModel : ViewModel() {
             "createdAt" to Date(),
             "lastUpdatedAt" to Date(),
             "iconUrl" to iconUrl,
-            "groupsID" to groupsID,
+            "groupID" to groupID,
             "pastGroupID" to pastGroupID,
         )
 
