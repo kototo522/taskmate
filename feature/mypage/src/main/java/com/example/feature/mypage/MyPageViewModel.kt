@@ -37,7 +37,7 @@ class MyPageViewModel : ViewModel() {
         groupIds: List<TaskMateGroup>,
         onSuccess: () -> Unit,
         onFailure: (String) -> Unit,
-    ){
+    ) { // ここにスペースを追加
         viewModelScope.launch {
             try {
                 firestore.collection("users").document(userId)

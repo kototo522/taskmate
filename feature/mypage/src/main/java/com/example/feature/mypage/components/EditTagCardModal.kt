@@ -31,7 +31,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.core.model.Tag
 import com.example.core.model.TaskMateGroup
 import com.example.core.ui.taskmateComponents.TaskMateAlertDialog
 import com.example.core.ui.taskmateComponents.icon.TaskMateIcons
@@ -46,7 +45,7 @@ fun EditTagCardModal(
     scope: CoroutineScope,
     sheetState: SheetState,
     isSheetOpen: MutableState<Boolean>,
-    onSave: (List<TaskMateGroup>) -> Unit
+    onSave: (List<TaskMateGroup>) -> Unit,
 ) {
     // 各グループのチェック状態を追跡するリスト
     val checkedGroups = remember { mutableStateOf(pastGroup.map { it to false }.toMap()) }

@@ -258,9 +258,9 @@ fun MyPageScreen(
                         userId = user?.userId ?: "",
                         groupIds = selectedGroupIds,
                         onSuccess = { Log.d("MyPage", "グループ情報が正常に更新されました。") },
-                        onFailure = { error -> Log.e("MyPage", "エラー: $error") }
+                        onFailure = { error -> Log.e("MyPage", "エラー: $error") },
                     )
-                }
+                },
             )
         }
     }
