@@ -48,6 +48,7 @@ import com.example.core.model.TaskMateUser
 import com.example.core.model.string.TaskMateStrings
 import com.example.core.ui.taskmateComponents.appBar.MainTaskMateAppBar
 import com.example.core.ui.taskmateComponents.icon.TaskMateIcons
+import com.example.feature.mypage.components.DetailGroupModal
 import com.example.feature.mypage.components.EditTagCardModal
 import com.example.feature.mypage.components.TagCard
 import kotlinx.coroutines.launch
@@ -63,10 +64,12 @@ fun MyPageScreen(
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-    val isSheetOpen = remember { mutableStateOf(false) }
+    val isEditGroupSheetOpen = remember { mutableStateOf(false) }
+    val isDetailSheetOpen = remember { mutableStateOf(false) }
 
     val userGroupIds = remember { mutableStateOf(user?.groupId.orEmpty()) }
     val userPastGroupIds = remember { mutableStateOf(user?.pastGroupId.orEmpty()) }
+    val selectedGroup = remember { mutableStateOf<TaskMateGroup?>(null) }
 
     val userGroups = remember(userGroupIds.value) {
         derivedStateOf {
@@ -227,7 +230,7 @@ fun MyPageScreen(
                                     interactionSource = remember { MutableInteractionSource() },
                                 ) {
                                     scope.launch {
-                                        isSheetOpen.value = true
+                                        isEditGroupSheetOpen.value = true
                                         sheetState.show()
                                     }
                                 },
@@ -239,20 +242,23 @@ fun MyPageScreen(
                         modifier = Modifier.padding(8.dp),
                     ) {
                         items(userGroups.value.size) { index ->
-                            TagCard(userGroups.value[index].groupName)
+                            TagCard(userGroups.value[index].groupName) {
+                                isDetailSheetOpen.value = true
+                                selectedGroup.value = userGroups.value[index]
+                            }
                         }
                     }
                 }
             }
         }
 
-        if (isSheetOpen.value) {
+        if (isEditGroupSheetOpen.value) {
             EditTagCardModal(
                 group = userGroups.value,
                 pastGroup = userPastGroups.value,
                 scope = scope,
                 sheetState = sheetState,
-                isSheetOpen = isSheetOpen,
+                isSheetOpen = isEditGroupSheetOpen,
                 onSave = { selectedGroupIds ->
                     viewModel.userGroupUpdate(
                         userId = user?.userId ?: "",
@@ -261,6 +267,14 @@ fun MyPageScreen(
                         onFailure = { error -> Log.e("MyPage", "エラー: $error") },
                     )
                 },
+            )
+        }
+        if (isDetailSheetOpen.value) {
+            DetailGroupModal(
+                group = selectedGroup,
+                scope = scope,
+                sheetState = sheetState,
+                isSheetOpen = isDetailSheetOpen,
             )
         }
     }

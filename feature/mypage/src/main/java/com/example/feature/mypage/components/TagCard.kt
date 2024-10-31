@@ -1,5 +1,6 @@
 package com.example.feature.mypage.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Card
@@ -14,12 +15,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun TagCard(groupName: String) {
+fun TagCard(
+    groupName: String,
+    onTagClick: () -> Unit,
+
+) {
     Card(
         colors = CardDefaults.cardColors(containerColor = Color(0xFF42A5F5).copy(alpha = 0.7f)),
         modifier = Modifier
             .padding(horizontal = 12.dp)
-            .wrapContentSize(),
+            .wrapContentSize()
+            .clickable {
+                onTagClick()
+            },
     ) {
         Text(
             text = "#$groupName",

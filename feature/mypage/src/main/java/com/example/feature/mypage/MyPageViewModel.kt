@@ -6,6 +6,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.core.model.TaskMateGroup
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class MyPageViewModel : ViewModel() {
     private var errorMessage: String = ""
@@ -51,5 +54,10 @@ class MyPageViewModel : ViewModel() {
                 onFailure(e.message ?: "不明なエラーが発生しました。")
             }
         }
+    }
+
+    fun formatDate(date: Date): String {
+        val formatter = SimpleDateFormat("yyyy年MM月dd日 HH:mm", Locale.JAPAN)
+        return formatter.format(date)
     }
 }
