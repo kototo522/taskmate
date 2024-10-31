@@ -1,8 +1,6 @@
 package com.example.feature.mypage
 
 import android.net.Uri
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.core.model.TaskMateGroup

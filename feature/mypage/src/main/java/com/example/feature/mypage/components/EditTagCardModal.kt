@@ -50,7 +50,7 @@ fun EditTagCardModal(
     // 各グループのチェック状態を追跡するリスト
     val checkedGroups = remember {
         mutableStateOf(
-            pastGroup.associateWith { (group.contains(it)) }
+            pastGroup.associateWith { (group.contains(it)) },
         )
     }
     val showDeleteConfirm = remember { mutableStateOf(false) }
