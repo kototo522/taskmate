@@ -29,13 +29,13 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
@@ -43,7 +43,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.AsyncImage
-import com.example.core.model.Tag
 import com.example.core.model.TaskMateGroup
 import com.example.core.model.TaskMateUser
 import com.example.core.model.string.TaskMateStrings
@@ -66,14 +65,33 @@ fun MyPageScreen(
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val isSheetOpen = remember { mutableStateOf(false) }
 
-    val userGroupIds = user?.groupId
-    val userGroups = userGroupIds?.let { ids ->
-        groups.filter { group ->
-            ids.contains(group.groupId)
-        }.map { group ->
-            group.groupName
+    val userGroupIds = remember { mutableStateOf(user?.groupId.orEmpty()) }
+    val userPastGroupIds = remember { mutableStateOf(user?.pastGroupId.orEmpty()) }
+
+    val userGroups = remember(userGroupIds.value) {
+        derivedStateOf {
+            userGroupIds.value.let { ids ->
+                groups.filter { group ->
+                    ids.contains(group.groupId)
+                }.map { group ->
+                    group
+                }
+            }
         }
-    } ?: emptyList()
+    }
+
+    val userPastGroups = remember(userPastGroupIds.value) {
+        derivedStateOf {
+            userPastGroupIds.value.let { ids ->
+                groups.filter { group ->
+                    ids.contains(group.groupId)
+                }.map { group ->
+                    group
+                }
+            }
+        }
+    }
+
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
         onResult = { uri ->
@@ -100,11 +118,6 @@ fun MyPageScreen(
                 )
             }
         },
-    )
-
-    val tags = listOf(
-        Tag("タグ1", Color(0xFF42A5F5)),
-        Tag("タグ2", Color(0xFF66BB6A)),
     )
 
     Scaffold(
@@ -225,15 +238,30 @@ fun MyPageScreen(
                     LazyRow(
                         modifier = Modifier.padding(8.dp),
                     ) {
-                        items(userGroups.size) { index ->
-                            TagCard(userGroups[index])
+                        items(userGroups.value.size) { index ->
+                            TagCard(userGroups.value[index].groupName)
                         }
                     }
                 }
             }
         }
+
         if (isSheetOpen.value) {
-            EditTagCardModal(tags, scope, sheetState, isSheetOpen)
+            EditTagCardModal(
+                group = userGroups.value,
+                pastGroup = userPastGroups.value,
+                scope = scope,
+                sheetState = sheetState,
+                isSheetOpen = isSheetOpen,
+                onSave = { selectedGroupIds ->
+                    viewModel.userGroupUpdate(
+                        userId = user?.userId ?: "",
+                        groupIds = selectedGroupIds,
+                        onSuccess = { Log.d("MyPage", "グループ情報が正常に更新されました。") },
+                        onFailure = { error -> Log.e("MyPage", "エラー: $error") },
+                    )
+                },
+            )
         }
     }
 }

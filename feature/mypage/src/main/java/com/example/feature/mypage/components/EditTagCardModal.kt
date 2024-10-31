@@ -31,7 +31,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.core.model.Tag
+import com.example.core.model.TaskMateGroup
 import com.example.core.ui.taskmateComponents.TaskMateAlertDialog
 import com.example.core.ui.taskmateComponents.icon.TaskMateIcons
 import kotlinx.coroutines.CoroutineScope
@@ -40,12 +40,15 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditTagCardModal(
-    tags: List<Tag>,
+    group: List<TaskMateGroup>,
+    pastGroup: List<TaskMateGroup>,
     scope: CoroutineScope,
     sheetState: SheetState,
     isSheetOpen: MutableState<Boolean>,
+    onSave: (List<TaskMateGroup>) -> Unit,
 ) {
-    var checked by remember { mutableStateOf(true) }
+    // 各グループのチェック状態を追跡するリスト
+    val checkedGroups = remember { mutableStateOf(pastGroup.map { it to false }.toMap()) }
     val showDeleteConfirm = remember { mutableStateOf(false) }
 
     ModalBottomSheet(
@@ -71,7 +74,10 @@ fun EditTagCardModal(
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 LazyColumn {
-                    items(tags.size) { index ->
+                    items(pastGroup.size) { index ->
+                        val groupItem = pastGroup[index]
+                        val isChecked = checkedGroups.value[groupItem] ?: false
+
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -79,12 +85,16 @@ fun EditTagCardModal(
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
                             Checkbox(
-                                checked = checked,
-                                onCheckedChange = { checked = it },
+                                checked = isChecked,
+                                onCheckedChange = { checked ->
+                                    checkedGroups.value = checkedGroups.value.toMutableMap().apply {
+                                        this[groupItem] = checked
+                                    }
+                                },
                                 modifier = Modifier.weight(1f),
                             )
                             Text(
-                                text = tags[index].name,
+                                text = groupItem.groupName,
                                 fontSize = 20.sp,
                                 fontWeight = FontWeight.Bold,
                                 modifier = Modifier.weight(2f),
@@ -121,6 +131,11 @@ fun EditTagCardModal(
                     }
                     Button(
                         onClick = {
+                            val selectedGroups = checkedGroups.value
+                                .filterValues { it }
+                                .keys
+                                .toList()
+                            onSave(selectedGroups)
                             scope.launch {
                                 sheetState.hide()
                                 isSheetOpen.value = false
