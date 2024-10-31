@@ -1,7 +1,6 @@
 package com.example.core.model.navigation
 
 import androidx.navigation.NavController
-import com.example.core.model.navigation.AuthNavigation.Companion.LOGIN_ROUTE
 
 class HomeNavigation(private val navController: NavController)
 
@@ -14,9 +13,11 @@ class SettingNavigation(private val navController: NavController) {
         const val SETTING_GRAPH_ROUTE = "SettingGraph"
         const val SETTING_ROUTE = "SettingScreen"
         const val CREATE_GROUP_ROUTE = "CreateGroup"
+        const val JOIN_GROUP_ROUTE = "JoinGroup"
         const val LOGOUT_ROUTE = "LogOut"
     }
     val navToCreateGroupScreen: () -> Unit = { navController.navigate(CREATE_GROUP_ROUTE) }
+    val navToJoinGroupScreen: () -> Unit = { navController.navigate(JOIN_GROUP_ROUTE) }
     val navToLogoutScreen: () -> Unit = { navController.navigate(LOGOUT_ROUTE) }
     val popBackStack: () -> Unit = { navController.popBackStack() }
 }
