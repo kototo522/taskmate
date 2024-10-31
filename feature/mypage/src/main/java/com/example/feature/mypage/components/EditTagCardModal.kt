@@ -48,7 +48,11 @@ fun EditTagCardModal(
     onSave: (List<TaskMateGroup>) -> Unit,
 ) {
     // 各グループのチェック状態を追跡するリスト
-    val checkedGroups = remember { mutableStateOf(pastGroup.map { it to false }.toMap()) }
+    val checkedGroups = remember {
+        mutableStateOf(
+            pastGroup.associateWith { (group.contains(it)) }
+        )
+    }
     val showDeleteConfirm = remember { mutableStateOf(false) }
 
     ModalBottomSheet(
