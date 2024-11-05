@@ -4,11 +4,15 @@ import androidx.navigation.NavController
 
 class HomeNavigation(private val navController: NavController) {
     companion object {
-        const val HOME_GRAPH_ROUTE = "homeGraph"
+        const val HOME_GRAPH_ROUTE = "HomeGraph"
         const val SUBJECT_LIST_ROUTE = "SubjectList"
+        const val SELECT_GROUP_ROUTE = "SelectGroupList"
         const val SETTING_GRAPH_ROUTE = "SettingGraph"
     }
-    val navToSubjectListScreen: (String) -> Unit = { navController.navigate(SUBJECT_LIST_ROUTE) }
+    val navToSubjectListScreen: (String, String) -> Unit = { clickedClass, dayTime ->
+        navController.navigate("$SUBJECT_LIST_ROUTE/$clickedClass/$dayTime")
+    }
+    val navToSelectGroupScreen: () -> Unit = { navController.navigate(SELECT_GROUP_ROUTE) }
     val navToSettingScreen: () -> Unit = { navController.navigate(SETTING_GRAPH_ROUTE) }
     val popBackStack: () -> Unit = { navController.popBackStack() }
 }

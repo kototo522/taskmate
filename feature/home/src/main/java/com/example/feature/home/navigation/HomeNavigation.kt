@@ -7,8 +7,10 @@ import com.example.core.model.TaskMateUser
 import com.example.core.model.navigation.BottomNavBarItems
 import com.example.core.model.navigation.HomeNavigation
 import com.example.core.model.navigation.HomeNavigation.Companion.HOME_GRAPH_ROUTE
+import com.example.core.model.navigation.HomeNavigation.Companion.SELECT_GROUP_ROUTE
 import com.example.core.model.navigation.HomeNavigation.Companion.SUBJECT_LIST_ROUTE
 import com.example.feature.home.HomeScreen
+import com.example.feature.home.components.SelectGroupScreen
 import com.example.feature.home.components.SubjectListScreen
 
 fun NavGraphBuilder.homeNavGraph(
@@ -18,6 +20,7 @@ fun NavGraphBuilder.homeNavGraph(
     val popBackStack: () -> Unit = { homeController.popBackStack() }
     val navToSettingScreen = homeController.navToSettingScreen
     val navToSubjectListScreen = homeController.navToSubjectListScreen
+    val navToSelectGroupScreen = homeController.navToSelectGroupScreen
 
     navigation(
         startDestination = BottomNavBarItems.Home.route,
@@ -26,8 +29,15 @@ fun NavGraphBuilder.homeNavGraph(
         composable(route = BottomNavBarItems.Home.route) {
             HomeScreen(navToSettingScreen, navToSubjectListScreen)
         }
-        composable(route = SUBJECT_LIST_ROUTE) {
-            SubjectListScreen(className = "", popBackStack)
+
+        composable("$SUBJECT_LIST_ROUTE/{clickedClass}/{dayTime}") { backStackEntry ->
+            val clickedClass = backStackEntry.arguments?.getString("clickedClass")
+            val dayTime = backStackEntry.arguments?.getString("dayTime")
+            SubjectListScreen(dayTime = dayTime, navToSelectGroupScreen, popBackStack)
+        }
+
+        composable(route = SELECT_GROUP_ROUTE) {
+            SelectGroupScreen(popBackStack)
         }
     }
 }
