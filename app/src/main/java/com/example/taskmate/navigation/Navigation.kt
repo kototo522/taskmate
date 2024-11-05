@@ -21,10 +21,11 @@ import com.example.core.model.TaskMateSubject
 import com.example.core.model.TaskMateUser
 import com.example.core.model.navigation.AuthNavigation.Companion.AUTH_GRAPH_ROUTE
 import com.example.core.model.navigation.BottomNavBarItems
+import com.example.core.model.navigation.HomeNavigation.Companion.HOME_GRAPH_ROUTE
 import com.example.core.model.navigation.SettingNavigation.Companion.SETTING_GRAPH_ROUTE
 import com.example.core.ui.taskmateComponents.BottomNavBar
 import com.example.feature.auth.navigation.authNavGraph
-import com.example.feature.home.HomeScreen
+import com.example.feature.home.navigation.homeNavGraph
 import com.example.feature.mypage.MyPageScreen
 import com.example.feature.setting.navigation.settingNavGraph
 import com.example.feature.task.AddTaskScreen
@@ -55,6 +56,7 @@ fun Navigation(modifier: Modifier, user: TaskMateUser?, groups: List<TaskMateGro
         BottomNavBarItems.MyPage,
     )
 
+    val homeNavigation = navController.home()
     val settingNavigation = navController.setting()
     val authNavigation = navController.auth()
 
@@ -75,7 +77,7 @@ fun Navigation(modifier: Modifier, user: TaskMateUser?, groups: List<TaskMateGro
         Box(modifier = modifier.padding(it)) {
             NavHost(
                 navController = navController,
-                startDestination = if (isUserAuthenticated) BottomNavBarItems.Home.route else AUTH_GRAPH_ROUTE,
+                startDestination = if (isUserAuthenticated) HOME_GRAPH_ROUTE else AUTH_GRAPH_ROUTE,
                 enterTransition = { EnterTransition.None },
                 exitTransition = { ExitTransition.None },
             ) {
@@ -83,13 +85,9 @@ fun Navigation(modifier: Modifier, user: TaskMateUser?, groups: List<TaskMateGro
 
                 if (isUserAuthenticated) {
                     settingNavGraph(settingNavigation, user)
+                    homeNavGraph(homeNavigation, user)
                 }
 
-                composable(route = BottomNavBarItems.Home.route) {
-                    if (isUserAuthenticated) {
-                        HomeScreen(navToSettingScreen)
-                    }
-                }
                 composable(route = BottomNavBarItems.Task.route) {
                     if (isUserAuthenticated) {
                         TaskScreen(navToSettingScreen, navToSelectSubjectScreen)

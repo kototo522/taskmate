@@ -17,30 +17,33 @@ import com.example.core.ui.taskmateComponents.appBar.MainTaskMateAppBar
 import com.example.feature.home.components.TimeSchedule
 
 @Composable
-fun HomeScreen(navToSettingScreen: () -> Unit) {
+fun HomeScreen(
+    navToSettingScreen: () -> Unit,
+    navToSubjectListScreen: (String) -> Unit,
+) {
     val dayClassList = listOf("1限", "2限", "3限", "4限")
 
-    val mockClassList =
+    val classList =
         listOf(
             Class(
                 day = "月",
-                classList = listOf("プロマネ", "シス工", "実験", "実験"),
+                classList = listOf("", "", "", ""),
             ),
             Class(
                 day = "火",
-                classList = listOf("英語", "電磁気", "情報理論", ""),
+                classList = listOf("", "", "", ""),
             ),
             Class(
                 day = "水",
-                classList = listOf("制御演習", "数学", "卒研", ""),
+                classList = listOf("", "", "", ""),
             ),
             Class(
                 day = "木",
-                classList = listOf("ネト応", "人文", "卒研", "卒研"),
+                classList = listOf("", "", "", ""),
             ),
             Class(
                 day = "金",
-                classList = listOf("信号処理", "他コース", "制御理論", ""),
+                classList = listOf("", "", "", ""),
             ),
         )
 
@@ -51,7 +54,7 @@ fun HomeScreen(navToSettingScreen: () -> Unit) {
     ) { innerPadding ->
         Column(modifier = Modifier.fillMaxSize().padding(innerPadding), horizontalAlignment = Alignment.CenterHorizontally) {
             Text(text = "グループ名", fontSize = 18.sp, fontWeight = FontWeight(600), style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(20.dp))
-            TimeSchedule(dayClassList, mockClassList) // 　時間割
+            TimeSchedule(dayClassList, classList, navToSubjectListScreen) // 　時間割
         }
     }
 }
