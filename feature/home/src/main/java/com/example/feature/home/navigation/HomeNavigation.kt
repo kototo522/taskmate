@@ -4,6 +4,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.example.core.model.TaskMateGroup
+import com.example.core.model.TaskMateSubject
 import com.example.core.model.TaskMateUser
 import com.example.core.model.navigation.BottomNavBarItems
 import com.example.core.model.navigation.HomeNavigation
@@ -18,6 +19,7 @@ fun NavGraphBuilder.homeNavGraph(
     homeController: HomeNavigation,
     user: TaskMateUser?,
     groups: List<TaskMateGroup>,
+    subjects: List<TaskMateSubject>
 ) {
     val popBackStack: () -> Unit = { homeController.popBackStack() }
     val navToHomeScreen = homeController.navToHomeScreen
@@ -30,7 +32,7 @@ fun NavGraphBuilder.homeNavGraph(
         route = HOME_GRAPH_ROUTE,
     ) {
         composable(route = BottomNavBarItems.Home.route) {
-            HomeScreen(navToSettingScreen, navToSubjectListScreen)
+            HomeScreen(user, groups, subjects, navToSettingScreen, navToSubjectListScreen)
         }
 
         composable("$SUBJECT_LIST_ROUTE/{clickedClass}/{rowIndex}/{columnIndex}") { backStackEntry ->

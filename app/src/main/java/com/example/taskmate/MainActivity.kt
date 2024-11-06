@@ -14,11 +14,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.example.core.model.TaskMateGroup
+import com.example.core.model.TaskMateSubject
 import com.example.core.model.TaskMateUser
 import com.example.taskmate.navigation.Navigation
 import com.example.taskmate.ui.theme.TaskmateTheme
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import javax.security.auth.Subject
 
 class MainActivity : ComponentActivity() {
     private val db = FirebaseFirestore.getInstance()
@@ -26,6 +28,7 @@ class MainActivity : ComponentActivity() {
     private var users by mutableStateOf<List<TaskMateUser>>(emptyList())
     private var user by mutableStateOf<TaskMateUser?>(null)
     private var groups by mutableStateOf<List<TaskMateGroup>>(emptyList())
+    private var subjects by mutableStateOf<List<TaskMateSubject>>(emptyList())
     private var isUserAuthenticated by mutableStateOf(auth.currentUser != null)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,7 +37,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             TaskmateTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Navigation(modifier = Modifier.padding(innerPadding), user = user, groups = groups)
+                    Navigation(modifier = Modifier.padding(innerPadding), user = user, groups = groups, subjects = subjects)
                 }
             }
             // Firestoreからユーザデータを取得
@@ -52,6 +55,7 @@ class MainActivity : ComponentActivity() {
                             Log.e("user", "User not found")
                         } else {
                             fetchAllGroups()
+                            fetchSubjects()
                         }
                     }
                     .addOnFailureListener { exception ->
@@ -72,6 +76,19 @@ class MainActivity : ComponentActivity() {
             }
             .addOnFailureListener { exception ->
                 exception.localizedMessage?.let { Log.e("groupsDBError", it) }
+            }
+    }
+
+    private fun fetchSubjects() {
+        db.collection("subjects")
+            .get()
+            .addOnSuccessListener { subjectDocuments ->
+                subjects = subjectDocuments.map { subjectDocument ->
+                    subjectDocument.toObject(TaskMateSubject::class.java)
+                }
+            }
+            .addOnFailureListener { exception ->
+                exception.localizedMessage?.let { Log.e("subjectsDBError", it) }
             }
     }
 }

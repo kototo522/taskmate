@@ -34,7 +34,7 @@ import com.example.feature.task.TaskScreen
 import com.google.firebase.auth.FirebaseAuth
 
 @Composable
-fun Navigation(modifier: Modifier, user: TaskMateUser?, groups: List<TaskMateGroup>) {
+fun Navigation(modifier: Modifier, user: TaskMateUser?, groups: List<TaskMateGroup>, subjects: List<TaskMateSubject>) {
     val navController = rememberNavController()
     val auth = FirebaseAuth.getInstance()
     var isUserAuthenticated by remember { mutableStateOf(auth.currentUser != null) }
@@ -85,7 +85,7 @@ fun Navigation(modifier: Modifier, user: TaskMateUser?, groups: List<TaskMateGro
 
                 if (isUserAuthenticated) {
                     settingNavGraph(settingNavigation, user)
-                    homeNavGraph(homeNavigation, user, groups)
+                    homeNavGraph(homeNavigation, user, groups, subjects)
                 }
 
                 composable(route = BottomNavBarItems.Task.route) {
