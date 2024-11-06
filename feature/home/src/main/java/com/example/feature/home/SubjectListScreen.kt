@@ -1,4 +1,4 @@
-package com.example.feature.home.components
+package com.example.feature.home
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,13 +18,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.core.model.string.TaskMateStrings
 import com.example.core.ui.taskmateComponents.appBar.PopBackTaskMateAppBar
+import com.example.feature.home.components.SubjectListCard
 
 @Composable
 fun SubjectListScreen(
     clickedClass: String?,
     rowIndex: Int,
     columnIndex: Int,
-    navToSelectGroupScreen: () -> Unit,
+    navToSelectGroupScreen: (Int, Int?) -> Unit,
     popBackStack: () -> Unit,
 ) {
     val context = LocalContext.current
@@ -44,7 +45,7 @@ fun SubjectListScreen(
         floatingActionButton = {
             Box(modifier = Modifier.padding(end = 8.dp)) {
                 FloatingActionButton(
-                    onClick = navToSelectGroupScreen,
+                    onClick = { navToSelectGroupScreen(rowIndex, columnIndex) },
                     containerColor = MaterialTheme.colorScheme.primary,
                     elevation = FloatingActionButtonDefaults.elevation(8.dp),
                 ) {

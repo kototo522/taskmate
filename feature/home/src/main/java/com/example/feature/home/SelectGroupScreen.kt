@@ -1,4 +1,4 @@
-package com.example.feature.home.components
+package com.example.feature.home
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,6 +13,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -20,19 +21,35 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.core.model.TaskMateGroup
+import com.example.core.model.TaskMateUser
 import com.example.core.ui.taskmateComponents.appBar.PopBackTaskMateAppBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SelectGroupScreen(
+    rowIndex: Int,
+    columnIndex: Int,
+    user: TaskMateUser?,
+    groups: List<TaskMateGroup>,
     popBackStack: () -> Unit,
-    onRegisterClick: (String, String) -> Unit
+    navToHomeScreen: () -> Unit,
+    onRegisterClick: (String, String) -> Unit,
+    viewModel: SelectGroupScreenViewModel = viewModel(),
 ) {
     var subjectName by remember { mutableStateOf(TextFieldValue("")) }
-    var selectedGroup by remember { mutableStateOf("") }
+    var selectedGroupName by remember { mutableStateOf("") }
+    var selectedGroupId by remember { mutableStateOf("") }
     var expanded by remember { mutableStateOf(false) }
-
-    val groups = listOf("グループA", "グループB", "グループC")
+    val userGroupIds = remember { mutableStateOf(user?.groupId.orEmpty()) }
+    val userGroups by remember(userGroupIds.value) {
+        derivedStateOf {
+            groups.filter { group ->
+                userGroupIds.value.contains(group.groupId)
+            }
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -58,7 +75,7 @@ fun SelectGroupScreen(
                 onExpandedChange = { expanded = !expanded }
             ) {
                 OutlinedTextField(
-                    value = selectedGroup,
+                    value = selectedGroupName,
                     onValueChange = {},
                     label = { Text("グループ選択") },
                     readOnly = true,
@@ -74,11 +91,12 @@ fun SelectGroupScreen(
                     expanded = expanded,
                     onDismissRequest = { expanded = false }
                 ) {
-                    groups.forEach { group ->
+                    userGroups.forEach { group ->
                         DropdownMenuItem(
-                            text = { Text(group) },
+                            text = { Text(group.groupName) },
                             onClick = {
-                                selectedGroup = group
+                                selectedGroupName = group.groupName
+                                selectedGroupId = group.groupId
                                 expanded = false
                             }
                         )
@@ -88,8 +106,21 @@ fun SelectGroupScreen(
 
             Button(
                 onClick = {
-                    if (subjectName.text.isNotBlank() && selectedGroup.isNotBlank()) {
-                        onRegisterClick(subjectName.text, selectedGroup)
+                    if (subjectName.text.isNotBlank() && selectedGroupId.isNotBlank()) {
+                        onRegisterClick(subjectName.text, selectedGroupId)
+                        viewModel.createSubject(
+                            subjectName.text,
+                            selectedGroupId,
+                            rowIndex = rowIndex,
+                            columnIndex = columnIndex,
+                            onSuccess = {
+                                println("成功")
+                                navToHomeScreen()
+                            },
+                            onFailure = { errorMessage ->
+                                println("失敗: $errorMessage")
+                            }
+                        )
                     }
                 },
                 modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)
@@ -99,4 +130,3 @@ fun SelectGroupScreen(
         }
     }
 }
-

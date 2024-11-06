@@ -12,7 +12,10 @@ class HomeNavigation(private val navController: NavController) {
     val navToSubjectListScreen: (String, Int, Int?) -> Unit = { clickedClass, rowIndex, columnIndex  ->
         navController.navigate("$SUBJECT_LIST_ROUTE/$clickedClass/$rowIndex/$columnIndex")
     }
-    val navToSelectGroupScreen: () -> Unit = { navController.navigate(SELECT_GROUP_ROUTE) }
+    val navToSelectGroupScreen: (Int, Int?) -> Unit = { rowIndex, columnIndex  ->
+        navController.navigate("$SELECT_GROUP_ROUTE/$rowIndex/$columnIndex")
+    }
+    val navToHomeScreen: () -> Unit = { navController.navigate(HOME_GRAPH_ROUTE) }
     val navToSettingScreen: () -> Unit = { navController.navigate(SETTING_GRAPH_ROUTE) }
     val popBackStack: () -> Unit = { navController.popBackStack() }
 }
