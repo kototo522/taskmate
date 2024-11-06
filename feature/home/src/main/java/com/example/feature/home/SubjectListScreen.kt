@@ -32,7 +32,7 @@ fun SubjectListScreen(
     rowIndex: Int,
     columnIndex: Int,
     navToHomeScreen: () -> Unit,
-    navToSelectGroupScreen: (Int, Int?) -> Unit,
+    navToCreateSubjectScreen: (Int, Int?) -> Unit,
     popBackStack: () -> Unit,
 ) {
     val context = LocalContext.current
@@ -57,7 +57,7 @@ fun SubjectListScreen(
         floatingActionButton = {
             Box(modifier = Modifier.padding(end = 8.dp)) {
                 FloatingActionButton(
-                    onClick = { navToSelectGroupScreen(rowIndex, columnIndex) },
+                    onClick = { navToCreateSubjectScreen(rowIndex, columnIndex) },
                     containerColor = MaterialTheme.colorScheme.primary,
                     elevation = FloatingActionButtonDefaults.elevation(8.dp),
                 ) {

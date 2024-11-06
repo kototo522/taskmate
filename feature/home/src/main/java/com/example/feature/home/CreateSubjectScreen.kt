@@ -28,7 +28,7 @@ import com.example.core.ui.taskmateComponents.appBar.PopBackTaskMateAppBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SelectGroupScreen(
+fun CreateSubjectScreen(
     rowIndex: Int,
     columnIndex: Int,
     user: TaskMateUser?,
@@ -36,7 +36,7 @@ fun SelectGroupScreen(
     popBackStack: () -> Unit,
     navToHomeScreen: () -> Unit,
     onRegisterClick: (String, String) -> Unit,
-    viewModel: SelectGroupScreenViewModel = viewModel(),
+    viewModel: CreateSubjectScreenViewModel = viewModel(),
 ) {
     var subjectName by remember { mutableStateOf(TextFieldValue("")) }
     var selectedGroupName by remember { mutableStateOf("") }
