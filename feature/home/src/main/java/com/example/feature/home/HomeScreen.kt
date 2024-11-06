@@ -7,7 +7,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,19 +32,12 @@ fun HomeScreen(
 ) {
     val dayClassList = listOf("1限", "2限", "3限", "4限")
     val userGroupIds = remember { mutableStateOf(user?.groupId.orEmpty()) }
-    val userGroups by remember(userGroupIds.value) {
-        derivedStateOf {
-            groups.filter { group ->
-                userGroupIds.value.contains(group.groupId)
-            }
-        }
-    }
     val classList = remember(subjects) {
         val days = listOf("月", "火", "水", "木", "金")
         days.map { day ->
             Class(
                 day = day,
-                classList = MutableList(4) { "" }
+                classList = MutableList(4) { "" },
             )
         }.toMutableList()
     }
@@ -67,7 +59,7 @@ fun HomeScreen(
     ) { innerPadding ->
         Column(modifier = Modifier.fillMaxSize().padding(innerPadding), horizontalAlignment = Alignment.CenterHorizontally) {
             Text(text = "グループ名", fontSize = 18.sp, fontWeight = FontWeight(600), style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(20.dp))
-            TimeSchedule(dayClassList, classList, navToSubjectListScreen) // Pass updated classList
+            TimeSchedule(dayClassList, classList, navToSubjectListScreen)
         }
     }
 }

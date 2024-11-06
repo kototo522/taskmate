@@ -19,7 +19,7 @@ fun NavGraphBuilder.homeNavGraph(
     homeController: HomeNavigation,
     user: TaskMateUser?,
     groups: List<TaskMateGroup>,
-    subjects: List<TaskMateSubject>
+    subjects: List<TaskMateSubject>,
 ) {
     val popBackStack: () -> Unit = { homeController.popBackStack() }
     val navToHomeScreen = homeController.navToHomeScreen
@@ -54,7 +54,7 @@ fun NavGraphBuilder.homeNavGraph(
                 groups = groups,
                 popBackStack = popBackStack,
                 navToHomeScreen = navToHomeScreen,
-                onRegisterClick = onRegisterClick
+                onRegisterClick = onRegisterClick,
             )
         }
     }

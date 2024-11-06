@@ -6,7 +6,7 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
 
-class SelectListScreenViewModel: ViewModel() {
+class SelectListScreenViewModel : ViewModel() {
     private val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
 
     fun updateIndex(
@@ -20,8 +20,10 @@ class SelectListScreenViewModel: ViewModel() {
             firestore.collection("subjects")
                 .document(subjectId)
                 .update(
-                    "columnIndex", FieldValue.arrayUnion(columnIndex),
-                    "rowIndex", FieldValue.arrayUnion(rowIndex)
+                    "columnIndex",
+                    FieldValue.arrayUnion(columnIndex),
+                    "rowIndex",
+                    FieldValue.arrayUnion(rowIndex),
                 )
                 .addOnSuccessListener {
                     onSuccess()

@@ -20,7 +20,6 @@ import com.example.taskmate.navigation.Navigation
 import com.example.taskmate.ui.theme.TaskmateTheme
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import javax.security.auth.Subject
 
 class MainActivity : ComponentActivity() {
     private val db = FirebaseFirestore.getInstance()

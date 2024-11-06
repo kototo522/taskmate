@@ -10,7 +10,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.example.core.model.TaskMateSubject
@@ -30,17 +29,17 @@ fun SelectSubjectScreen(
             subjectId = "1",
             name = "数学",
             groupId = "group1",
-            columnIndex = listOf(0),  // 1限
-            rowIndex = listOf(0),     // 月
-            createdAt = Date()
+            columnIndex = listOf(0), // 1限
+            rowIndex = listOf(0), // 月
+            createdAt = Date(),
         ),
         TaskMateSubject(
             subjectId = "2",
             name = "英語",
             groupId = "group1",
-            columnIndex = listOf(1),  // 2限
-            rowIndex = listOf(1),     // 火
-            createdAt = Date()
+            columnIndex = listOf(1), // 2限
+            rowIndex = listOf(1), // 火
+            createdAt = Date(),
         ),
     )
 

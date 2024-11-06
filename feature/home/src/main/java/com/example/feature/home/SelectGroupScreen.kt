@@ -67,12 +67,12 @@ fun SelectGroupScreen(
                 value = subjectName,
                 onValueChange = { subjectName = it },
                 label = { Text("教科名") },
-                modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)
+                modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
             )
 
             ExposedDropdownMenuBox(
                 expanded = expanded,
-                onExpandedChange = { expanded = !expanded }
+                onExpandedChange = { expanded = !expanded },
             ) {
                 OutlinedTextField(
                     value = selectedGroupName,
@@ -85,11 +85,11 @@ fun SelectGroupScreen(
                         .menuAnchor(),
                     trailingIcon = {
                         ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
-                    }
+                    },
                 )
                 ExposedDropdownMenu(
                     expanded = expanded,
-                    onDismissRequest = { expanded = false }
+                    onDismissRequest = { expanded = false },
                 ) {
                     userGroups.forEach { group ->
                         DropdownMenuItem(
@@ -98,7 +98,7 @@ fun SelectGroupScreen(
                                 selectedGroupName = group.groupName
                                 selectedGroupId = group.groupId
                                 expanded = false
-                            }
+                            },
                         )
                     }
                 }
@@ -119,11 +119,11 @@ fun SelectGroupScreen(
                             },
                             onFailure = { errorMessage ->
                                 println("失敗: $errorMessage")
-                            }
+                            },
                         )
                     }
                 },
-                modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)
+                modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
             ) {
                 Text("登録")
             }

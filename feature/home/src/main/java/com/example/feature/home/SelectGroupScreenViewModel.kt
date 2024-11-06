@@ -16,9 +16,9 @@ class SelectGroupScreenViewModel : ViewModel() {
         rowIndex: Int,
         columnIndex: Int,
         onSuccess: () -> Unit,
-        onFailure: (String) -> Unit
-    ){
-        val newSubjectRef = firestore.collection("subjects").document()  // ここで新しいドキュメント参照を作成
+        onFailure: (String) -> Unit,
+    ) {
+        val newSubjectRef = firestore.collection("subjects").document() // ここで新しいドキュメント参照を作成
         val subjectId = newSubjectRef.id
 
         viewModelScope.launch {

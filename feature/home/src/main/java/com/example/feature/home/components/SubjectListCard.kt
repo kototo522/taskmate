@@ -60,7 +60,7 @@ fun SubjectListCard(
                             onSuccess = { println("成功") },
                             onFailure = { errorMessage ->
                                 println(errorMessage)
-                            }
+                            },
                         )
                     },
                 contentAlignment = Alignment.Center,
@@ -73,7 +73,7 @@ fun SubjectListCard(
                 )
             }
             Column(
-                modifier = Modifier.padding(horizontal = 20.dp)
+                modifier = Modifier.padding(horizontal = 20.dp),
             ) {
                 Text(
                     text = subject.name,
