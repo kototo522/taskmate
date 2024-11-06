@@ -19,7 +19,7 @@ import com.example.feature.home.components.TimeSchedule
 @Composable
 fun HomeScreen(
     navToSettingScreen: () -> Unit,
-    navToSubjectListScreen: (String, String) -> Unit,
+    navToSubjectListScreen: (String, Int, Int?) -> Unit,
 ) {
     val dayClassList = listOf("1限", "2限", "3限", "4限")
 

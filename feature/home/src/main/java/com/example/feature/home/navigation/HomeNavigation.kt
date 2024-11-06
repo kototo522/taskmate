@@ -30,14 +30,23 @@ fun NavGraphBuilder.homeNavGraph(
             HomeScreen(navToSettingScreen, navToSubjectListScreen)
         }
 
-        composable("$SUBJECT_LIST_ROUTE/{clickedClass}/{dayTime}") { backStackEntry ->
+        composable("$SUBJECT_LIST_ROUTE/{clickedClass}/{rowIndex}/{columnIndex}") { backStackEntry ->
+            val rowIndex = backStackEntry.arguments?.getString("rowIndex")?.toIntOrNull() ?: 0
+            val columnIndex = backStackEntry.arguments?.getString("columnIndex")?.toIntOrNull() ?: 0
             val clickedClass = backStackEntry.arguments?.getString("clickedClass")
             val dayTime = backStackEntry.arguments?.getString("dayTime")
-            SubjectListScreen(dayTime = dayTime, navToSelectGroupScreen, popBackStack)
+
+            SubjectListScreen(clickedClass, rowIndex, columnIndex, navToSelectGroupScreen, popBackStack)
         }
 
         composable(route = SELECT_GROUP_ROUTE) {
-            SelectGroupScreen(popBackStack)
+            val onRegisterClick: (String, String) -> Unit = { subjectName, selectedGroup ->
+                println("教科名: $subjectName, 選択されたグループ: $selectedGroup")
+            }
+            SelectGroupScreen(
+                popBackStack = popBackStack,
+                onRegisterClick = onRegisterClick
+            )
         }
     }
 }

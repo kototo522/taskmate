@@ -21,19 +21,21 @@ import com.example.core.ui.taskmateComponents.appBar.PopBackTaskMateAppBar
 
 @Composable
 fun SubjectListScreen(
-    dayTime: String?,
+    clickedClass: String?,
+    rowIndex: Int,
+    columnIndex: Int,
     navToSelectGroupScreen: () -> Unit,
     popBackStack: () -> Unit,
 ) {
     val context = LocalContext.current
-
+    val daysOfWeek = listOf("月曜日", "火曜日", "水曜日", "木曜日", "金曜日")
+    val dayName = daysOfWeek.getOrElse(rowIndex) { "不明な曜日" }
+    val period = (columnIndex + 1).toString()
     Scaffold(
         topBar = {
             PopBackTaskMateAppBar(
                 title = {
-                    if (dayTime != null) {
-                        Text(text = dayTime, color = MaterialTheme.colorScheme.secondary)
-                    }
+                    Text(text = "$dayName ${period}限目", color = MaterialTheme.colorScheme.secondary)
                 },
                 popBackScreen = popBackStack,
                 modifier = Modifier,
