@@ -27,19 +27,19 @@ fun SelectSubjectScreen(
     val context = LocalContext.current
     val subjects = listOf(
         TaskMateSubject(
-            id = "1",
+            subjectId = "1",
             name = "数学",
             groupId = "group1",
-            columnIndex = 0,  // 1限
-            rowIndex = 0,     // 月
+            columnIndex = listOf(0),  // 1限
+            rowIndex = listOf(0),     // 月
             createdAt = Date()
         ),
         TaskMateSubject(
-            id = "2",
+            subjectId = "2",
             name = "英語",
             groupId = "group1",
-            columnIndex = 1,  // 2限
-            rowIndex = 1,     // 火
+            columnIndex = listOf(1),  // 2限
+            rowIndex = listOf(1),     // 火
             createdAt = Date()
         ),
     )

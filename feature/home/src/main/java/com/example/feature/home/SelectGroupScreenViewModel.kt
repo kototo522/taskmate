@@ -7,7 +7,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
 import java.util.Date
 
-class SelectGroupScreenViewModel : ViewModel()  {
+class SelectGroupScreenViewModel : ViewModel() {
     private val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
 
     fun createSubject(
@@ -18,9 +18,13 @@ class SelectGroupScreenViewModel : ViewModel()  {
         onSuccess: () -> Unit,
         onFailure: (String) -> Unit
     ){
+        val newSubjectRef = firestore.collection("subjects").document()  // ここで新しいドキュメント参照を作成
+        val subjectId = newSubjectRef.id
+
         viewModelScope.launch {
             try {
                 val subjectData = mapOf(
+                    "subjectId" to subjectId,
                     "name" to subjectName,
                     "groupId" to groupId,
                     "rowIndex" to rowIndex,
@@ -28,10 +32,9 @@ class SelectGroupScreenViewModel : ViewModel()  {
                     "createAt" to Date(),
                 )
 
-                firestore.collection("subjects")
-                    .add(subjectData)
-                    .addOnSuccessListener { documentReference ->
-                        val subjectId = documentReference.id
+                newSubjectRef.set(subjectData)
+                    .addOnSuccessListener {
+                        // 教科作成後、groupドキュメントを更新
                         firestore.collection("groups").document(groupId)
                             .update("subjectIds", FieldValue.arrayUnion(subjectId))
                             .addOnSuccessListener {

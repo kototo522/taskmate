@@ -3,12 +3,12 @@ package com.example.core.model
 import java.util.Date
 
 data class TaskMateSubject(
-    val id: String = "",
+    val subjectId: String = "",
     val name: String = "",
     val groupId: String = "",
-    val columnIndex: Int = 0,
-    val rowIndex: Int = 0,
+    val columnIndex: List<Int> = emptyList(),
+    val rowIndex: List<Int> = emptyList(),
     val createdAt: Date = Date()
 ) {
-    constructor() : this("", "", "", 0, 0, Date())
+    constructor() : this("", "", "", emptyList(), emptyList(), Date())  // Change this line as well
 }

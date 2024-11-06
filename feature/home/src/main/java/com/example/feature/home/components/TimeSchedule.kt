@@ -7,7 +7,7 @@ import com.example.core.model.Class
 fun TimeSchedule(
     dayClassList: List<String>,
     classList: List<Class>,
-    navToSubjectListScreen: (String, Int, Int?) -> Unit,
+    navToSubjectListScreen: (Int, Int?) -> Unit,
 ) {
     WeekList(classList.map { it.day }) // 月火水木金
     ClassList(dayClassList, classList) { clickedClass, rowIndex, columnIndex ->
@@ -16,6 +16,6 @@ fun TimeSchedule(
         val dayName = if (rowIndex in daysOfWeek.indices) daysOfWeek[rowIndex] else "不明な曜日"
         val period = columnIndex?.plus(1) ?: "N/A"
         println("Clicked mock class on $dayName, ${period}限目, class: $clickedClass")
-        navToSubjectListScreen(clickedClass, rowIndex, columnIndex)
+        navToSubjectListScreen(rowIndex, columnIndex)
     }
 }

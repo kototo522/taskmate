@@ -21,9 +21,19 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.core.model.TaskMateSubject
+import com.example.feature.home.SelectListScreenViewModel
 
 @Composable
-fun SubjectListCard() {
+fun SubjectListCard(
+    subject: TaskMateSubject,
+    groupName: String,
+    rowIndex: Int,
+    columnIndex: Int,
+    onSuccess: () -> Unit,
+    viewModel: SelectListScreenViewModel = viewModel(),
+) {
     Card(
         shape = RoundedCornerShape(size = 5.dp),
         colors =
@@ -41,7 +51,18 @@ fun SubjectListCard() {
                     .size(52.dp)
                     .padding(12.dp)
                     .background(color = MaterialTheme.colorScheme.primary, shape = CircleShape)
-                    .clickable { /* クリック処理 */ },
+                    .clickable {
+                        onSuccess()
+                        viewModel.updateIndex(
+                            subjectId = subject.subjectId,
+                            columnIndex = columnIndex,
+                            rowIndex = rowIndex,
+                            onSuccess = { println("成功") },
+                            onFailure = { errorMessage ->
+                                println(errorMessage)
+                            }
+                        )
+                    },
                 contentAlignment = Alignment.Center,
             ) {
                 Text(
@@ -51,9 +72,11 @@ fun SubjectListCard() {
                     color = MaterialTheme.colorScheme.onPrimary,
                 )
             }
-            Column {
+            Column(
+                modifier = Modifier.padding(horizontal = 20.dp)
+            ) {
                 Text(
-                    text = "教科名",
+                    text = subject.name,
                     style =
                     TextStyle(
                         fontSize = 20.sp,
@@ -62,40 +85,19 @@ fun SubjectListCard() {
                         color = MaterialTheme.colorScheme.onPrimaryContainer,
                         letterSpacing = 0.5.sp,
                     ),
-                    modifier = Modifier.padding(start = 20.dp, top = 14.dp),
+                    modifier = Modifier.padding(vertical = 14.dp),
                 )
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 16.dp, end = 18.dp, bottom = 10.dp),
-                ) {
-                    Text(
-                        text = "グループ名",
-                        modifier = Modifier
-                            .padding(start = 20.dp, top = 4.dp)
-                            .weight(1f),
-                        style = TextStyle(
-                            fontSize = 14.sp,
-                            lineHeight = 14.sp,
-                            fontWeight = FontWeight(700),
-                            color = MaterialTheme.colorScheme.onPrimaryContainer,
-                            letterSpacing = 0.5.sp,
-                        ),
-                    )
-
-                    Text(
-                        text = "最終編集者: ことりん",
-                        modifier = Modifier
-                            .padding(start = 20.dp, top = 4.dp),
-                        style = TextStyle(
-                            fontSize = 14.sp,
-                            lineHeight = 14.sp,
-                            fontWeight = FontWeight(700),
-                            color = MaterialTheme.colorScheme.onPrimaryContainer,
-                            letterSpacing = 0.5.sp,
-                        ),
-                    )
-                }
+                Text(
+                    text = "グループ名: $groupName",
+                    modifier = Modifier.padding(bottom = 10.dp),
+                    style = TextStyle(
+                        fontSize = 14.sp,
+                        lineHeight = 14.sp,
+                        fontWeight = FontWeight(700),
+                        color = MaterialTheme.colorScheme.onPrimaryContainer,
+                        letterSpacing = 0.5.sp,
+                    ),
+                )
             }
         }
     }

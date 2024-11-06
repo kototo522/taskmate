@@ -35,13 +35,10 @@ fun NavGraphBuilder.homeNavGraph(
             HomeScreen(user, groups, subjects, navToSettingScreen, navToSubjectListScreen)
         }
 
-        composable("$SUBJECT_LIST_ROUTE/{clickedClass}/{rowIndex}/{columnIndex}") { backStackEntry ->
+        composable("$SUBJECT_LIST_ROUTE/{rowIndex}/{columnIndex}") { backStackEntry ->
             val rowIndex = backStackEntry.arguments?.getString("rowIndex")?.toIntOrNull() ?: 0
             val columnIndex = backStackEntry.arguments?.getString("columnIndex")?.toIntOrNull() ?: 0
-            val clickedClass = backStackEntry.arguments?.getString("clickedClass")
-            val dayTime = backStackEntry.arguments?.getString("dayTime")
-
-            SubjectListScreen(clickedClass, rowIndex, columnIndex, navToSelectGroupScreen, popBackStack)
+            SubjectListScreen(user, groups, subjects, rowIndex, columnIndex, navToHomeScreen, navToSelectGroupScreen, popBackStack)
         }
 
         composable(route = "$SELECT_GROUP_ROUTE/{rowIndex}/{columnIndex}") { backStackEntry ->

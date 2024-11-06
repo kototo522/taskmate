@@ -29,7 +29,7 @@ fun HomeScreen(
     groups: List<TaskMateGroup>,
     subjects: List<TaskMateSubject>,
     navToSettingScreen: () -> Unit,
-    navToSubjectListScreen: (String, Int, Int?) -> Unit,
+    navToSubjectListScreen: (Int, Int?) -> Unit,
 ) {
     val dayClassList = listOf("1限", "2限", "3限", "4限")
     val userGroupIds = remember { mutableStateOf(user?.groupId.orEmpty()) }
@@ -51,9 +51,13 @@ fun HomeScreen(
     }
 
     subjects.forEach { subject ->
-        val dayIndex = subject.rowIndex // 0: 月, 1: 火, ...
-        val periodIndex = subject.columnIndex // 0: 1限, 1: 2限, ...
-        classList[dayIndex].classList[periodIndex] = subject.name
+        subject.rowIndex.forEach { dayIndex ->
+            subject.columnIndex.forEach { periodIndex ->
+                if (dayIndex in 0..4 && periodIndex in 0..3) {
+                    classList[dayIndex].classList[periodIndex] = subject.name
+                }
+            }
+        }
     }
 
     Scaffold(

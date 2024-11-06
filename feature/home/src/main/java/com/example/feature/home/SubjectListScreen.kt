@@ -11,20 +11,29 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.core.model.TaskMateGroup
+import com.example.core.model.TaskMateSubject
+import com.example.core.model.TaskMateUser
 import com.example.core.model.string.TaskMateStrings
 import com.example.core.ui.taskmateComponents.appBar.PopBackTaskMateAppBar
 import com.example.feature.home.components.SubjectListCard
 
 @Composable
 fun SubjectListScreen(
-    clickedClass: String?,
+    user: TaskMateUser?,
+    groups: List<TaskMateGroup>,
+    subjects: List<TaskMateSubject>,
     rowIndex: Int,
     columnIndex: Int,
+    navToHomeScreen: () -> Unit,
     navToSelectGroupScreen: (Int, Int?) -> Unit,
     popBackStack: () -> Unit,
 ) {
@@ -32,6 +41,11 @@ fun SubjectListScreen(
     val daysOfWeek = listOf("月曜日", "火曜日", "水曜日", "木曜日", "金曜日")
     val dayName = daysOfWeek.getOrElse(rowIndex) { "不明な曜日" }
     val period = (columnIndex + 1).toString()
+    val userGroupIds = remember { mutableStateOf(user?.groupId.orEmpty()) }
+    val userSubjects = subjects.filter { subject ->
+        userGroupIds.value.contains(subject.groupId)
+    }
+
     Scaffold(
         topBar = {
             PopBackTaskMateAppBar(
@@ -55,13 +69,20 @@ fun SubjectListScreen(
         },
     ) { innerPadding ->
         Column(modifier = Modifier.padding(innerPadding)) {
-            Box(modifier = Modifier.align(Alignment.End)) {
-            }
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
             ) {
-                items(3) { index ->
-                    SubjectListCard()
+                items(userSubjects.size) { index ->
+                    val subject = userSubjects[index]
+                    val groupName = groups.find { it.groupId == subject.groupId }?.groupName ?: "Unknown Group"
+                    SubjectListCard(
+                        subject = subject,
+                        groupName = groupName,
+                        rowIndex = rowIndex,
+                        columnIndex = columnIndex,
+                        onSuccess = {
+                            navToHomeScreen()
+                        })
                 }
             }
         }

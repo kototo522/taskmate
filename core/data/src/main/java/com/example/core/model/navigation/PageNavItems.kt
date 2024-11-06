@@ -9,8 +9,8 @@ class HomeNavigation(private val navController: NavController) {
         const val SELECT_GROUP_ROUTE = "SelectGroupList"
         const val SETTING_GRAPH_ROUTE = "SettingGraph"
     }
-    val navToSubjectListScreen: (String, Int, Int?) -> Unit = { clickedClass, rowIndex, columnIndex  ->
-        navController.navigate("$SUBJECT_LIST_ROUTE/$clickedClass/$rowIndex/$columnIndex")
+    val navToSubjectListScreen: (Int, Int?) -> Unit = { rowIndex, columnIndex  ->
+        navController.navigate("$SUBJECT_LIST_ROUTE/$rowIndex/$columnIndex")
     }
     val navToSelectGroupScreen: (Int, Int?) -> Unit = { rowIndex, columnIndex  ->
         navController.navigate("$SELECT_GROUP_ROUTE/$rowIndex/$columnIndex")
