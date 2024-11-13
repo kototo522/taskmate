@@ -24,6 +24,8 @@ import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -38,6 +40,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -219,22 +222,21 @@ fun MyPageScreen(
                                 .weight(1f)
                                 .padding(4.dp),
                         ) {
-                            Text(
-                                text = context.getString(TaskMateStrings.AddIcon),
-                                fontSize = 24.sp,
-                                modifier = Modifier.clickable(
-                                    indication = rememberRipple(
-                                        radius = 20.dp,
-                                        bounded = false,
-                                    ),
-                                    interactionSource = remember { MutableInteractionSource() },
-                                ) {
+                            IconButton(
+                                onClick = {
                                     scope.launch {
                                         isEditGroupSheetOpen.value = true
                                         sheetState.show()
                                     }
                                 },
-                            )
+                            ) {
+                                Icon(
+                                    painter = painterResource(id = TaskMateIcons.Edit),
+                                    modifier = Modifier.size(28.dp),
+                                    contentDescription = "編集",
+                                    tint = MaterialTheme.colorScheme.secondary,
+                                )
+                            }
                         }
                     }
 

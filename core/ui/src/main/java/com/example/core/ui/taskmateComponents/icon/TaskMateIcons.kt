@@ -9,4 +9,8 @@ object TaskMateIcons {
     val Clock = R.drawable.clock
     val Setting = R.drawable.setting
     val Task = R.drawable.task
+    val Delete = R.drawable.delete
+    val Edit = R.drawable.edit
+    val Group = R.drawable.group
+    val Logout = R.drawable.logout
 }
