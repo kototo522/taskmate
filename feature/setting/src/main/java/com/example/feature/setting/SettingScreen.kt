@@ -26,11 +26,9 @@ fun SettingScreen(
     val context = LocalContext.current
 
     val settingsItems = listOf(
-        SettingItem(title = "グループ作成", icon = TaskMateIcons.Setting, onClick = settingNavigation.navToCreateGroupScreen),
-        SettingItem(title = "グループに参加する", icon = TaskMateIcons.Setting, onClick = settingNavigation.navToJoinGroupScreen),
-        SettingItem(title = "ログアウト", icon = TaskMateIcons.Setting, onClick = settingNavigation.navToLogoutScreen),
-        SettingItem(title = "Notifications", subTitle = "Notification history, conversations", icon = TaskMateIcons.Setting),
-        SettingItem(title = "Battery", subTitle = "100%", icon = TaskMateIcons.Setting),
+        SettingItem(title = "グループ作成", icon = TaskMateIcons.Group, onClick = settingNavigation.navToCreateGroupScreen),
+        SettingItem(title = "グループに参加する", icon = TaskMateIcons.Group, onClick = settingNavigation.navToJoinGroupScreen),
+        SettingItem(title = "ログアウト", icon = TaskMateIcons.Logout, onClick = settingNavigation.navToLogoutScreen),
     )
 
     Scaffold(
