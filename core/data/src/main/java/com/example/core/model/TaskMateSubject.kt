@@ -6,9 +6,9 @@ data class TaskMateSubject(
     val subjectId: String = "",
     val name: String = "",
     val groupId: String = "",
-    val columnIndex: List<Int> = emptyList(),
-    val rowIndex: List<Int> = emptyList(),
+    val columnIndex: List<Int> = listOf(0),
+    val rowIndex: List<Int> = listOf(0),
     val createdAt: Date = Date(),
 ) {
-    constructor() : this("", "", "", emptyList(), emptyList(), Date()) // Change this line as well
+    constructor() : this("", "", "", listOf(0), listOf(0), Date())
 }

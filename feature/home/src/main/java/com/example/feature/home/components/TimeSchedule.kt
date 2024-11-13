@@ -11,6 +11,8 @@ fun TimeSchedule(
 ) {
     WeekList(classList.map { it.day }) // 月火水木金
     ClassList(dayClassList, classList) { clickedClass, rowIndex, columnIndex ->
+        print("rowIndex, $rowIndex")
+        print("columnIndex, $columnIndex")
         val daysOfWeek = listOf("月曜日", "火曜日", "水曜日", "木曜日", "金曜日")
 
         val dayName = if (rowIndex in daysOfWeek.indices) daysOfWeek[rowIndex] else "不明な曜日"

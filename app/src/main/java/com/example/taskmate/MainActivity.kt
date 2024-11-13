@@ -40,7 +40,7 @@ class MainActivity : ComponentActivity() {
                 }
             }
             // Firestoreからユーザデータを取得
-            LaunchedEffect(isUserAuthenticated, users, groups) {
+            LaunchedEffect(isUserAuthenticated, users, groups, db) {
                 db.collection("users")
                     .whereEqualTo("userId", auth.currentUser?.uid)
                     .get()
