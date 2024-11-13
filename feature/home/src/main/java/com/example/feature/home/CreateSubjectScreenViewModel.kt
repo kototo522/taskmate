@@ -27,8 +27,8 @@ class CreateSubjectScreenViewModel : ViewModel() {
                     "subjectId" to subjectId,
                     "name" to subjectName,
                     "groupId" to groupId,
-                    "rowIndex" to rowIndex,
-                    "columnIndex" to columnIndex,
+                    "rowIndex" to listOf(rowIndex),
+                    "columnIndex" to listOf(columnIndex),
                     "createAt" to Date(),
                 )
 
