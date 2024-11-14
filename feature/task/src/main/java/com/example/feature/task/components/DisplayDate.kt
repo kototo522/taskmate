@@ -16,7 +16,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun DisplayDate(modifier: Modifier = Modifier) {
+fun DisplayDate(
+    deadlineDate: String,
+    modifier: Modifier = Modifier
+) {
+    val dateParts = deadlineDate.split("/")
+    if (dateParts.size < 3) {
+        return
+    }
+    val year = dateParts[0]
+    val month = dateParts[1]
+    val day = dateParts[2]
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
@@ -24,7 +35,7 @@ fun DisplayDate(modifier: Modifier = Modifier) {
             .padding(vertical = 4.dp, horizontal = 18.dp),
     ) {
         Text(
-            text = "2024",
+            text = year,
             style =
             TextStyle(
                 fontSize = 14.sp,
@@ -36,7 +47,7 @@ fun DisplayDate(modifier: Modifier = Modifier) {
         )
         Box {
             Text(
-                text = "11",
+                text = month,
                 modifier = Modifier.offset(x = (-10).dp),
                 style =
                 TextStyle(
@@ -59,7 +70,7 @@ fun DisplayDate(modifier: Modifier = Modifier) {
                 ),
             )
             Text(
-                text = "10",
+                text = day,
                 modifier =
                 Modifier
                     .padding(4.dp)

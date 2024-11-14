@@ -1,7 +1,6 @@
 package com.example.feature.task
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -17,7 +16,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.core.model.Task
 import com.example.core.model.string.TaskMateStrings
 import com.example.core.ui.taskmateComponents.appBar.MainTaskMateAppBar
 import com.example.feature.task.components.TaskCard
@@ -28,12 +26,10 @@ fun TaskScreen(
     navToSelectSubjectScreen: () -> Unit,
     viewModel: TaskViewModel = viewModel(),
 ) {
+    viewModel.fetchTask()
     val context = LocalContext.current
-    val tasks = listOf(
-        Task("タスク1"),
-        Task("タスク2"),
-        Task("タスク3"),
-    )
+    val tasks = viewModel.tasks
+
     Scaffold(
         topBar = {
             MainTaskMateAppBar(navToSettingScreen, Modifier)

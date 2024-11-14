@@ -1,12 +1,17 @@
 package com.example.feature.task
 
+import android.util.Log
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.core.model.TaskMateTask
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
 
 class TaskViewModel : ViewModel() {
+    private val _tasks = mutableStateOf<List<TaskMateTask>>(emptyList())
+    val tasks: List<TaskMateTask> get() = _tasks.value
     private var errorMessage: String = ""
     private val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
 
@@ -59,6 +64,29 @@ class TaskViewModel : ViewModel() {
 
             } catch (e: Exception) {
                 onFailure(e.message ?: "不明なエラーが発生しました。")
+            }
+        }
+    }
+
+    fun fetchTask() {
+        viewModelScope.launch {
+            try {
+                val taskList = mutableListOf<TaskMateTask>()
+                firestore.collection("tasks")
+                    .get()
+                    .addOnSuccessListener { result ->
+                        for (document in result) {
+                            val task = document.toObject(TaskMateTask::class.java)
+                            taskList.add(task)
+                        }
+                        _tasks.value = taskList  // Update the tasks list
+                    }
+                    .addOnFailureListener { exception ->
+                        // Handle error
+                        Log.e("TaskViewModel", "Error getting tasks: ${exception.message}")
+                    }
+            } catch (e: Exception) {
+                Log.e("TaskViewModel", "Error fetching tasks: ${e.message}")
             }
         }
     }
