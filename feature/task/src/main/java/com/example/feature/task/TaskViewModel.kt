@@ -2,6 +2,7 @@ package com.example.feature.task
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
 
@@ -42,7 +43,7 @@ class TaskViewModel : ViewModel() {
                     .set(taskData)
                     .addOnSuccessListener {
                         firestore.collection("subjects").document(subjectId)
-                            .update("taskIds", listOf(taskId))
+                            .update("taskIds", FieldValue.arrayUnion(taskId))
                             .addOnSuccessListener { onSuccess() }
                             .addOnFailureListener { exception ->
                                 errorMessage = exception.message ?: "タスクの作成に失敗しました。"
