@@ -22,7 +22,7 @@ import com.example.core.model.TaskMateSubject
 fun SubjectCard(
     subject: TaskMateSubject,
     group: TaskMateGroup?,
-    onClick: (TaskMateSubject, TaskMateGroup? ) -> Unit,
+    onClick: (TaskMateSubject, TaskMateGroup?) -> Unit,
 ) {
     Card(
         shape = RoundedCornerShape(size = 5.dp),

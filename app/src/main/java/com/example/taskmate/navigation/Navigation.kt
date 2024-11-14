@@ -113,8 +113,8 @@ fun Navigation(modifier: Modifier, user: TaskMateUser?, groups: List<TaskMateGro
                     arguments = listOf(
                         navArgument("userId") { type = NavType.StringType },
                         navArgument("subjectId") { type = NavType.StringType },
-                        navArgument("groupId") { type = NavType.StringType; defaultValue = "null" }
-                    )
+                        navArgument("groupId") { type = NavType.StringType; defaultValue = "null" },
+                    ),
                 ) { backStackEntry ->
                     val userId = backStackEntry.arguments?.getString("userId")
                     val subjectId = backStackEntry.arguments?.getString("subjectId") ?: ""
@@ -128,7 +128,8 @@ fun Navigation(modifier: Modifier, user: TaskMateUser?, groups: List<TaskMateGro
                             subject = selectedSubject,
                             group = selectedGroup,
                             navToTaskScreen = { navController.navigate(BottomNavBarItems.Task.route) },
-                            popBackStack = popBackStack)
+                            popBackStack = popBackStack,
+                        )
                     }
                 }
             }

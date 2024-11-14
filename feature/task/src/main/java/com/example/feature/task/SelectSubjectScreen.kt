@@ -20,7 +20,6 @@ import com.example.core.model.TaskMateUser
 import com.example.core.model.string.TaskMateStrings
 import com.example.core.ui.taskmateComponents.appBar.PopBackTaskMateAppBar
 import com.example.feature.task.components.SubjectCard
-import java.util.Date
 
 @Composable
 fun SelectSubjectScreen(
@@ -62,7 +61,7 @@ fun SelectSubjectScreen(
                     SubjectCard(
                         subject = subject,
                         group = group,
-                        onClick = { subject, group -> navToAddTaskScreen(subject, group) }
+                        onClick = { subject, group -> navToAddTaskScreen(subject, group) },
                     )
                 }
             }

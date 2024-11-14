@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun DisplayDate(
     deadlineDate: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val dateParts = deadlineDate.split("/")
     if (dateParts.size < 3) {

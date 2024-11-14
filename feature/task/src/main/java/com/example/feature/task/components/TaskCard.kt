@@ -16,7 +16,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.core.model.Task
 import com.example.core.model.TaskMateTask
 
 @Composable
@@ -35,7 +34,7 @@ fun TaskCard(task: TaskMateTask, modifier: Modifier = Modifier) {
         Row {
             DisplayDate(
                 deadlineDate = task.deadlineDate,
-                modifier = modifier.padding(vertical = 4.dp)
+                modifier = modifier.padding(vertical = 4.dp),
             )
             Column {
                 Row(

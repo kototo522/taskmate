@@ -61,7 +61,6 @@ class TaskViewModel : ViewModel() {
                         errorMessage = exception.message ?: "タスクの保存に失敗しました。"
                         onFailure(errorMessage)
                     }
-
             } catch (e: Exception) {
                 onFailure(e.message ?: "不明なエラーが発生しました。")
             }
@@ -79,7 +78,7 @@ class TaskViewModel : ViewModel() {
                             val task = document.toObject(TaskMateTask::class.java)
                             taskList.add(task)
                         }
-                        _tasks.value = taskList  // Update the tasks list
+                        _tasks.value = taskList // Update the tasks list
                     }
                     .addOnFailureListener { exception ->
                         // Handle error

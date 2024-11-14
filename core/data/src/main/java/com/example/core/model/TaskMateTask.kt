@@ -12,5 +12,5 @@ data class TaskMateTask(
     val visibility: String,
     val remindTime: String,
 ) {
-    constructor() : this("", "", "", "", "","", "", "", "", "" )
+    constructor() : this("", "", "", "", "", "", "", "", "", "")
 }
