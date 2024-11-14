@@ -40,7 +40,7 @@ fun SelectSubjectScreen(
     Scaffold(
         topBar = {
             PopBackTaskMateAppBar(
-                title = { Text(context.getString(TaskMateStrings.AddIcon), color = MaterialTheme.colorScheme.secondary) },
+                title = { Text(context.getString(TaskMateStrings.AddTask), color = MaterialTheme.colorScheme.secondary) },
                 popBackScreen = popBackStack,
                 modifier = Modifier,
             )
