@@ -67,7 +67,7 @@ fun Navigation(modifier: Modifier, user: TaskMateUser?, groups: List<TaskMateGro
     val navToSettingScreen = { navController.navigate(SETTING_GRAPH_ROUTE) }
     val navToSelectSubjectScreen = { navController.navigate("SelectSubjectScreen") }
     val navToAddTaskScreen: (TaskMateSubject, TaskMateGroup?) -> Unit = { subject, group ->
-        navController.navigate("AddTaskScreen/${subject.subjectId}/${group?.groupId ?: "null"}")
+        navController.navigate("AddTaskScreen/${user?.userId}/${subject.subjectId}/${group?.groupId ?: "null"}")
     }
 
     val popBackStack: () -> Unit = { navController.popBackStack() }
@@ -109,19 +109,22 @@ fun Navigation(modifier: Modifier, user: TaskMateUser?, groups: List<TaskMateGro
                     }
                 }
                 composable(
-                    route = "AddTaskScreen/{subjectId}/{groupId}",
+                    route = "AddTaskScreen/{userId}/{subjectId}/{groupId}",
                     arguments = listOf(
+                        navArgument("userId") { type = NavType.StringType },
                         navArgument("subjectId") { type = NavType.StringType },
                         navArgument("groupId") { type = NavType.StringType; defaultValue = "null" }
                     )
                 ) { backStackEntry ->
+                    val userId = backStackEntry.arguments?.getString("userId")
                     val subjectId = backStackEntry.arguments?.getString("subjectId") ?: ""
                     val groupId = backStackEntry.arguments?.getString("groupId")
                     val selectedSubject = subjects.find { it.subjectId == subjectId }
                     val selectedGroup = groups.find { it.groupId == groupId }
 
-                    if (isUserAuthenticated && selectedSubject != null) {
+                    if (isUserAuthenticated && selectedSubject != null && userId != null) {
                         AddTaskScreen(
+                            userId = userId,
                             subject = selectedSubject,
                             group = selectedGroup,
                             navToTaskScreen = { navController.navigate(BottomNavBarItems.Task.route) },

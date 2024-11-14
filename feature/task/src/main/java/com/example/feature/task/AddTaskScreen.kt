@@ -47,6 +47,7 @@ import java.util.Calendar
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddTaskScreen(
+    userId: String,
     subject: TaskMateSubject,
     group: TaskMateGroup?,
     navToTaskScreen: () -> Unit,
@@ -208,6 +209,7 @@ fun AddTaskScreen(
                 Button(
                     onClick = {
                         viewModel.createTask(
+                            userId = userId,
                             groupId = group?.groupId,
                             subjectId = subject.subjectId,
                             title = title,

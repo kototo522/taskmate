@@ -11,6 +11,7 @@ class TaskViewModel : ViewModel() {
     private val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
 
     fun createTask(
+        userId: String,
         groupId: String?,
         subjectId: String,
         title: String,
@@ -28,6 +29,7 @@ class TaskViewModel : ViewModel() {
                 val taskId = newTaskRef.id
 
                 val taskData = mapOf(
+                    "userId" to userId,
                     "taskId" to taskId,
                     "groupId" to groupId,
                     "subjectId" to subjectId,
