@@ -1,6 +1,7 @@
 package com.example.feature.home.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,6 +23,7 @@ import com.example.core.model.Class
 fun ClassList(
     dayClassList: List<String>,
     mockClassList: List<Class>,
+    onClassClick: (String, Int, Int?) -> Unit,
 ) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
@@ -32,7 +34,7 @@ fun ClassList(
             verticalArrangement = Arrangement.spacedBy(6.dp, Alignment.CenterVertically),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            dayClassList.forEach { day ->
+            dayClassList.forEachIndexed { index, day ->
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier =
@@ -42,7 +44,8 @@ fun ClassList(
                         .background(
                             color = MaterialTheme.colorScheme.primary,
                             shape = RoundedCornerShape(size = 5.dp),
-                        ),
+                        )
+                        .clickable { onClassClick(day, index, null) },
                 ) {
                     Text(text = day, fontWeight = FontWeight(600), color = MaterialTheme.colorScheme.background)
                 }
@@ -53,14 +56,14 @@ fun ClassList(
             horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            mockClassList.forEachIndexed { index, classData ->
+            mockClassList.forEachIndexed { rowIndex, classData ->
                 Column(
                     verticalArrangement = Arrangement.spacedBy(6.dp, Alignment.CenterVertically),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-                    classData.classList.forEachIndexed { classIndex, className ->
+                    classData.classList.forEachIndexed { columnIndex, className ->
                         val boxColor =
-                            if (index % 2 == 0 && classIndex % 2 == 0 || (index % 2 == 1 && classIndex % 2 == 1)) {
+                            if (rowIndex % 2 == 0 && columnIndex % 2 == 0 || (rowIndex % 2 == 1 && columnIndex % 2 == 1)) {
                                 MaterialTheme.colorScheme.primaryContainer
                             } else {
                                 MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f)
@@ -74,7 +77,8 @@ fun ClassList(
                                 .background(
                                     color = boxColor,
                                     shape = RoundedCornerShape(size = 5.dp),
-                                ),
+                                )
+                                .clickable { onClassClick(className, rowIndex, columnIndex) },
                         ) {
                             Text(text = className, fontWeight = FontWeight(700))
                         }

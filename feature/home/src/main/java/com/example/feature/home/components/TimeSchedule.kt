@@ -6,8 +6,18 @@ import com.example.core.model.Class
 @Composable
 fun TimeSchedule(
     dayClassList: List<String>,
-    mockClassList: List<Class>,
+    classList: List<Class>,
+    navToSubjectListScreen: (Int, Int?) -> Unit,
 ) {
-    WeekList(mockClassList.map { it.day }) // 月火水木金
-    ClassList(dayClassList, mockClassList)
+    WeekList(classList.map { it.day }) // 月火水木金
+    ClassList(dayClassList, classList) { clickedClass, rowIndex, columnIndex ->
+        print("rowIndex, $rowIndex")
+        print("columnIndex, $columnIndex")
+        val daysOfWeek = listOf("月曜日", "火曜日", "水曜日", "木曜日", "金曜日")
+
+        val dayName = if (rowIndex in daysOfWeek.indices) daysOfWeek[rowIndex] else "不明な曜日"
+        val period = columnIndex?.plus(1) ?: "N/A"
+        println("Clicked mock class on $dayName, ${period}限目, class: $clickedClass")
+        navToSubjectListScreen(rowIndex, columnIndex)
+    }
 }

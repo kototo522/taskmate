@@ -2,7 +2,23 @@ package com.example.core.model.navigation
 
 import androidx.navigation.NavController
 
-class HomeNavigation(private val navController: NavController)
+class HomeNavigation(private val navController: NavController) {
+    companion object {
+        const val HOME_GRAPH_ROUTE = "HomeGraph"
+        const val SUBJECT_LIST_ROUTE = "SubjectList"
+        const val CREATE_SUBJECT_ROUTE = "CreateSubject"
+        const val SETTING_GRAPH_ROUTE = "SettingGraph"
+    }
+    val navToSubjectListScreen: (Int, Int?) -> Unit = { rowIndex, columnIndex ->
+        navController.navigate("$SUBJECT_LIST_ROUTE/$rowIndex/$columnIndex")
+    }
+    val navToCreateSubjectScreen: (Int, Int?) -> Unit = { rowIndex, columnIndex ->
+        navController.navigate("$CREATE_SUBJECT_ROUTE/$rowIndex/$columnIndex")
+    }
+    val navToHomeScreen: () -> Unit = { navController.navigate(HOME_GRAPH_ROUTE) }
+    val navToSettingScreen: () -> Unit = { navController.navigate(SETTING_GRAPH_ROUTE) }
+    val popBackStack: () -> Unit = { navController.popBackStack() }
+}
 
 class TaskNavigation(private val navController: NavController)
 

@@ -10,13 +10,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.example.core.model.TaskMateSubject
 import com.example.core.model.string.TaskMateStrings
 import com.example.core.ui.taskmateComponents.appBar.PopBackTaskMateAppBar
 import com.example.feature.task.components.SubjectCard
+import java.util.Date
 
 @Composable
 fun SelectSubjectScreen(
@@ -25,9 +25,22 @@ fun SelectSubjectScreen(
 ) {
     val context = LocalContext.current
     val subjects = listOf(
-        TaskMateSubject("数学", Color(0xFF42A5F5)), // 青
-        TaskMateSubject("英語", Color(0xFF66BB6A)), // 緑
-        TaskMateSubject("歴史", Color(0xFFFFC107)), // 黄
+        TaskMateSubject(
+            subjectId = "1",
+            name = "数学",
+            groupId = "group1",
+            columnIndex = listOf(0), // 1限
+            rowIndex = listOf(0), // 月
+            createdAt = Date(),
+        ),
+        TaskMateSubject(
+            subjectId = "2",
+            name = "英語",
+            groupId = "group1",
+            columnIndex = listOf(1), // 2限
+            rowIndex = listOf(1), // 火
+            createdAt = Date(),
+        ),
     )
 
     Scaffold(
