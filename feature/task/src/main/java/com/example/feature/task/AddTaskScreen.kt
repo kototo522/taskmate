@@ -36,6 +36,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.core.model.TaskMateGroup
 import com.example.core.model.TaskMateSubject
 import com.example.core.model.string.TaskMateStrings
@@ -48,7 +49,9 @@ import java.util.Calendar
 fun AddTaskScreen(
     subject: TaskMateSubject,
     group: TaskMateGroup?,
-    popBackStack: () -> Unit
+    navToTaskScreen: () -> Unit,
+    popBackStack: () -> Unit,
+    viewModel: TaskViewModel = viewModel(),
 ) {
     val context = LocalContext.current
     var title by remember { mutableStateOf("") }
@@ -204,6 +207,20 @@ fun AddTaskScreen(
                 // タスク追加ボタン
                 Button(
                     onClick = {
+                        viewModel.createTask(
+                            groupId = group?.groupId,
+                            subjectId = subject.subjectId,
+                            title = title,
+                            destination = destination,
+                            deadlineDate = deadlineDate,
+                            deadlineTime = deadlineTime,
+                            visibility = visibility,
+                            remindTime = selectedText,
+                            onSuccess = {
+                                navToTaskScreen()
+                            },
+                            onFailure = {e -> println(e)},
+                        )
                     },
                     modifier = Modifier.align(Alignment.End),
                 ) {

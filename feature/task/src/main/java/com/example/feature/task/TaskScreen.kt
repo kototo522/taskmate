@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.core.model.Task
 import com.example.core.model.string.TaskMateStrings
 import com.example.core.ui.taskmateComponents.appBar.MainTaskMateAppBar
@@ -25,18 +26,13 @@ import com.example.feature.task.components.TaskCard
 fun TaskScreen(
     navToSettingScreen: () -> Unit,
     navToSelectSubjectScreen: () -> Unit,
+    viewModel: TaskViewModel = viewModel(),
 ) {
     val context = LocalContext.current
     val tasks = listOf(
         Task("タスク1"),
         Task("タスク2"),
         Task("タスク3"),
-        Task("タスク4"),
-        Task("タスク5"),
-        Task("タスク6"),
-        Task("タスク7"),
-        Task("タスク8"),
-        Task("タスク9"),
     )
     Scaffold(
         topBar = {
@@ -60,15 +56,11 @@ fun TaskScreen(
                 .fillMaxSize(),
             contentAlignment = Alignment.TopCenter,
         ) {
-            Column() {
-                Box(modifier = Modifier.align(Alignment.End)) {
-                }
-                LazyColumn(
-                    modifier = Modifier.fillMaxSize(),
-                ) {
-                    items(tasks.size) { task ->
-                        TaskCard(tasks[task], Modifier.padding(16.dp))
-                    }
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+            ) {
+                items(tasks.size) { task ->
+                    TaskCard(tasks[task], Modifier.padding(16.dp))
                 }
             }
         }

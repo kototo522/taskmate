@@ -121,7 +121,11 @@ fun Navigation(modifier: Modifier, user: TaskMateUser?, groups: List<TaskMateGro
                     val selectedGroup = groups.find { it.groupId == groupId }
 
                     if (isUserAuthenticated && selectedSubject != null) {
-                        AddTaskScreen(subject = selectedSubject, group = selectedGroup, popBackStack = popBackStack)
+                        AddTaskScreen(
+                            subject = selectedSubject,
+                            group = selectedGroup,
+                            navToTaskScreen = { navController.navigate(BottomNavBarItems.Task.route) },
+                            popBackStack = popBackStack)
                     }
                 }
             }
