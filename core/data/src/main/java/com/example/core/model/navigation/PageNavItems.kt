@@ -1,6 +1,9 @@
 package com.example.core.model.navigation
 
 import androidx.navigation.NavController
+import com.example.core.model.TaskMateGroup
+import com.example.core.model.TaskMateSubject
+import com.example.core.model.navigation.HomeNavigation.Companion.SETTING_GRAPH_ROUTE
 
 class HomeNavigation(private val navController: NavController) {
     companion object {
@@ -20,7 +23,18 @@ class HomeNavigation(private val navController: NavController) {
     val popBackStack: () -> Unit = { navController.popBackStack() }
 }
 
-class TaskNavigation(private val navController: NavController)
+class TaskNavigation(private val navController: NavController) {
+    companion object {
+        const val TASK_GRAPH_ROUTE = "TaskGraph"
+        const val SELECT_SUBJECT_ROUTE = "SelectSubjectScreen"
+        const val ADD_TASK_ROUTE = "AddTaskScreen/{userId}/{subjectId}/{groupId}"
+    }
+    val navToTaskScreen: () -> Unit = { navController.navigate(BottomNavBarItems.Task.route) }
+    val navToSelectSubjectScreen: () -> Unit = { navController.navigate(SELECT_SUBJECT_ROUTE) }
+    val navToAddTaskScreen: (TaskMateSubject, TaskMateGroup?) -> Unit = { _, _ -> navController.navigate(ADD_TASK_ROUTE) }
+    val navToSettingScreen: () -> Unit = { navController.navigate(SETTING_GRAPH_ROUTE) }
+    val popBackStack: () -> Unit = { navController.popBackStack() }
+}
 
 class MyPageNavigation(private val navController: NavController)
 

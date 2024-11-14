@@ -46,8 +46,8 @@ import java.util.Calendar
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddTaskScreen(
-    userId: String,
-    subject: TaskMateSubject,
+    userId: String?,
+    subject: TaskMateSubject?,
     group: TaskMateGroup?,
     navToTaskScreen: () -> Unit,
     popBackStack: () -> Unit,
@@ -72,7 +72,11 @@ fun AddTaskScreen(
     Scaffold(
         topBar = {
             PopBackTaskMateAppBar(
-                title = { Text(text = subject.name, color = MaterialTheme.colorScheme.secondary) },
+                title = {
+                    subject?.let {
+                        Text(text = it.name, color = MaterialTheme.colorScheme.secondary)
+                    }
+                },
                 popBackScreen = popBackStack,
                 modifier = Modifier,
             )
@@ -208,9 +212,9 @@ fun AddTaskScreen(
                 Button(
                     onClick = {
                         viewModel.createTask(
-                            userId = userId,
+                            userId = userId!!,
                             groupId = group?.groupId,
-                            subjectId = subject.subjectId,
+                            subjectId = subject!!.subjectId,
                             title = title,
                             destination = destination,
                             deadlineDate = deadlineDate,
