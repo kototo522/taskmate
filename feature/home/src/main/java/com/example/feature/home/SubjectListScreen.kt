@@ -66,23 +66,21 @@ fun SubjectListScreen(
             }
         },
     ) { innerPadding ->
-        Column(modifier = Modifier.padding(innerPadding)) {
-            LazyColumn(
-                modifier = Modifier.fillMaxSize(),
-            ) {
-                items(userSubjects.size) { index ->
-                    val subject = userSubjects[index]
-                    val groupName = groups.find { it.groupId == subject.groupId }?.groupName ?: "Unknown Group"
-                    SubjectListCard(
-                        subject = subject,
-                        groupName = groupName,
-                        rowIndex = rowIndex,
-                        columnIndex = columnIndex,
-                        onSuccess = {
-                            navToHomeScreen()
-                        },
-                    )
-                }
+        LazyColumn(
+            modifier = Modifier.padding(innerPadding).fillMaxSize(),
+        ) {
+            items(userSubjects.size) { index ->
+                val subject = userSubjects[index]
+                val groupName = groups.find { it.groupId == subject.groupId }?.groupName ?: "Unknown Group"
+                SubjectListCard(
+                    subject = subject,
+                    groupName = groupName,
+                    rowIndex = rowIndex,
+                    columnIndex = columnIndex,
+                    onSuccess = {
+                        navToHomeScreen()
+                    },
+                )
             }
         }
     }

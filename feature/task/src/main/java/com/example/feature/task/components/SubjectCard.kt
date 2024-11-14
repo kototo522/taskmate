@@ -1,57 +1,68 @@
 package com.example.feature.task.components
 
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.core.model.TaskMateSubject
-import com.example.core.ui.taskmateComponents.icon.TaskMateIcons
 
 @Composable
-fun SubjectCard(subject: TaskMateSubject, onClick: () -> Unit) {
+fun SubjectCard(
+    subject: TaskMateSubject,
+    groupName: String,
+    onClick: () -> Unit,
+) {
     Card(
-        modifier = Modifier
-            .padding(horizontal = 24.dp, vertical = 8.dp)
-            .clickable(onClick = onClick)
-            .border(
-                width = 1.dp,
-                color = MaterialTheme.colorScheme.primary,
-                shape = RoundedCornerShape(size = 5.dp),
-            )
-            .fillMaxWidth(),
-        shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.onPrimary),
+        shape = RoundedCornerShape(size = 5.dp),
+        colors =
+        CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+        ),
+        modifier =
+        Modifier
+            .padding(start = 12.dp, top = 8.dp, end = 12.dp)
+            .fillMaxWidth()
+            .clickable {
+                onClick()
+            },
     ) {
-        Row(
-            modifier = Modifier.padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically,
+        Column(
+            modifier = Modifier
+                .padding(horizontal = 20.dp),
         ) {
-            Icon(
-                painter = painterResource(id = TaskMateIcons.Bock),
-                contentDescription = null,
-                tint = Color.Blue,
-                modifier = Modifier.size(24.dp),
-            )
             Text(
                 text = subject.name,
-                modifier = Modifier.padding(start = 16.dp),
-                fontSize = 20.sp,
-                color = MaterialTheme.colorScheme.secondary,
+                style =
+                TextStyle(
+                    fontSize = 20.sp,
+                    lineHeight = 20.sp,
+                    fontWeight = FontWeight(700),
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    letterSpacing = 0.5.sp,
+                ),
+                modifier = Modifier.padding(vertical = 14.dp),
+            )
+            Text(
+                text = "グループ名: $groupName",
+                modifier = Modifier.padding(bottom = 10.dp),
+                style = TextStyle(
+                    fontSize = 14.sp,
+                    lineHeight = 14.sp,
+                    fontWeight = FontWeight(700),
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    letterSpacing = 0.5.sp,
+                ),
             )
         }
     }

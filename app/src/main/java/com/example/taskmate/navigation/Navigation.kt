@@ -100,7 +100,7 @@ fun Navigation(modifier: Modifier, user: TaskMateUser?, groups: List<TaskMateGro
                 }
                 composable(route = "SelectSubjectScreen") {
                     if (isUserAuthenticated) {
-                        SelectSubjectScreen(navToAddTaskScreen, popBackStack)
+                        SelectSubjectScreen(user, groups, subjects, navToAddTaskScreen, popBackStack)
                     }
                 }
                 composable(route = "AddTaskScreen") {
