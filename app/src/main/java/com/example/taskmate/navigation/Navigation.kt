@@ -12,10 +12,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.core.model.TaskMateGroup
 import com.example.core.model.TaskMateSubject
 import com.example.core.model.TaskMateUser
@@ -64,7 +66,10 @@ fun Navigation(modifier: Modifier, user: TaskMateUser?, groups: List<TaskMateGro
     val currentRoute = navStackBackEntry?.destination?.route
     val navToSettingScreen = { navController.navigate(SETTING_GRAPH_ROUTE) }
     val navToSelectSubjectScreen = { navController.navigate("SelectSubjectScreen") }
-    val navToAddTaskScreen: (TaskMateSubject) -> Unit = { navController.navigate("AddTaskScreen") }
+    val navToAddTaskScreen: (TaskMateSubject, TaskMateGroup?) -> Unit = { subject, group ->
+        navController.navigate("AddTaskScreen/${subject.subjectId}/${group?.groupId ?: "null"}")
+    }
+
     val popBackStack: () -> Unit = { navController.popBackStack() }
 
     Scaffold(
@@ -103,9 +108,20 @@ fun Navigation(modifier: Modifier, user: TaskMateUser?, groups: List<TaskMateGro
                         SelectSubjectScreen(user, groups, subjects, navToAddTaskScreen, popBackStack)
                     }
                 }
-                composable(route = "AddTaskScreen") {
-                    if (isUserAuthenticated) {
-                        AddTaskScreen(popBackStack = popBackStack)
+                composable(
+                    route = "AddTaskScreen/{subjectId}/{groupId}",
+                    arguments = listOf(
+                        navArgument("subjectId") { type = NavType.StringType },
+                        navArgument("groupId") { type = NavType.StringType; defaultValue = "null" }
+                    )
+                ) { backStackEntry ->
+                    val subjectId = backStackEntry.arguments?.getString("subjectId") ?: ""
+                    val groupId = backStackEntry.arguments?.getString("groupId")
+                    val selectedSubject = subjects.find { it.subjectId == subjectId }
+                    val selectedGroup = groups.find { it.groupId == groupId }
+
+                    if (isUserAuthenticated && selectedSubject != null) {
+                        AddTaskScreen(subject = selectedSubject, group = selectedGroup, popBackStack = popBackStack)
                     }
                 }
             }

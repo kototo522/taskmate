@@ -27,7 +27,7 @@ fun SelectSubjectScreen(
     user: TaskMateUser?,
     groups: List<TaskMateGroup>,
     subjects: List<TaskMateSubject>,
-    navToAddTaskScreen: (TaskMateSubject) -> Unit,
+    navToAddTaskScreen: (TaskMateSubject, TaskMateGroup?) -> Unit,
     popBackStack: () -> Unit,
 ) {
     val context = LocalContext.current
@@ -58,11 +58,11 @@ fun SelectSubjectScreen(
             ) {
                 items(userSubjects.size) { index ->
                     val subject = userSubjects[index]
-                    val groupName = groups.firstOrNull { it.groupId == subject.groupId }?.groupName ?: "Unknown Group"
+                    val group = groups.firstOrNull { it.groupId == subject.groupId }
                     SubjectCard(
                         subject = subject,
-                        groupName = groupName,
-                        onClick = { navToAddTaskScreen(subject) }
+                        group = group,
+                        onClick = { subject, group -> navToAddTaskScreen(subject, group) }
                     )
                 }
             }

@@ -15,13 +15,14 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.core.model.TaskMateGroup
 import com.example.core.model.TaskMateSubject
 
 @Composable
 fun SubjectCard(
     subject: TaskMateSubject,
-    groupName: String,
-    onClick: () -> Unit,
+    group: TaskMateGroup?,
+    onClick: (TaskMateSubject, TaskMateGroup? ) -> Unit,
 ) {
     Card(
         shape = RoundedCornerShape(size = 5.dp),
@@ -34,7 +35,7 @@ fun SubjectCard(
             .padding(start = 12.dp, top = 8.dp, end = 12.dp)
             .fillMaxWidth()
             .clickable {
-                onClick()
+                onClick(subject, group)
             },
     ) {
         Column(
@@ -53,17 +54,19 @@ fun SubjectCard(
                 ),
                 modifier = Modifier.padding(vertical = 14.dp),
             )
-            Text(
-                text = "グループ名: $groupName",
-                modifier = Modifier.padding(bottom = 10.dp),
-                style = TextStyle(
-                    fontSize = 14.sp,
-                    lineHeight = 14.sp,
-                    fontWeight = FontWeight(700),
-                    color = MaterialTheme.colorScheme.onPrimaryContainer,
-                    letterSpacing = 0.5.sp,
-                ),
-            )
+            if (group != null) {
+                Text(
+                    text = "グループ名: ${group.groupName}",
+                    modifier = Modifier.padding(bottom = 10.dp),
+                    style = TextStyle(
+                        fontSize = 14.sp,
+                        lineHeight = 14.sp,
+                        fontWeight = FontWeight(700),
+                        color = MaterialTheme.colorScheme.onPrimaryContainer,
+                        letterSpacing = 0.5.sp,
+                    ),
+                )
+            }
         }
     }
 }

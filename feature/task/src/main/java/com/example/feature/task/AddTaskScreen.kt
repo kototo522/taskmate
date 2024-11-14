@@ -36,6 +36,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.core.model.TaskMateGroup
+import com.example.core.model.TaskMateSubject
 import com.example.core.model.string.TaskMateStrings
 import com.example.core.ui.taskmateComponents.appBar.PopBackTaskMateAppBar
 import com.example.core.ui.taskmateComponents.icon.TaskMateIcons
@@ -43,7 +45,11 @@ import java.util.Calendar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddTaskScreen(popBackStack: () -> Unit) {
+fun AddTaskScreen(
+    subject: TaskMateSubject,
+    group: TaskMateGroup?,
+    popBackStack: () -> Unit
+) {
     val context = LocalContext.current
     var title by remember { mutableStateOf("") }
     var destination by remember { mutableStateOf("") }
@@ -63,7 +69,7 @@ fun AddTaskScreen(popBackStack: () -> Unit) {
     Scaffold(
         topBar = {
             PopBackTaskMateAppBar(
-                title = { Text(text = context.getString(TaskMateStrings.AddTask), color = MaterialTheme.colorScheme.secondary) },
+                title = { Text(text = subject.name, color = MaterialTheme.colorScheme.secondary) },
                 popBackScreen = popBackStack,
                 modifier = Modifier,
             )
@@ -236,10 +242,4 @@ fun AddTaskScreen(popBackStack: () -> Unit) {
             }.show()
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewAddTaskScreen() {
-    AddTaskScreen(popBackStack = {})
 }
