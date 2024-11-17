@@ -32,8 +32,8 @@ class TaskNavigation(private val navController: NavController) {
     }
     val navToTaskScreen: () -> Unit = { navController.navigate(BottomNavBarItems.Task.route) }
     val navToSelectSubjectScreen: () -> Unit = { navController.navigate(SELECT_SUBJECT_ROUTE) }
-    val navToAddTaskScreen: (TaskMateSubject, TaskMateGroup?) -> Unit = { subject, group ->
-        navController.navigate("$ADD_TASK_ROUTE/${subject.subjectId}/$group")
+    val navToAddTaskScreen: (TaskMateSubject) -> Unit = { subject ->
+        navController.navigate("$ADD_TASK_ROUTE/${subject.subjectId}")
     }
     val navToSettingScreen: () -> Unit = { navController.navigate(SETTING_GRAPH_ROUTE) }
     val popBackStack: () -> Unit = { navController.popBackStack() }

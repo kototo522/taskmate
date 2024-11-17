@@ -23,7 +23,7 @@ import com.example.core.model.TaskMateUser
 fun SubjectCard(
     subject: TaskMateSubject,
     group: TaskMateGroup?,
-    onClick: (TaskMateSubject, TaskMateGroup?) -> Unit,
+    onClick: (TaskMateSubject) -> Unit,
 ) {
     Card(
         shape = RoundedCornerShape(size = 5.dp),
@@ -36,7 +36,7 @@ fun SubjectCard(
             .padding(start = 12.dp, top = 8.dp, end = 12.dp)
             .fillMaxWidth()
             .clickable {
-                onClick(subject, group)
+                onClick(subject)
             },
     ) {
         Column(

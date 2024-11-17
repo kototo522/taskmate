@@ -49,7 +49,6 @@ import java.util.Calendar
 fun AddTaskScreen(
     userId: String?,
     subject: TaskMateSubject?,
-    group: TaskMateGroup?,
     navToTaskScreen: () -> Unit,
     popBackStack: () -> Unit,
     viewModel: TaskViewModel = viewModel(),
@@ -214,8 +213,8 @@ fun AddTaskScreen(
                     onClick = {
                         viewModel.createTask(
                             userId = userId!!,
-                            groupId = group?.groupId,
-                            subjectId = subject!!.subjectId,
+                            groupId = subject!!.groupId,
+                            subjectId = subject.subjectId,
                             title = title,
                             destination = destination,
                             deadlineDate = deadlineDate,

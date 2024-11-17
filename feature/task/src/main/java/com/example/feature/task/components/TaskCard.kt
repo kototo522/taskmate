@@ -32,7 +32,7 @@ fun TaskCard(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
         ),
         modifier = modifier
-            .padding(vertical = 12.dp, horizontal = 8.dp)
+            .padding(vertical = 4.dp, horizontal = 8.dp)
             .fillMaxWidth(),
     ) {
         Row(
@@ -65,13 +65,10 @@ fun TaskCard(
                     // 右寄せ要素
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(
-                            text = "Notify",
+                            text = "edit",
                         )
                         Text(
                             text = "Checkbox",
-                        )
-                        Text(
-                            text = "Share",
                         )
                     }
                 }
@@ -86,14 +83,33 @@ fun TaskCard(
                     ),
                     modifier = Modifier.padding(vertical = 4.dp)
                 )
-                Text(
-                    text = "$subjectName / $groupName",
-                    style = TextStyle(
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Medium,
-                        color = MaterialTheme.colorScheme.onPrimaryContainer,
-                    ),
-                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = "$subjectName / $groupName",
+                        style = TextStyle(
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Medium,
+                            color = MaterialTheme.colorScheme.onPrimaryContainer,
+                        ),
+                        modifier = Modifier.weight(2f),
+                    )
+                    // 右寄せ要素
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(
+                            text = "isShare",
+                        )
+                        Text(
+                            text = "Notify",
+                        )
+                        Text(
+                            text = "Share",
+                        )
+                    }
+                }
             }
         }
     }
