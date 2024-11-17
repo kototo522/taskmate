@@ -1,5 +1,6 @@
 package com.example.feature.task.navigation
 
+import android.util.Log
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
@@ -19,6 +20,7 @@ import com.example.feature.task.TaskScreen
 
 fun NavGraphBuilder.taskNavGraph(
     TaskController: TaskNavigation,
+    users: List<TaskMateUser>,
     user: TaskMateUser?,
     groups: List<TaskMateGroup>,
     subjects: List<TaskMateSubject>,
@@ -33,32 +35,36 @@ fun NavGraphBuilder.taskNavGraph(
         route = TASK_GRAPH_ROUTE,
     ) {
         composable(route = BottomNavBarItems.Task.route) {
-            TaskScreen(navToSettingScreen, navToSelectSubjectScreen)
+            TaskScreen(
+                users,
+                groups,
+                subjects,
+                navToSettingScreen,
+                navToSelectSubjectScreen)
         }
         composable(route = SELECT_SUBJECT_ROUTE) {
             SelectSubjectScreen(user, groups, subjects, navToAddTaskScreen, popBackStack)
         }
         composable(
-            route = ADD_TASK_ROUTE,
+            route = "$ADD_TASK_ROUTE/{subjectId}/{groupId}",
             arguments = listOf(
-                navArgument("userId") { type = NavType.StringType },
                 navArgument("subjectId") { type = NavType.StringType },
                 navArgument("groupId") { type = NavType.StringType; defaultValue = "null" },
             ),
         ) { backStackEntry ->
-            val userId = backStackEntry.arguments?.getString("userId")
-            val subjectId = backStackEntry.arguments?.getString("subjectId") ?: ""
+            val subjectId = backStackEntry.arguments?.getString("subjectId")
             val groupId = backStackEntry.arguments?.getString("groupId")
             val selectedSubject = subjects.find { it.subjectId == subjectId }
             val selectedGroup = groups.find { it.groupId == groupId }
-
-            AddTaskScreen(
-                userId = userId,
-                subject = selectedSubject,
-                group = selectedGroup,
-                navToTaskScreen = { TaskController.navToTaskScreen },
-                popBackStack = popBackStack,
-            )
+            if (user != null) {
+                AddTaskScreen(
+                    userId = user.userId,
+                    subject = selectedSubject,
+                    group = selectedGroup,
+                    navToTaskScreen = { TaskController.navToTaskScreen },
+                    popBackStack = popBackStack,
+                )
+            }
         }
     }
 }

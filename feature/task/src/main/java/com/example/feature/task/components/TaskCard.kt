@@ -1,5 +1,6 @@
 package com.example.feature.task.components
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,86 +20,80 @@ import androidx.compose.ui.unit.sp
 import com.example.core.model.TaskMateTask
 
 @Composable
-fun TaskCard(task: TaskMateTask, modifier: Modifier = Modifier) {
+fun TaskCard(
+    groupName: String,
+    subjectName: String,
+    task: TaskMateTask,
+    modifier: Modifier = Modifier,
+) {
     Card(
-        shape = RoundedCornerShape(size = 5.dp),
-        colors =
-        CardDefaults.cardColors(
+        shape = RoundedCornerShape(size = 8.dp),
+        colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
         ),
-        modifier =
-        Modifier
+        modifier = modifier
             .padding(vertical = 12.dp, horizontal = 8.dp)
             .fillMaxWidth(),
     ) {
-        Row {
+        Row(
+            modifier = Modifier.padding(8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             DisplayDate(
                 deadlineDate = task.deadlineDate,
-                modifier = modifier.padding(vertical = 4.dp),
+                modifier = Modifier
+                    .padding(end = 4.dp),
             )
-            Column {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.Center
+            ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 20.dp, top = 18.dp),
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Text(
-                        text = task.title,
-                        style =
-                        TextStyle(
-                            fontSize = 20.sp,
-                            lineHeight = 20.sp,
-                            fontWeight = FontWeight(700),
-                            color = MaterialTheme.colorScheme.onPrimaryContainer,
-                            letterSpacing = 0.5.sp,
-                        ),
-                        modifier = Modifier.weight(3f),
-                    )
                     Text(
                         text = task.deadlineTime,
-                        style =
-                        TextStyle(
+                        style = TextStyle(
                             fontSize = 16.sp,
-                            lineHeight = 16.sp,
-                            fontWeight = FontWeight(700),
-                            color = MaterialTheme.colorScheme.onPrimaryContainer,
-                        ),
-                        modifier = Modifier.weight(1f),
-                    )
-                }
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 20.dp, top = 14.dp),
-                ) {
-                    Text(
-                        text = task.subjectId,
-                        modifier = Modifier
-                            .weight(2f),
-                        style = TextStyle(
-                            fontSize = 14.sp,
-                            lineHeight = 14.sp,
-                            fontWeight = FontWeight(700),
+                            fontWeight = FontWeight.Medium,
                             color = MaterialTheme.colorScheme.onPrimaryContainer,
                             letterSpacing = 0.5.sp,
                         ),
                     )
+                    // 右寄せ要素
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(
+                            text = "Notify",
+                        )
+                        Text(
+                            text = "Checkbox",
+                        )
+                        Text(
+                            text = "Share",
+                        )
+                    }
+                }
 
-                    Text(
-                        text = "最終編集者: ${task.userId}",
-                        modifier = Modifier
-                            .weight(1f),
-                        style = TextStyle(
-                            fontSize = 14.sp,
-                            lineHeight = 14.sp,
-                            fontWeight = FontWeight(700),
-                            color = MaterialTheme.colorScheme.onPrimaryContainer,
-                            letterSpacing = 0.5.sp,
-                        ),
-                    )
-                }
+                Text(
+                    text = task.title,
+                    style = TextStyle(
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer,
+                        letterSpacing = 0.5.sp,
+                    ),
+                    modifier = Modifier.padding(vertical = 4.dp)
+                )
+                Text(
+                    text = "$subjectName / $groupName",
+                    style = TextStyle(
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Medium,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    ),
+                )
             }
         }
     }

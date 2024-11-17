@@ -32,7 +32,13 @@ import com.example.feature.task.navigation.taskNavGraph
 import com.google.firebase.auth.FirebaseAuth
 
 @Composable
-fun Navigation(modifier: Modifier, user: TaskMateUser?, groups: List<TaskMateGroup>, subjects: List<TaskMateSubject>) {
+fun Navigation(
+    modifier: Modifier,
+    users: List<TaskMateUser>,
+    user: TaskMateUser?,
+    groups: List<TaskMateGroup>,
+    subjects: List<TaskMateSubject>
+) {
     val navController = rememberNavController()
     val auth = FirebaseAuth.getInstance()
     var isUserAuthenticated by remember { mutableStateOf(auth.currentUser != null) }
@@ -53,7 +59,6 @@ fun Navigation(modifier: Modifier, user: TaskMateUser?, groups: List<TaskMateGro
         BottomNavBarItems.Task,
         BottomNavBarItems.MyPage,
     )
-
     val homeNavigation = navController.home()
     val taskNavigation = navController.task()
     val settingNavigation = navController.setting()
@@ -62,11 +67,6 @@ fun Navigation(modifier: Modifier, user: TaskMateUser?, groups: List<TaskMateGro
     val navStackBackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navStackBackEntry?.destination?.route
     val navToSettingScreen = { navController.navigate(SETTING_GRAPH_ROUTE) }
-    val navToSelectSubjectScreen = { navController.navigate("SelectSubjectScreen") }
-    val navToAddTaskScreen: (TaskMateSubject, TaskMateGroup?) -> Unit = { subject, group ->
-        navController.navigate("AddTaskScreen/${user?.userId}/${subject.subjectId}/${group?.groupId ?: "null"}")
-    }
-
     val popBackStack: () -> Unit = { navController.popBackStack() }
 
     Scaffold(
@@ -88,7 +88,7 @@ fun Navigation(modifier: Modifier, user: TaskMateUser?, groups: List<TaskMateGro
                 if (isUserAuthenticated) {
                     settingNavGraph(settingNavigation, user)
                     homeNavGraph(homeNavigation, user, groups, subjects)
-                    taskNavGraph(taskNavigation, user, groups, subjects)
+                    taskNavGraph(taskNavigation, users, user, groups, subjects)
                 }
                 composable(route = BottomNavBarItems.MyPage.route) {
                     if (isUserAuthenticated) {

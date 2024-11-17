@@ -16,12 +16,18 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.core.model.TaskMateGroup
+import com.example.core.model.TaskMateSubject
+import com.example.core.model.TaskMateUser
 import com.example.core.model.string.TaskMateStrings
 import com.example.core.ui.taskmateComponents.appBar.MainTaskMateAppBar
 import com.example.feature.task.components.TaskCard
 
 @Composable
 fun TaskScreen(
+    users: List<TaskMateUser>,
+    group: List<TaskMateGroup>,
+    subjects: List<TaskMateSubject>,
     navToSettingScreen: () -> Unit,
     navToSelectSubjectScreen: () -> Unit,
     viewModel: TaskViewModel = viewModel(),
@@ -56,7 +62,9 @@ fun TaskScreen(
                 modifier = Modifier.fillMaxSize(),
             ) {
                 items(tasks.size) { task ->
-                    TaskCard(tasks[task], Modifier.padding(16.dp))
+                    val groupName = group.firstOrNull { it.groupId == tasks[task].groupId }?.groupName ?: "Unknown Group"
+                    val subjectsName = subjects.firstOrNull { it.subjectId == tasks[task].subjectId }?.name ?: "Unknown Subject"
+                    TaskCard(groupName, subjectsName, tasks[task], Modifier.padding(16.dp))
                 }
             }
         }
