@@ -1,8 +1,6 @@
 package com.example.feature.task.navigation
 
-import android.util.Log
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.navigation.NavGraphBuilder
@@ -44,7 +42,8 @@ fun NavGraphBuilder.taskNavGraph(
                 groups,
                 subjects,
                 navToSettingScreen,
-                navToSelectSubjectScreen)
+                navToSelectSubjectScreen,
+            )
         }
         composable(route = SELECT_SUBJECT_ROUTE) {
             SelectSubjectScreen(user, groups, subjects, navToAddTaskScreen, popBackStack)

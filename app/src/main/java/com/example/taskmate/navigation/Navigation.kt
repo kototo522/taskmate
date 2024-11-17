@@ -37,7 +37,7 @@ fun Navigation(
     users: List<TaskMateUser>,
     user: TaskMateUser?,
     groups: List<TaskMateGroup>,
-    subjects: List<TaskMateSubject>
+    subjects: List<TaskMateSubject>,
 ) {
     val navController = rememberNavController()
     val auth = FirebaseAuth.getInstance()

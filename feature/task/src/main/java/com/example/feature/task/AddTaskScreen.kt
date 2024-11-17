@@ -2,7 +2,6 @@ package com.example.feature.task
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -37,7 +36,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.core.model.TaskMateGroup
 import com.example.core.model.TaskMateSubject
 import com.example.core.model.string.TaskMateStrings
 import com.example.core.ui.taskmateComponents.appBar.PopBackTaskMateAppBar

@@ -1,9 +1,7 @@
 package com.example.core.model.navigation
 
 import androidx.navigation.NavController
-import com.example.core.model.TaskMateGroup
 import com.example.core.model.TaskMateSubject
-import com.example.core.model.TaskMateUser
 import com.example.core.model.navigation.HomeNavigation.Companion.SETTING_GRAPH_ROUTE
 
 class HomeNavigation(private val navController: NavController) {

@@ -37,7 +37,7 @@ fun TaskCard(
     ) {
         Row(
             modifier = Modifier.padding(8.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             DisplayDate(
                 deadlineDate = task.deadlineDate,
@@ -46,12 +46,12 @@ fun TaskCard(
             )
             Column(
                 modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.Center
+                verticalArrangement = Arrangement.Center,
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
+                    horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
                     Text(
                         text = task.deadlineTime,
@@ -81,12 +81,12 @@ fun TaskCard(
                         color = MaterialTheme.colorScheme.onPrimaryContainer,
                         letterSpacing = 0.5.sp,
                     ),
-                    modifier = Modifier.padding(vertical = 4.dp)
+                    modifier = Modifier.padding(vertical = 4.dp),
                 )
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
+                    horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
                     Text(
                         text = "$subjectName / $groupName",
