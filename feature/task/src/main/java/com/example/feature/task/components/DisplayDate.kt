@@ -2,7 +2,6 @@ package com.example.feature.task.components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
@@ -16,28 +15,27 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun DisplayDate(modifier: Modifier = Modifier) {
+fun DisplayDate(
+    deadlineDate: String,
+    modifier: Modifier = Modifier,
+) {
+    val dateParts = deadlineDate.split("/")
+    if (dateParts.size < 3) {
+        return
+    }
+    val year = dateParts[0]
+    val month = dateParts[1]
+    val day = dateParts[2]
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .height(100.dp)
-            .padding(vertical = 4.dp, horizontal = 18.dp),
+        modifier = modifier
+            .padding(horizontal = 12.dp),
     ) {
-        Text(
-            text = "2024",
-            style =
-            TextStyle(
-                fontSize = 14.sp,
-                lineHeight = 14.sp,
-                fontWeight = FontWeight(700),
-                color = MaterialTheme.colorScheme.onPrimaryContainer,
-            ),
-            modifier = Modifier.padding(vertical = 8.dp),
-        )
         Box {
             Text(
-                text = "11",
-                modifier = Modifier.offset(x = (-10).dp),
+                text = month,
+                modifier = modifier.offset(x = (-10).dp),
                 style =
                 TextStyle(
                     fontSize = 22.sp,
@@ -48,7 +46,7 @@ fun DisplayDate(modifier: Modifier = Modifier) {
             Text(
                 text = "／",
                 modifier =
-                Modifier
+                modifier
                     .padding(4.dp)
                     .offset(x = 0.dp, y = 2.dp),
                 style =
@@ -59,9 +57,9 @@ fun DisplayDate(modifier: Modifier = Modifier) {
                 ),
             )
             Text(
-                text = "10",
+                text = day,
                 modifier =
-                Modifier
+                modifier
                     .padding(4.dp)
                     .offset(x = 14.dp, y = 18.dp),
                 style =
@@ -72,5 +70,16 @@ fun DisplayDate(modifier: Modifier = Modifier) {
                 ),
             )
         }
+        Text(
+            text = year,
+            style =
+            TextStyle(
+                fontSize = 14.sp,
+                lineHeight = 14.sp,
+                fontWeight = FontWeight(700),
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
+            ),
+            modifier = Modifier.align(Alignment.CenterHorizontally).padding(vertical = 4.dp),
+        )
     }
 }

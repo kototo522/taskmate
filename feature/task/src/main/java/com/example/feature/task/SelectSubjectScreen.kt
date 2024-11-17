@@ -8,45 +8,38 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import com.example.core.model.TaskMateGroup
 import com.example.core.model.TaskMateSubject
+import com.example.core.model.TaskMateUser
 import com.example.core.model.string.TaskMateStrings
 import com.example.core.ui.taskmateComponents.appBar.PopBackTaskMateAppBar
 import com.example.feature.task.components.SubjectCard
-import java.util.Date
 
 @Composable
 fun SelectSubjectScreen(
+    user: TaskMateUser?,
+    groups: List<TaskMateGroup>,
+    subjects: List<TaskMateSubject>,
     navToAddTaskScreen: (TaskMateSubject) -> Unit,
     popBackStack: () -> Unit,
 ) {
     val context = LocalContext.current
-    val subjects = listOf(
-        TaskMateSubject(
-            subjectId = "1",
-            name = "数学",
-            groupId = "group1",
-            columnIndex = listOf(0), // 1限
-            rowIndex = listOf(0), // 月
-            createdAt = Date(),
-        ),
-        TaskMateSubject(
-            subjectId = "2",
-            name = "英語",
-            groupId = "group1",
-            columnIndex = listOf(1), // 2限
-            rowIndex = listOf(1), // 火
-            createdAt = Date(),
-        ),
-    )
+
+    val userGroupIds = remember { mutableStateOf(user?.groupId.orEmpty()) }
+    val userSubjects = subjects.filter { subject ->
+        userGroupIds.value.contains(subject.groupId)
+    }
 
     Scaffold(
         topBar = {
             PopBackTaskMateAppBar(
-                title = { Text(context.getString(TaskMateStrings.AddIcon), color = MaterialTheme.colorScheme.secondary) },
+                title = { Text(context.getString(TaskMateStrings.AddTask), color = MaterialTheme.colorScheme.secondary) },
                 popBackScreen = popBackStack,
                 modifier = Modifier,
             )
@@ -62,8 +55,14 @@ fun SelectSubjectScreen(
             LazyColumn(
                 modifier = Modifier.padding(horizontal = 8.dp),
             ) {
-                items(subjects.size) { index ->
-                    SubjectCard(subject = subjects[index], onClick = { navToAddTaskScreen(subjects[index]) })
+                items(userSubjects.size) { index ->
+                    val subject = userSubjects[index]
+                    val group = groups.firstOrNull { it.groupId == subject.groupId }
+                    SubjectCard(
+                        subject = subject,
+                        group = group,
+                        onClick = { subject -> navToAddTaskScreen(subject) },
+                    )
                 }
             }
         }

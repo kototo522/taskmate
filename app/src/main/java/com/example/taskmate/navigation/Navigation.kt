@@ -28,13 +28,17 @@ import com.example.feature.auth.navigation.authNavGraph
 import com.example.feature.home.navigation.homeNavGraph
 import com.example.feature.mypage.MyPageScreen
 import com.example.feature.setting.navigation.settingNavGraph
-import com.example.feature.task.AddTaskScreen
-import com.example.feature.task.SelectSubjectScreen
-import com.example.feature.task.TaskScreen
+import com.example.feature.task.navigation.taskNavGraph
 import com.google.firebase.auth.FirebaseAuth
 
 @Composable
-fun Navigation(modifier: Modifier, user: TaskMateUser?, groups: List<TaskMateGroup>, subjects: List<TaskMateSubject>) {
+fun Navigation(
+    modifier: Modifier,
+    users: List<TaskMateUser>,
+    user: TaskMateUser?,
+    groups: List<TaskMateGroup>,
+    subjects: List<TaskMateSubject>,
+) {
     val navController = rememberNavController()
     val auth = FirebaseAuth.getInstance()
     var isUserAuthenticated by remember { mutableStateOf(auth.currentUser != null) }
@@ -55,16 +59,14 @@ fun Navigation(modifier: Modifier, user: TaskMateUser?, groups: List<TaskMateGro
         BottomNavBarItems.Task,
         BottomNavBarItems.MyPage,
     )
-
     val homeNavigation = navController.home()
+    val taskNavigation = navController.task()
     val settingNavigation = navController.setting()
     val authNavigation = navController.auth()
 
     val navStackBackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navStackBackEntry?.destination?.route
     val navToSettingScreen = { navController.navigate(SETTING_GRAPH_ROUTE) }
-    val navToSelectSubjectScreen = { navController.navigate("SelectSubjectScreen") }
-    val navToAddTaskScreen: (TaskMateSubject) -> Unit = { navController.navigate("AddTaskScreen") }
     val popBackStack: () -> Unit = { navController.popBackStack() }
 
     Scaffold(
@@ -86,26 +88,11 @@ fun Navigation(modifier: Modifier, user: TaskMateUser?, groups: List<TaskMateGro
                 if (isUserAuthenticated) {
                     settingNavGraph(settingNavigation, user)
                     homeNavGraph(homeNavigation, user, groups, subjects)
-                }
-
-                composable(route = BottomNavBarItems.Task.route) {
-                    if (isUserAuthenticated) {
-                        TaskScreen(navToSettingScreen, navToSelectSubjectScreen)
-                    }
+                    taskNavGraph(taskNavigation, users, user, groups, subjects)
                 }
                 composable(route = BottomNavBarItems.MyPage.route) {
                     if (isUserAuthenticated) {
                         MyPageScreen(navToSettingScreen, user, groups)
-                    }
-                }
-                composable(route = "SelectSubjectScreen") {
-                    if (isUserAuthenticated) {
-                        SelectSubjectScreen(navToAddTaskScreen, popBackStack)
-                    }
-                }
-                composable(route = "AddTaskScreen") {
-                    if (isUserAuthenticated) {
-                        AddTaskScreen(popBackStack = popBackStack)
                     }
                 }
             }

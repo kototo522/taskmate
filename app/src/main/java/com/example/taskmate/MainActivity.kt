@@ -36,7 +36,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             TaskmateTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Navigation(modifier = Modifier.padding(innerPadding), user = user, groups = groups, subjects = subjects)
+                    Navigation(modifier = Modifier.padding(innerPadding), users = users, user = user, groups = groups, subjects = subjects)
                 }
             }
             // Firestoreからユーザデータを取得

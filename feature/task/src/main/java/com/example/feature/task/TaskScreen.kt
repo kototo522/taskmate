@@ -1,7 +1,6 @@
 package com.example.feature.task
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -16,28 +15,27 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.core.model.Task
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.core.model.TaskMateGroup
+import com.example.core.model.TaskMateSubject
+import com.example.core.model.TaskMateUser
 import com.example.core.model.string.TaskMateStrings
 import com.example.core.ui.taskmateComponents.appBar.MainTaskMateAppBar
 import com.example.feature.task.components.TaskCard
 
 @Composable
 fun TaskScreen(
+    users: List<TaskMateUser>,
+    group: List<TaskMateGroup>,
+    subjects: List<TaskMateSubject>,
     navToSettingScreen: () -> Unit,
     navToSelectSubjectScreen: () -> Unit,
+    viewModel: TaskViewModel = viewModel(),
 ) {
+    viewModel.fetchTask()
     val context = LocalContext.current
-    val tasks = listOf(
-        Task("タスク1"),
-        Task("タスク2"),
-        Task("タスク3"),
-        Task("タスク4"),
-        Task("タスク5"),
-        Task("タスク6"),
-        Task("タスク7"),
-        Task("タスク8"),
-        Task("タスク9"),
-    )
+    val tasks = viewModel.tasks
+
     Scaffold(
         topBar = {
             MainTaskMateAppBar(navToSettingScreen, Modifier)
@@ -60,15 +58,13 @@ fun TaskScreen(
                 .fillMaxSize(),
             contentAlignment = Alignment.TopCenter,
         ) {
-            Column() {
-                Box(modifier = Modifier.align(Alignment.End)) {
-                }
-                LazyColumn(
-                    modifier = Modifier.fillMaxSize(),
-                ) {
-                    items(tasks.size) { task ->
-                        TaskCard(tasks[task], Modifier.padding(16.dp))
-                    }
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+            ) {
+                items(tasks.size) { task ->
+                    val groupName = group.firstOrNull { it.groupId == tasks[task].groupId }?.groupName ?: "Unknown Group"
+                    val subjectsName = subjects.firstOrNull { it.subjectId == tasks[task].subjectId }?.name ?: "Unknown Subject"
+                    TaskCard(groupName, subjectsName, tasks[task], Modifier.padding(16.dp))
                 }
             }
         }
