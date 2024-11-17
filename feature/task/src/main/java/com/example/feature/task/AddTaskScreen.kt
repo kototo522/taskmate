@@ -60,6 +60,7 @@ fun AddTaskScreen(
     var showDatePicker by remember { mutableStateOf(false) }
     var showTimePicker by remember { mutableStateOf(false) }
     var expanded by remember { mutableStateOf(false) }
+    val isError = remember { mutableStateOf(false) }
     var selectedText by remember { mutableStateOf(context.getString(TaskMateStrings.NotRemind)) }
     val remindTime = listOf(
         context.getString(TaskMateStrings.NotRemind),
@@ -205,29 +206,46 @@ fun AddTaskScreen(
                         Text(context.getString(TaskMateStrings.TaskPrivate))
                     }
                 }
-
-                // タスク追加ボタン
-                Button(
-                    onClick = {
-                        viewModel.createTask(
-                            userId = userId!!,
-                            groupId = subject!!.groupId,
-                            subjectId = subject.subjectId,
-                            title = title,
-                            destination = destination,
-                            deadlineDate = deadlineDate,
-                            deadlineTime = deadlineTime,
-                            visibility = visibility,
-                            remindTime = selectedText,
-                            onSuccess = {
-                                navToTaskScreen()
-                            },
-                            onFailure = { e -> println(e) },
-                        )
-                    },
-                    modifier = Modifier.align(Alignment.End),
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
-                    Text(text = context.getString(TaskMateStrings.AddTask))
+                    if (isError.value) {
+                        Text(
+                            text = "入力漏れがあります",
+                            color = MaterialTheme.colorScheme.error,
+                            modifier = Modifier.padding(top = 8.dp).weight(1f),
+                        )
+                    } else {
+                        Spacer(modifier = Modifier.weight(1f))
+                    }
+                    // タスク追加ボタン
+                    Button(
+                        onClick = {
+                            if (title == "" || deadlineDate == "" || deadlineTime == "" || destination == "") {
+                                isError.value = true
+                            } else {
+                                isError.value = false
+                                viewModel.createTask(
+                                    userId = userId!!,
+                                    groupId = subject!!.groupId,
+                                    subjectId = subject.subjectId,
+                                    title = title,
+                                    destination = destination,
+                                    deadlineDate = deadlineDate,
+                                    deadlineTime = deadlineTime,
+                                    visibility = visibility,
+                                    remindTime = selectedText,
+                                    onSuccess = {
+                                        navToTaskScreen()
+                                    },
+                                    onFailure = { e -> println(e) },
+                                )
+                            }
+                        },
+                    ) {
+                        Text(text = context.getString(TaskMateStrings.AddTask))
+                    }
                 }
             }
         }
