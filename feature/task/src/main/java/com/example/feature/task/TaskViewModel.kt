@@ -89,4 +89,40 @@ class TaskViewModel : ViewModel() {
             }
         }
     }
+
+    fun deleteTask(taskId: String) {
+        viewModelScope.launch {
+            try {
+                firestore.collection("tasks").document(taskId)
+                    .delete()
+                    .addOnSuccessListener {
+                        Log.d("TaskViewModel", "Task deleted successfully: $taskId")
+
+                        firestore.collection("subjects")
+                            .whereArrayContains("taskIds", taskId)
+                            .get()
+                            .addOnSuccessListener { querySnapshot ->
+                                for (document in querySnapshot) {
+                                    document.reference.update("taskIds", FieldValue.arrayRemove(taskId))
+                                        .addOnSuccessListener {
+                                            Log.d("TaskViewModel", "Task ID removed from subject.")
+                                        }
+                                        .addOnFailureListener { exception ->
+                                            Log.e("TaskViewModel", "Error removing task ID from subject: ${exception.message}")
+                                        }
+                                }
+                            }
+                            .addOnFailureListener { exception ->
+                                Log.e("TaskViewModel", "Error finding related subjects: ${exception.message}")
+                            }
+                    }
+                    .addOnFailureListener { exception ->
+                        Log.e("TaskViewModel", "Error deleting task: ${exception.message}")
+                    }
+                fetchTask()
+            } catch (e: Exception) {
+                Log.e("TaskViewModel", "Unexpected error during task deletion: ${e.message}")
+            }
+        }
+    }
 }

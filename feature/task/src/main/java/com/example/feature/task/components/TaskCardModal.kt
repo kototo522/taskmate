@@ -21,9 +21,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.example.core.model.TaskMateGroup
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.core.model.TaskMateTask
 import com.example.core.ui.taskmateComponents.TaskMateAlertDialog
+import com.example.feature.task.TaskViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -36,7 +37,7 @@ fun TaskCardModal(
     task: TaskMateTask,
     groupName: String,
     subjectName: String,
-    onSave: (List<TaskMateGroup>) -> Unit,
+    viewModel: TaskViewModel = viewModel(),
 ) {
     val showDeleteConfirm = remember { mutableStateOf(false) }
 
@@ -108,7 +109,7 @@ fun TaskCardModal(
             confirmButton = {
                 Button(
                     onClick = {
-                        // TODO: 削除処理
+                        viewModel.deleteTask(task.taskId)
                         showDeleteConfirm.value = false
                         scope.launch {
                             sheetState.hide()

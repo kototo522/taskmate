@@ -105,7 +105,7 @@ fun TaskScreen(
                     task = selectedTask.value!!,
                     groupName = selectedGroup.value!!,
                     subjectName = selectedSubject.value!!,
-                ) {}
+                )
             }
         }
     }
