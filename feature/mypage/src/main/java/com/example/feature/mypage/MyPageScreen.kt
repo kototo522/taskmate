@@ -64,6 +64,8 @@ fun MyPageScreen(
     groups: List<TaskMateGroup>,
     viewModel: MyPageViewModel = viewModel(),
 ) {
+    viewModel.fetchUserData()
+
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
@@ -256,6 +258,7 @@ fun MyPageScreen(
 
         if (isEditGroupSheetOpen.value) {
             EditTagCardModal(
+                user = user,
                 group = userGroups.value,
                 pastGroup = userPastGroups.value,
                 scope = scope,
@@ -264,7 +267,7 @@ fun MyPageScreen(
                 onSave = { selectedGroupIds ->
                     viewModel.userGroupUpdate(
                         userId = user?.userId ?: "",
-                        groupIds = selectedGroupIds,
+                        groups = selectedGroupIds,
                         onSuccess = { Log.d("MyPage", "グループ情報が正常に更新されました。") },
                         onFailure = { error -> Log.e("MyPage", "エラー: $error") },
                     )

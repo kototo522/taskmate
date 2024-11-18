@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.core.model.Class
 import com.example.core.model.TaskMateGroup
 import com.example.core.model.TaskMateSubject
@@ -29,7 +30,11 @@ fun HomeScreen(
     subjects: List<TaskMateSubject>,
     navToSettingScreen: () -> Unit,
     navToSubjectListScreen: (Int, Int?) -> Unit,
+    viewModel: HomeViewModel = viewModel(),
 ) {
+    if (user == null) {
+        viewModel.fetchAllData()
+    }
     val dayClassList = listOf("1限", "2限", "3限", "4限")
     val userGroupIds = remember { mutableStateOf(user?.groupId.orEmpty()) }
     val classList = remember(subjects) {
