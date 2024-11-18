@@ -1,5 +1,6 @@
 package com.example.feature.task.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -31,6 +32,7 @@ fun TaskCard(
     subjectName: String,
     task: TaskMateTask,
     isChecked: MutableState<Boolean>,
+    onCardClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Card(
@@ -39,8 +41,10 @@ fun TaskCard(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
         ),
         modifier = modifier
-            .padding(vertical = 4.dp, horizontal = 8.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clickable {
+                onCardClick()
+            },
     ) {
         Row(
             modifier = Modifier.padding(8.dp),
@@ -78,22 +82,15 @@ fun TaskCard(
                                 color = MaterialTheme.colorScheme.onPrimaryContainer,
                                 letterSpacing = 0.5.sp,
                             ),
-                            modifier = Modifier.padding(top = 4.dp, bottom = 8.dp),
+                            modifier = Modifier.padding(top = 2.dp, bottom = 8.dp),
                         )
                     }
-                    // 右寄せ要素
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(
-                            painter = painterResource(TaskMateIcons.Edit),
-                            contentDescription = "",
-                        )
-                        Checkbox(
-                            checked = isChecked.value,
-                            onCheckedChange = { newValue ->
-                                isChecked.value = newValue
-                            },
-                        )
-                    }
+                    Checkbox(
+                        checked = isChecked.value,
+                        onCheckedChange = { newValue ->
+                            isChecked.value = newValue
+                        },
+                    )
                 }
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
