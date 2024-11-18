@@ -13,4 +13,6 @@ object TaskMateIcons {
     val Edit = R.drawable.edit
     val Group = R.drawable.group
     val Logout = R.drawable.logout
+    val Share = R.drawable.share
+    val Notify = R.drawable.notify
 }
