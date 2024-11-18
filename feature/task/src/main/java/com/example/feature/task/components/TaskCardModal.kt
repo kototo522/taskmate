@@ -27,7 +27,6 @@ import com.example.core.ui.taskmateComponents.TaskMateAlertDialog
 import com.example.feature.task.TaskViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TaskCardModal(
@@ -39,7 +38,15 @@ fun TaskCardModal(
     subjectName: String,
     viewModel: TaskViewModel = viewModel(),
 ) {
+    val isEditing = remember { mutableStateOf(false) }
     val showDeleteConfirm = remember { mutableStateOf(false) }
+
+    // 編集用State
+    val titleState = remember { mutableStateOf(task.title) }
+    val deadlineDateState = remember { mutableStateOf(task.deadlineDate) }
+    val deadlineTimeState = remember { mutableStateOf(task.deadlineTime) }
+    val destinationState = remember { mutableStateOf(task.destination) }
+    val visibilityState = remember { mutableStateOf(task.visibility) }
 
     ModalBottomSheet(
         onDismissRequest = {
@@ -56,52 +63,115 @@ fun TaskCardModal(
                 .fillMaxSize(),
             contentAlignment = Alignment.Center,
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight()
-                    .padding(16.dp),
-            ) {
-                TaskDetailText(label = "課題名", value = task.title)
-                TaskDetailText(label = "教科名/ グループ名", value = "$subjectName/ $groupName")
-                TaskDetailText(label = "期限", value = "${task.deadlineDate} ${task.deadlineTime}")
-                TaskDetailText(label = "提出場所", value = task.destination)
-                TaskDetailText(label = "リマインド", value = task.remindTime)
-                TaskDetailText(label = "公開範囲", value = task.visibility)
-
-                Row(
+            if (isEditing.value) {
+                // 編集モード
+                Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(14.dp),
-                    verticalAlignment = Alignment.CenterVertically,
+                        .padding(16.dp),
                 ) {
-                    Button(
-                        onClick = {
-                            scope.launch {
-                                sheetState.hide()
-                                isSheetOpen.value = false
-                            }
-                        },
-                        modifier = Modifier
-                            .padding(horizontal = 12.dp)
-                            .weight(1f),
-                    ) {
-                        Text("編集")
+                    TaskEditField(label = "課題名", value = titleState.value) {
+                        titleState.value = it
                     }
-                    Button(
-                        onClick = {
-                            showDeleteConfirm.value = true
-                        },
+                    TaskEditField(label = "期限日", value = deadlineDateState.value) {
+                        deadlineDateState.value = it
+                    }
+                    TaskEditField(label = "期限時間", value = deadlineTimeState.value) {
+                        deadlineTimeState.value = it
+                    }
+                    TaskEditField(label = "提出場所", value = destinationState.value) {
+                        destinationState.value = it
+                    }
+                    TaskEditField(label = "公開範囲", value = visibilityState.value) {
+                        visibilityState.value = it
+                    }
+
+                    Row(
                         modifier = Modifier
-                            .padding(horizontal = 12.dp)
-                            .weight(1f),
+                            .fillMaxWidth()
+                            .padding(14.dp),
+                        verticalAlignment = Alignment.CenterVertically,
                     ) {
-                        Text("削除")
+                        Button(
+                            onClick = {
+                                isEditing.value = false
+                            },
+                            modifier = Modifier
+                                .padding(horizontal = 12.dp)
+                                .weight(1f),
+                        ) {
+                            Text("キャンセル")
+                        }
+                        Button(
+                            onClick = {
+                                viewModel.updateTask(
+                                    taskId = task.taskId,
+                                    title = titleState.value,
+                                    deadlineDate = deadlineDateState.value,
+                                    deadlineTime = deadlineTimeState.value,
+                                    destination = destinationState.value,
+                                    visibility = visibilityState.value,
+                                    onSuccess = {
+                                        isEditing.value = false
+                                    },
+                                    onFailure = {},
+                                )
+                            },
+                            modifier = Modifier
+                                .padding(horizontal = 12.dp)
+                                .weight(1f),
+                        ) {
+                            Text("保存")
+                        }
+                    }
+                }
+            } else {
+                // 詳細表示モード
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight()
+                        .padding(16.dp),
+                ) {
+                    TaskDetailText(label = "課題名", value = task.title)
+                    TaskDetailText(label = "教科名/ グループ名", value = "$subjectName/ $groupName")
+                    TaskDetailText(label = "期限", value = "${task.deadlineDate} ${task.deadlineTime}")
+                    TaskDetailText(label = "提出場所", value = task.destination)
+                    TaskDetailText(label = "リマインド", value = "${task.remindTime}")
+                    TaskDetailText(label = "公開範囲", value = task.visibility)
+
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(14.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Button(
+                            onClick = {
+                                isEditing.value = true
+                            },
+                            modifier = Modifier
+                                .padding(horizontal = 12.dp)
+                                .weight(1f),
+                        ) {
+                            Text("編集")
+                        }
+                        Button(
+                            onClick = {
+                                showDeleteConfirm.value = true
+                            },
+                            modifier = Modifier
+                                .padding(horizontal = 12.dp)
+                                .weight(1f),
+                        ) {
+                            Text("削除")
+                        }
                     }
                 }
             }
         }
     }
+
     if (showDeleteConfirm.value) {
         TaskMateAlertDialog(
             title = "確認",
@@ -129,11 +199,26 @@ fun TaskCardModal(
 }
 
 @Composable
+fun TaskEditField(label: String, value: String, onValueChange: (String) -> Unit) {
+    Column(modifier = Modifier.padding(vertical = 8.dp)) {
+        Text(
+            text = label,
+            color = MaterialTheme.colorScheme.onBackground,
+        )
+        androidx.compose.material3.OutlinedTextField(
+            value = value,
+            onValueChange = onValueChange,
+            modifier = Modifier.fillMaxWidth(),
+        )
+    }
+}
+
+@Composable
 fun TaskDetailText(label: String, value: String) {
     Text(
         text = label,
         color = MaterialTheme.colorScheme.onBackground,
-        modifier = Modifier.padding(bottom = 4.dp),
+        modifier = Modifier.padding(bottom = 2.dp),
     )
     Text(
         text = value,
@@ -141,6 +226,6 @@ fun TaskDetailText(label: String, value: String) {
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onBackground,
         ),
-        modifier = Modifier.padding(bottom = 12.dp),
+        modifier = Modifier.padding(bottom = 8.dp),
     )
 }

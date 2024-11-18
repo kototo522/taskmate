@@ -14,10 +14,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Button
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -59,14 +56,7 @@ fun AddTaskScreen(
     var visibility by remember { mutableStateOf(context.getString(TaskMateStrings.TaskPublic)) }
     var showDatePicker by remember { mutableStateOf(false) }
     var showTimePicker by remember { mutableStateOf(false) }
-    var expanded by remember { mutableStateOf(false) }
     val isError = remember { mutableStateOf(false) }
-    var selectedText by remember { mutableStateOf(context.getString(TaskMateStrings.NotRemind)) }
-    val remindTime = listOf(
-        context.getString(TaskMateStrings.NotRemind),
-        context.getString(TaskMateStrings.Before1Day),
-        context.getString(TaskMateStrings.Before2Day),
-    )
 
     Scaffold(
         topBar = {
@@ -86,7 +76,7 @@ fun AddTaskScreen(
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize()
-                .padding(16.dp),
+                .padding(horizontal = 16.dp),
             contentAlignment = Alignment.Center,
         ) {
             Column(
@@ -117,9 +107,7 @@ fun AddTaskScreen(
                         value = deadlineDate,
                         onValueChange = { deadlineDate = it },
                         label = { Text(context.getString(TaskMateStrings.DeadlineDate)) },
-                        modifier = Modifier
-                            .weight(1f)
-                            .padding(end = 8.dp),
+                        modifier = Modifier.weight(1f),
                         readOnly = true,
                         trailingIcon = {
                             IconButton(onClick = {
@@ -130,13 +118,14 @@ fun AddTaskScreen(
                         },
                     )
 
+                    Spacer(Modifier.width(16.dp))
+
                     OutlinedTextField(
                         value = deadlineTime,
                         onValueChange = { deadlineTime = it },
                         label = { Text(context.getString(TaskMateStrings.DeadlineTime)) },
                         modifier = Modifier
-                            .weight(1f)
-                            .padding(start = 8.dp),
+                            .weight(1f),
                         readOnly = true,
                         trailingIcon = {
                             IconButton(onClick = {
@@ -146,41 +135,6 @@ fun AddTaskScreen(
                             }
                         },
                     )
-                }
-
-                // リマインドの設定
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    OutlinedTextField(
-                        value = selectedText,
-                        onValueChange = {},
-                        label = { Text(context.getString(TaskMateStrings.Remind)) },
-                        readOnly = true,
-                        trailingIcon = {
-                            IconButton(onClick = { expanded = !expanded }) {
-                                ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
-                            }
-                        },
-                        modifier = Modifier.fillMaxWidth(),
-                    )
-
-                    DropdownMenu(
-                        expanded = expanded,
-                        onDismissRequest = { expanded = false },
-                        modifier = Modifier.fillMaxWidth(0.9f),
-                    ) {
-                        remindTime.forEach { item ->
-                            DropdownMenuItem(
-                                text = { Text(text = item) },
-                                onClick = {
-                                    selectedText = item
-                                    expanded = false
-                                },
-                            )
-                        }
-                    }
                 }
 
                 Text(context.getString(TaskMateStrings.PublicationRange))
@@ -235,7 +189,6 @@ fun AddTaskScreen(
                                     deadlineDate = deadlineDate,
                                     deadlineTime = deadlineTime,
                                     visibility = visibility,
-                                    remindTime = selectedText,
                                     onSuccess = {
                                         navToTaskScreen()
                                     },

@@ -24,7 +24,6 @@ class TaskViewModel : ViewModel() {
         deadlineDate: String,
         deadlineTime: String,
         visibility: String,
-        remindTime: String,
         onSuccess: () -> Unit,
         onFailure: (String) -> Unit,
     ) {
@@ -43,7 +42,7 @@ class TaskViewModel : ViewModel() {
                     "deadlineDate" to deadlineDate,
                     "deadlineTime" to deadlineTime,
                     "visibility" to visibility,
-                    "remindTime" to remindTime,
+                    "remindTime" to false,
                 )
 
                 firestore.collection("tasks").document(taskId)
@@ -64,6 +63,7 @@ class TaskViewModel : ViewModel() {
             } catch (e: Exception) {
                 onFailure(e.message ?: "不明なエラーが発生しました。")
             }
+            fetchTask()
         }
     }
 
@@ -124,5 +124,31 @@ class TaskViewModel : ViewModel() {
                 Log.e("TaskViewModel", "Unexpected error during task deletion: ${e.message}")
             }
         }
+    }
+
+    fun updateTask(
+        taskId: String,
+        title: String,
+        deadlineDate: String,
+        deadlineTime: String,
+        destination: String,
+        visibility: String,
+        onSuccess: () -> Unit,
+        onFailure: (String) -> Unit,
+    ) {
+        val updatedData = mapOf(
+            "title" to title,
+            "deadlineDate" to deadlineDate,
+            "deadlineTime" to deadlineTime,
+            "destination" to destination,
+            "visibility" to visibility,
+        )
+
+        firestore.collection("tasks").document(taskId)
+            .update(updatedData)
+            .addOnSuccessListener { onSuccess() }
+            .addOnFailureListener { exception ->
+                onFailure(exception.message ?: "更新に失敗しました。")
+            }
     }
 }

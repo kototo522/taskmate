@@ -10,7 +10,7 @@ data class TaskMateTask(
     val deadlineDate: String,
     val deadlineTime: String,
     val visibility: String,
-    val remindTime: String,
+    val remindTime: Boolean,
 ) {
-    constructor() : this("", "", "", "", "", "", "", "", "", "")
+    constructor() : this("", "", "", "", "", "", "", "", "", false)
 }

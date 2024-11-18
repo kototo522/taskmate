@@ -29,6 +29,9 @@ import com.example.core.model.string.TaskMateStrings
 import com.example.core.ui.taskmateComponents.appBar.MainTaskMateAppBar
 import com.example.feature.task.components.TaskCard
 import com.example.feature.task.components.TaskCardModal
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -49,6 +52,15 @@ fun TaskScreen(
     val scope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val isCardClick = remember { mutableStateOf(false) }
+    val sortedTasks = tasks.sortedBy { task ->
+        val dateFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd")
+        val timeFormatter = DateTimeFormatter.ofPattern("HH:mm")
+
+        val deadlineDate = LocalDate.parse(task.deadlineDate, dateFormatter)
+        val deadlineTime = LocalTime.parse(task.deadlineTime, timeFormatter)
+        val deadlineDateTime = deadlineDate.atTime(deadlineTime)
+        deadlineDateTime
+    }
 
     Scaffold(
         topBar = {
@@ -75,17 +87,17 @@ fun TaskScreen(
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
             ) {
-                items(tasks.size) { task ->
-                    selectedGroup.value = group.firstOrNull { it.groupId == tasks[task].groupId }?.groupName ?: "Unknown Group"
-                    selectedSubject.value = subjects.firstOrNull { it.subjectId == tasks[task].subjectId }?.name ?: "Unknown Subject"
+                items(sortedTasks.size) { task ->
+                    selectedGroup.value = group.firstOrNull { it.groupId == sortedTasks[task].groupId }?.groupName ?: "Unknown Group"
+                    selectedSubject.value = subjects.firstOrNull { it.subjectId == sortedTasks[task].subjectId }?.name ?: "Unknown Subject"
                     val isChecked = remember { mutableStateOf(false) }
                     TaskCard(
                         selectedGroup.value!!,
                         selectedSubject.value!!,
-                        tasks[task],
+                        sortedTasks[task],
                         isChecked,
                         onCardClick = {
-                            selectedTask.value = tasks[task]
+                            selectedTask.value = sortedTasks[task]
                             isCardClick.value = true
                         },
                         Modifier.padding(vertical = 8.dp, horizontal = 16.dp),
