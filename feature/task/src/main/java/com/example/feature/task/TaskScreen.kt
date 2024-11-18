@@ -10,6 +10,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -64,7 +66,14 @@ fun TaskScreen(
                 items(tasks.size) { task ->
                     val groupName = group.firstOrNull { it.groupId == tasks[task].groupId }?.groupName ?: "Unknown Group"
                     val subjectsName = subjects.firstOrNull { it.subjectId == tasks[task].subjectId }?.name ?: "Unknown Subject"
-                    TaskCard(groupName, subjectsName, tasks[task], Modifier.padding(16.dp))
+                    val isChecked = remember { mutableStateOf(false) }
+                    TaskCard(
+                        groupName,
+                        subjectsName,
+                        tasks[task],
+                        isChecked,
+                        Modifier.padding(16.dp),
+                    )
                 }
             }
         }
