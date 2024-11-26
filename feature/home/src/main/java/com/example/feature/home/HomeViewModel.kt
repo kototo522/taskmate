@@ -1,9 +1,8 @@
 package com.example.feature.home
 
 import android.util.Log
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.core.model.TaskMateGroup
 import com.example.core.model.TaskMateSubject
@@ -14,10 +13,15 @@ import com.google.firebase.firestore.FirebaseFirestore
 class HomeViewModel : ViewModel() {
     private val db = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
-    private var users by mutableStateOf<List<TaskMateUser>>(emptyList())
-    private var user by mutableStateOf<TaskMateUser?>(null)
-    private var groups by mutableStateOf<List<TaskMateGroup>>(emptyList())
-    private var subjects by mutableStateOf<List<TaskMateSubject>>(emptyList())
+
+    private val _userState = mutableStateOf<TaskMateUser?>(null)
+    val userState: State<TaskMateUser?> get() = _userState
+
+    private val _groups = mutableStateOf<List<TaskMateGroup>>(emptyList())
+    val groupsState: State<List<TaskMateGroup>> get() = _groups
+
+    private val _subjects = mutableStateOf<List<TaskMateSubject>>(emptyList())
+    val subjectsState: State<List<TaskMateSubject>> get() = _subjects
 
     fun fetchAllData() {
         fetchUserData { success ->
@@ -33,14 +37,10 @@ class HomeViewModel : ViewModel() {
             .whereEqualTo("userId", auth.currentUser?.uid)
             .get()
             .addOnSuccessListener { documents ->
-                users = documents.map { it.toObject(TaskMateUser::class.java) }
-                user = users.find { it.userId == auth.currentUser?.uid }
-                if (user == null) {
-                    Log.e("HomeViewModel", "User not found")
-                    callback(false)
-                } else {
-                    callback(true)
-                }
+                val users = documents.map { it.toObject(TaskMateUser::class.java) }
+                val user = users.find { it.userId == auth.currentUser?.uid }
+                _userState.value = user
+                callback(user != null)
             }
             .addOnFailureListener { exception ->
                 Log.e("HomeViewModel", "Error fetching user data", exception)
@@ -52,13 +52,10 @@ class HomeViewModel : ViewModel() {
         db.collection("groups")
             .get()
             .addOnSuccessListener { groupDocuments ->
-                groups = groupDocuments.map { groupDocument ->
-                    val group = groupDocument.toObject(TaskMateGroup::class.java)
-                    group
-                }
+                _groups.value = groupDocuments.map { it.toObject(TaskMateGroup::class.java) }
             }
             .addOnFailureListener { exception ->
-                exception.localizedMessage?.let { Log.e("groupsDBError", it) }
+                Log.e("groupsDBError", exception.localizedMessage.orEmpty())
             }
     }
 
@@ -66,12 +63,10 @@ class HomeViewModel : ViewModel() {
         db.collection("subjects")
             .get()
             .addOnSuccessListener { subjectDocuments ->
-                subjects = subjectDocuments.map { subjectDocument ->
-                    subjectDocument.toObject(TaskMateSubject::class.java)
-                }
+                _subjects.value = subjectDocuments.map { it.toObject(TaskMateSubject::class.java) }
             }
             .addOnFailureListener { exception ->
-                exception.localizedMessage?.let { Log.e("subjectsDBError", it) }
+                Log.e("subjectsDBError", exception.localizedMessage.orEmpty())
             }
     }
 }

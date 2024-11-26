@@ -89,10 +89,8 @@ fun Navigation(
                     settingNavGraph(settingNavigation, user)
                     homeNavGraph(homeNavigation, user, groups, subjects)
                     taskNavGraph(taskNavigation, users, user, groups, subjects)
-                }
-                composable(route = BottomNavBarItems.MyPage.route) {
-                    if (isUserAuthenticated) {
-                        MyPageScreen(navToSettingScreen, user, groups)
+                    composable(route = BottomNavBarItems.MyPage.route) {
+                        MyPageScreen(navToSettingScreen, groups)
                     }
                 }
             }
