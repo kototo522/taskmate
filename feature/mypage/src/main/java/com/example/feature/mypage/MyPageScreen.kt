@@ -31,7 +31,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -47,7 +49,6 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.AsyncImage
 import com.example.core.model.TaskMateGroup
-import com.example.core.model.TaskMateUser
 import com.example.core.model.string.TaskMateStrings
 import com.example.core.ui.taskmateComponents.appBar.MainTaskMateAppBar
 import com.example.core.ui.taskmateComponents.icon.TaskMateIcons
@@ -60,10 +61,15 @@ import kotlinx.coroutines.launch
 @Composable
 fun MyPageScreen(
     navToSettingScreen: () -> Unit,
-    user: TaskMateUser?,
     groups: List<TaskMateGroup>,
     viewModel: MyPageViewModel = viewModel(),
 ) {
+    val user by remember { viewModel.userState }
+    LaunchedEffect(Unit) {
+        if (user == null || user?.userName == "ユーザネーム") {
+            viewModel.fetchUserData()
+        }
+    }
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
@@ -113,7 +119,7 @@ fun MyPageScreen(
                 }
 
                 viewModel.changeIcon(
-                    userId = user.userId,
+                    userId = user!!.userId,
                     imageUrl = uri,
                     onSuccess = {
                         Log.d("MyPage", "アイコンが正常に更新されました。")
@@ -256,6 +262,7 @@ fun MyPageScreen(
 
         if (isEditGroupSheetOpen.value) {
             EditTagCardModal(
+                user = user,
                 group = userGroups.value,
                 pastGroup = userPastGroups.value,
                 scope = scope,
@@ -264,7 +271,7 @@ fun MyPageScreen(
                 onSave = { selectedGroupIds ->
                     viewModel.userGroupUpdate(
                         userId = user?.userId ?: "",
-                        groupIds = selectedGroupIds,
+                        groups = selectedGroupIds,
                         onSuccess = { Log.d("MyPage", "グループ情報が正常に更新されました。") },
                         onFailure = { error -> Log.e("MyPage", "エラー: $error") },
                     )

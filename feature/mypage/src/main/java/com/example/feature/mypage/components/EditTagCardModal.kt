@@ -1,5 +1,6 @@
 package com.example.feature.mypage.components
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -32,21 +33,26 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.core.model.TaskMateGroup
+import com.example.core.model.TaskMateUser
 import com.example.core.ui.taskmateComponents.TaskMateAlertDialog
 import com.example.core.ui.taskmateComponents.icon.TaskMateIcons
+import com.example.feature.mypage.MyPageViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditTagCardModal(
+    user: TaskMateUser?,
     group: List<TaskMateGroup>,
     pastGroup: List<TaskMateGroup>,
     scope: CoroutineScope,
     sheetState: SheetState,
     isSheetOpen: MutableState<Boolean>,
     onSave: (List<TaskMateGroup>) -> Unit,
+    viewModel: MyPageViewModel = viewModel(),
 ) {
     // 各グループのチェック状態を追跡するリスト
     val checkedGroups = remember {
@@ -104,7 +110,22 @@ fun EditTagCardModal(
                                 fontWeight = FontWeight.Bold,
                                 modifier = Modifier.weight(2f),
                             )
-                            IconButton(onClick = { showDeleteConfirm.value = true }) {
+                            IconButton(onClick = {
+                                if (user != null) {
+                                    viewModel.deleteGroup(
+                                        userId = user.userId,
+                                        groupId = groupItem.groupId,
+                                        onSuccess = {
+                                            Log.d("DeleteGroup", "Group ${groupItem.groupId} deleted successfully")
+                                            viewModel.fetchUserData()
+                                            showDeleteConfirm.value = true
+                                        },
+                                        onFailure = { error ->
+                                            Log.e("DeleteGroup", "Error deleting group: $error")
+                                        },
+                                    )
+                                }
+                            }) {
                                 Icon(
                                     painter = painterResource(id = TaskMateIcons.Delete),
                                     modifier = Modifier.size(28.dp),

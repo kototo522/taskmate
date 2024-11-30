@@ -41,27 +41,31 @@ class MainActivity : ComponentActivity() {
             }
             // Firestoreからユーザデータを取得
             LaunchedEffect(isUserAuthenticated, users, groups, db) {
-                db.collection("users")
-                    .whereEqualTo("userId", auth.currentUser?.uid)
-                    .get()
-                    .addOnSuccessListener { documents ->
-                        users = documents.map { document ->
-                            document.toObject(TaskMateUser::class.java)
-                        }
-                        // 現在のユーザーを取得
-                        user = users.find { it.userId == auth.currentUser?.uid }
-                        if (user == null) {
-                            Log.e("user", "User not found")
-                        } else {
-                            fetchAllGroups()
-                            fetchSubjects()
-                        }
-                    }
-                    .addOnFailureListener { exception ->
-                        exception.localizedMessage?.let { Log.e("UsersDBError", it) }
-                    }
+                fetchUserData()
             }
         }
+    }
+
+    private fun fetchUserData() {
+        db.collection("users")
+            .whereEqualTo("userId", auth.currentUser?.uid)
+            .get()
+            .addOnSuccessListener { documents ->
+                users = documents.map { document ->
+                    document.toObject(TaskMateUser::class.java)
+                }
+                // 現在のユーザーを取得
+                user = users.find { it.userId == auth.currentUser?.uid }
+                if (user == null) {
+                    Log.e("user", "User not found")
+                } else {
+                    fetchAllGroups()
+                    fetchSubjects()
+                }
+            }
+            .addOnFailureListener { exception ->
+                exception.localizedMessage?.let { Log.e("UsersDBError", it) }
+            }
     }
 
     private fun fetchAllGroups() {

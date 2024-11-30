@@ -7,6 +7,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -15,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.core.model.Class
 import com.example.core.model.TaskMateGroup
 import com.example.core.model.TaskMateSubject
@@ -29,9 +31,11 @@ fun HomeScreen(
     subjects: List<TaskMateSubject>,
     navToSettingScreen: () -> Unit,
     navToSubjectListScreen: (Int, Int?) -> Unit,
+    viewModel: HomeViewModel = viewModel(),
 ) {
+    val fetchedUser by remember { viewModel.userState }
     val dayClassList = listOf("1限", "2限", "3限", "4限")
-    val userGroupIds = remember { mutableStateOf(user?.groupId.orEmpty()) }
+    val userGroupIds = remember { mutableStateOf(fetchedUser?.groupId.orEmpty()) }
     val classList = remember(subjects) {
         val days = listOf("月", "火", "水", "木", "金")
         days.map { day ->
@@ -40,6 +44,12 @@ fun HomeScreen(
                 classList = MutableList(4) { "" },
             )
         }.toMutableList()
+    }
+
+    LaunchedEffect(fetchedUser) {
+        if (fetchedUser == null) {
+            viewModel.fetchAllData()
+        }
     }
 
     subjects.forEach { subject ->
@@ -58,7 +68,13 @@ fun HomeScreen(
         },
     ) { innerPadding ->
         Column(modifier = Modifier.fillMaxSize().padding(innerPadding), horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(text = "グループ名", fontSize = 18.sp, fontWeight = FontWeight(600), style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(20.dp))
+            Text(
+                text = "グループ名",
+                fontSize = 18.sp,
+                fontWeight = FontWeight(600),
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.padding(20.dp),
+            )
             TimeSchedule(dayClassList, classList, navToSubjectListScreen)
         }
     }
