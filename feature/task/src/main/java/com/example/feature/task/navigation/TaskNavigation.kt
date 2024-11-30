@@ -38,7 +38,7 @@ fun NavGraphBuilder.taskNavGraph(
     ) {
         composable(route = BottomNavBarItems.Task.route) {
             TaskScreen(
-                users,
+                user,
                 groups,
                 subjects,
                 navToSettingScreen,

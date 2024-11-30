@@ -12,6 +12,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -36,7 +37,7 @@ import java.time.format.DateTimeFormatter
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TaskScreen(
-    users: List<TaskMateUser>,
+    user: TaskMateUser?,
     group: List<TaskMateGroup>,
     subjects: List<TaskMateSubject>,
     navToSettingScreen: () -> Unit,
@@ -52,15 +53,17 @@ fun TaskScreen(
     val scope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val isCardClick = remember { mutableStateOf(false) }
-    val sortedTasks = tasks.sortedBy { task ->
-        val dateFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd")
-        val timeFormatter = DateTimeFormatter.ofPattern("HH:mm")
 
-        val deadlineDate = LocalDate.parse(task.deadlineDate, dateFormatter)
-        val deadlineTime = LocalTime.parse(task.deadlineTime, timeFormatter)
-        val deadlineDateTime = deadlineDate.atTime(deadlineTime)
-        deadlineDateTime
-    }
+    val userGroupIds = user?.groupId ?: listOf()
+    val sortedTasks = tasks
+        .filter { it.groupId in userGroupIds }
+        .sortedBy { task ->
+            val dateFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd")
+            val timeFormatter = DateTimeFormatter.ofPattern("HH:mm")
+            val deadlineDate = LocalDate.parse(task.deadlineDate, dateFormatter)
+            val deadlineTime = LocalTime.parse(task.deadlineTime, timeFormatter)
+            deadlineDate.atTime(deadlineTime)
+        }
 
     Scaffold(
         topBar = {
