@@ -77,6 +77,7 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation(project(":core:data"))
     implementation(project(":core:ui"))
+    implementation(project(":core:repository"))
     implementation(project(":feature:home"))
     implementation(project(":feature:task"))
     implementation(project(":feature:mypage"))
