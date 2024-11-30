@@ -1,5 +1,6 @@
 package com.example.feature.home
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -36,6 +37,15 @@ fun HomeScreen(
     val fetchedUser by remember { viewModel.userState }
     val dayClassList = listOf("1限", "2限", "3限", "4限")
     val userGroupIds = remember { mutableStateOf(fetchedUser?.groupId.orEmpty()) }
+    val filteredSubjects = remember(userGroupIds.value, subjects) {
+        subjects.filter { subject ->
+            userGroupIds.value.contains(subject.groupId)
+        }
+    }
+    fetchedUser?.let { Log.e("Subjectuser", it.userName) }
+    Log.e("Subjectusergroupid", userGroupIds.value.toString())
+    Log.e("Subject", subjects.toString())
+    Log.e("filteredSubject", filteredSubjects.toString())
     val classList = remember(subjects) {
         val days = listOf("月", "火", "水", "木", "金")
         days.map { day ->
@@ -49,10 +59,12 @@ fun HomeScreen(
     LaunchedEffect(fetchedUser) {
         if (fetchedUser == null) {
             viewModel.fetchAllData()
+        } else {
+            userGroupIds.value = fetchedUser!!.groupId
         }
     }
 
-    subjects.forEach { subject ->
+    filteredSubjects.forEach { subject ->
         subject.rowIndex.forEach { dayIndex ->
             subject.columnIndex.forEach { periodIndex ->
                 if (dayIndex in 0..4 && periodIndex in 0..3) {
