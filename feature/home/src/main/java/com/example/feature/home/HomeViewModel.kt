@@ -9,8 +9,10 @@ import com.example.core.model.TaskMateSubject
 import com.example.core.model.TaskMateUser
 import com.example.repository.HomeRepository
 import com.google.firebase.auth.FirebaseAuth
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 
+@HiltViewModel
 class HomeViewModel(private val repository: HomeRepository) : ViewModel() {
 
     private val _userState = mutableStateOf<TaskMateUser?>(null)

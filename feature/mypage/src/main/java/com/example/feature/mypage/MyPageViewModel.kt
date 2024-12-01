@@ -10,8 +10,10 @@ import com.example.core.model.TaskMateGroup
 import com.example.core.model.TaskMateSubject
 import com.example.core.model.TaskMateUser
 import com.example.repository.MyPageRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 
+@HiltViewModel
 class MyPageViewModel(
     private val repository: MyPageRepository,
 ) : ViewModel() {

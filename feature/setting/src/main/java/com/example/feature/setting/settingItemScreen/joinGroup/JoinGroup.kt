@@ -27,7 +27,6 @@ fun JoinGroup(
     popBackStack: () -> Unit,
     joinUserId: String,
     joinGroupViewModel: JoinGroupViewModel = viewModel(),
-    modifier: Modifier = Modifier,
 ) {
     Scaffold(
         topBar = {

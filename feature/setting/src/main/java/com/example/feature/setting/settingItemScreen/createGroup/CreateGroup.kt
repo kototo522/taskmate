@@ -27,7 +27,6 @@ fun CreateGroup(
     popBackStack: () -> Unit,
     createUserId: String,
     createGroupViewModel: CreateGroupViewModel = viewModel(),
-    modifier: Modifier = Modifier,
 ) {
     Scaffold(
         topBar = {
