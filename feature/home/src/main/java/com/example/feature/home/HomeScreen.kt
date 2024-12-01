@@ -1,6 +1,5 @@
 package com.example.feature.home
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -42,10 +41,6 @@ fun HomeScreen(
             userGroupIds.value.contains(subject.groupId)
         }
     }
-    fetchedUser?.let { Log.e("Subjectuser", it.userName) }
-    Log.e("Subjectusergroupid", userGroupIds.value.toString())
-    Log.e("Subject", subjects.toString())
-    Log.e("filteredSubject", filteredSubjects.toString())
     val classList = remember(subjects) {
         val days = listOf("月", "火", "水", "木", "金")
         days.map { day ->

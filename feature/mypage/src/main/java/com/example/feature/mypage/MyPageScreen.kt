@@ -31,7 +31,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -65,11 +64,6 @@ fun MyPageScreen(
     viewModel: MyPageViewModel = viewModel(),
 ) {
     val user by remember { viewModel.userState }
-    LaunchedEffect(Unit) {
-        if (user == null || user?.userName == "ユーザネーム") {
-            viewModel.fetchUserData()
-        }
-    }
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
@@ -121,12 +115,6 @@ fun MyPageScreen(
                 viewModel.changeIcon(
                     userId = user!!.userId,
                     imageUrl = uri,
-                    onSuccess = {
-                        Log.d("MyPage", "アイコンが正常に更新されました。")
-                    },
-                    onFailure = { error ->
-                        Log.e("MyPage", "エラー: $error")
-                    },
                 )
             }
         },
@@ -269,11 +257,9 @@ fun MyPageScreen(
                 sheetState = sheetState,
                 isSheetOpen = isEditGroupSheetOpen,
                 onSave = { selectedGroupIds ->
-                    viewModel.userGroupUpdate(
+                    viewModel.updateUserGroups(
                         userId = user?.userId ?: "",
                         groups = selectedGroupIds,
-                        onSuccess = { Log.d("MyPage", "グループ情報が正常に更新されました。") },
-                        onFailure = { error -> Log.e("MyPage", "エラー: $error") },
                     )
                 },
             )
