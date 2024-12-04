@@ -32,7 +32,7 @@ fun NavGraphBuilder.homeNavGraph(
         route = HOME_GRAPH_ROUTE,
     ) {
         composable(route = BottomNavBarItems.Home.route) {
-            HomeScreen(user, groups, subjects, navToSettingScreen, navToSubjectListScreen)
+            HomeScreen(subjects, navToSettingScreen, navToSubjectListScreen)
         }
 
         composable("$SUBJECT_LIST_ROUTE/{rowIndex}/{columnIndex}") { backStackEntry ->

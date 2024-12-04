@@ -18,16 +18,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.core.model.Class
-import com.example.core.model.TaskMateGroup
 import com.example.core.model.TaskMateSubject
-import com.example.core.model.TaskMateUser
 import com.example.core.ui.taskmateComponents.appBar.MainTaskMateAppBar
 import com.example.feature.home.components.TimeSchedule
 
 @Composable
 fun HomeScreen(
-    user: TaskMateUser?,
-    groups: List<TaskMateGroup>,
     subjects: List<TaskMateSubject>,
     navToSettingScreen: () -> Unit,
     navToSubjectListScreen: (Int, Int?) -> Unit,
