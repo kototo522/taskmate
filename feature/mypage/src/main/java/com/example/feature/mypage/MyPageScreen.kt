@@ -31,6 +31,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -61,10 +62,17 @@ import kotlinx.coroutines.launch
 @Composable
 fun MyPageScreen(
     navToSettingScreen: () -> Unit,
-    groups: List<TaskMateGroup>,
     viewModel: MyPageViewModel = hiltViewModel(),
 ) {
     val user by remember { viewModel.userState }
+    val groups by remember { viewModel.groupsState }
+    val userGroups by viewModel.userGroupsState
+
+    LaunchedEffect(user) {
+        if (user == null) {
+            viewModel.fetchAllData()
+        }
+    }
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
@@ -74,18 +82,6 @@ fun MyPageScreen(
     val userGroupIds = remember { mutableStateOf(user?.groupId.orEmpty()) }
     val userPastGroupIds = remember { mutableStateOf(user?.pastGroupId.orEmpty()) }
     val selectedGroup = remember { mutableStateOf<TaskMateGroup?>(null) }
-
-    val userGroups = remember(userGroupIds.value) {
-        derivedStateOf {
-            userGroupIds.value.let { ids ->
-                groups.filter { group ->
-                    ids.contains(group.groupId)
-                }.map { group ->
-                    group
-                }
-            }
-        }
-    }
 
     val userPastGroups = remember(userPastGroupIds.value) {
         derivedStateOf {
@@ -238,10 +234,10 @@ fun MyPageScreen(
                     LazyRow(
                         modifier = Modifier.padding(8.dp),
                     ) {
-                        items(userGroups.value.size) { index ->
-                            TagCard(userGroups.value[index].groupName) {
+                        items(userGroups.size) { index ->
+                            TagCard(userGroups[index].groupName) {
                                 isDetailSheetOpen.value = true
-                                selectedGroup.value = userGroups.value[index]
+                                selectedGroup.value = userGroups[index]
                             }
                         }
                     }
@@ -251,9 +247,6 @@ fun MyPageScreen(
 
         if (isEditGroupSheetOpen.value) {
             EditTagCardModal(
-                user = user,
-                group = userGroups.value,
-                pastGroup = userPastGroups.value,
                 scope = scope,
                 sheetState = sheetState,
                 isSheetOpen = isEditGroupSheetOpen,

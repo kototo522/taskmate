@@ -21,7 +21,7 @@ fun TagCard(
 
 ) {
     Card(
-        colors = CardDefaults.cardColors(containerColor = Color(0xFF42A5F5).copy(alpha = 0.7f)),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary),
         modifier = Modifier
             .padding(horizontal = 12.dp)
             .wrapContentSize()

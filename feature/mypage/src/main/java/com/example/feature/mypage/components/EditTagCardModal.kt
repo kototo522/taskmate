@@ -32,6 +32,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.core.model.TaskMateGroup
 import com.example.core.model.TaskMateUser
@@ -44,16 +45,17 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditTagCardModal(
-    user: TaskMateUser?,
-    group: List<TaskMateGroup>,
-    pastGroup: List<TaskMateGroup>,
     scope: CoroutineScope,
     sheetState: SheetState,
     isSheetOpen: MutableState<Boolean>,
     onSave: (List<TaskMateGroup>) -> Unit,
-    viewModel: MyPageViewModel = viewModel(),
+    viewModel: MyPageViewModel = hiltViewModel(),
 ) {
-    // 各グループのチェック状態を追跡するリスト
+    val user by remember { viewModel.userState }
+    val group by remember { viewModel.groupsState }
+    val pastGroup by remember { viewModel.pastGroupsState }
+
+// 各グループのチェック状態を追跡するリスト
     val checkedGroups = remember {
         mutableStateOf(
             pastGroup.associateWith { (group.contains(it)) },
@@ -112,7 +114,7 @@ fun EditTagCardModal(
                             IconButton(onClick = {
                                 if (user != null) {
                                     viewModel.deleteGroup(
-                                        userId = user.userId,
+                                        userId = user!!.userId,
                                         groupId = groupItem.groupId,
                                     )
                                 }

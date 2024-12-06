@@ -1,5 +1,6 @@
 package com.example.repository
 
+import android.util.Log
 import com.example.core.model.TaskMateGroup
 import com.example.core.model.TaskMateSubject
 import com.example.core.model.TaskMateUser
@@ -21,6 +22,7 @@ class MyPageRepositoryImpl @Inject constructor() : MyPageRepository {
                 .firstOrNull()
             document?.toObject(TaskMateUser::class.java)
         } catch (exception: Exception) {
+            Log.e("MyPageRepository", "ユーザーデータの取得エラー: ${exception.message}")
             null
         }
     }

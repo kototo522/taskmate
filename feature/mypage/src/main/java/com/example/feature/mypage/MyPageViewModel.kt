@@ -10,6 +10,7 @@ import com.example.core.model.TaskMateGroup
 import com.example.core.model.TaskMateSubject
 import com.example.core.model.TaskMateUser
 import com.example.repository.MyPageRepository
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -28,8 +29,33 @@ class MyPageViewModel @Inject constructor(
     private val _subjects = mutableStateOf<List<TaskMateSubject>>(emptyList())
     val subjectsState: State<List<TaskMateSubject>> get() = _subjects
 
+    private val _userGroups = mutableStateOf<List<TaskMateGroup>>(emptyList())
+    val userGroupsState: State<List<TaskMateGroup>> get() = _userGroups
+
+    private val _pastGroups = mutableStateOf<List<TaskMateGroup>>(emptyList())
+    val pastGroupsState: State<List<TaskMateGroup>> get() = _pastGroups
+
     private val _errorMessage = mutableStateOf<String?>(null)
     val errorMessage: State<String?> get() = _errorMessage
+
+    fun fetchAllData() {
+        viewModelScope.launch {
+            val userId = FirebaseAuth.getInstance().currentUser?.uid.orEmpty()
+            val user = repository.fetchUserData(userId)
+            if (user != null) {
+                _userState.value = user
+                val allGroups = repository.fetchAllGroups()
+                _groups.value = allGroups
+
+                _userGroups.value = filterUserGroups(user, allGroups)
+                _pastGroups.value = filterPastGroups(user, allGroups)
+            }
+            if (user != null) {
+                fetchAllGroups()
+                fetchSubjects()
+            }
+        }
+    }
 
     fun fetchUserData(userId: String) {
         viewModelScope.launch {
@@ -101,5 +127,14 @@ class MyPageViewModel @Inject constructor(
                 _errorMessage.value = "Error changing icon: ${exception.message}"
             }
         }
+    }
+
+    private fun filterUserGroups(user: TaskMateUser, allGroups: List<TaskMateGroup>): List<TaskMateGroup> {
+        return allGroups.filter { group -> user.groupId.contains(group.groupId) }
+    }
+
+    private fun filterPastGroups(user: TaskMateUser, allGroups: List<TaskMateGroup>): List<TaskMateGroup> {
+        val pastGroupIds = user.pastGroupId
+        return allGroups.filter { group -> pastGroupIds.contains(group.groupId) }
     }
 }

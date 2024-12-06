@@ -1,5 +1,6 @@
 package com.example.feature.task
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -12,6 +13,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -21,48 +24,36 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.core.model.TaskMateGroup
-import com.example.core.model.TaskMateSubject
 import com.example.core.model.TaskMateTask
-import com.example.core.model.TaskMateUser
 import com.example.core.model.string.TaskMateStrings
 import com.example.core.ui.taskmateComponents.appBar.MainTaskMateAppBar
 import com.example.feature.task.components.TaskCard
 import com.example.feature.task.components.TaskCardModal
-import java.time.LocalDate
-import java.time.LocalTime
-import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TaskScreen(
-    user: TaskMateUser?,
-    group: List<TaskMateGroup>,
-    subjects: List<TaskMateSubject>,
     navToSettingScreen: () -> Unit,
     navToSelectSubjectScreen: () -> Unit,
     viewModel: TaskViewModel = hiltViewModel(),
 ) {
-    viewModel.fetchTask()
+    val user by remember { viewModel.userState }
+    val group by remember { viewModel.groupsState }
+    val subjects by remember { viewModel.subjectsState }
+    val sortedTasks by remember { viewModel.sortedTasks }
+    Log.e("tasks", sortedTasks.toString())
+    LaunchedEffect(user) {
+        if (user == null) {
+            viewModel.fetchAllData()
+        }
+    }
     val context = LocalContext.current
-    val tasks = viewModel.tasks
     val selectedTask = remember { mutableStateOf<TaskMateTask?>(null) }
     val selectedGroup = remember { mutableStateOf<String?>(null) }
     val selectedSubject = remember { mutableStateOf<String?>(null) }
     val scope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val isCardClick = remember { mutableStateOf(false) }
-
-    val userGroupIds = user?.groupId ?: listOf()
-    val sortedTasks = tasks
-        .filter { it.groupId in userGroupIds }
-        .sortedBy { task ->
-            val dateFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd")
-            val timeFormatter = DateTimeFormatter.ofPattern("HH:mm")
-            val deadlineDate = LocalDate.parse(task.deadlineDate, dateFormatter)
-            val deadlineTime = LocalTime.parse(task.deadlineTime, timeFormatter)
-            deadlineDate.atTime(deadlineTime)
-        }
 
     Scaffold(
         topBar = {

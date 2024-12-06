@@ -38,15 +38,12 @@ fun NavGraphBuilder.taskNavGraph(
     ) {
         composable(route = BottomNavBarItems.Task.route) {
             TaskScreen(
-                user,
-                groups,
-                subjects,
                 navToSettingScreen,
                 navToSelectSubjectScreen,
             )
         }
         composable(route = SELECT_SUBJECT_ROUTE) {
-            SelectSubjectScreen(user, groups, subjects, navToAddTaskScreen, popBackStack)
+            SelectSubjectScreen(navToAddTaskScreen, popBackStack)
         }
         composable(
             route = "$ADD_TASK_ROUTE/{subjectId}",

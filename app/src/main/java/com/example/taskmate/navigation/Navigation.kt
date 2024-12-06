@@ -89,7 +89,7 @@ fun Navigation(
                     homeNavGraph(homeNavigation, user, groups, subjects)
                     taskNavGraph(taskNavigation, users, user, groups, subjects)
                     composable(route = BottomNavBarItems.MyPage.route) {
-                        MyPageScreen(navToSettingScreen, groups)
+                        MyPageScreen(navToSettingScreen)
                     }
                 }
             }
