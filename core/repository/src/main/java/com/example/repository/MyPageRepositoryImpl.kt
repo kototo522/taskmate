@@ -3,15 +3,13 @@ package com.example.repository
 import com.example.core.model.TaskMateGroup
 import com.example.core.model.TaskMateSubject
 import com.example.core.model.TaskMateUser
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
+import javax.inject.Inject
 
-class MyPageRepositoryImpl(
-    private val firestore: FirebaseFirestore = FirebaseFirestore.getInstance(),
-    private val auth: FirebaseAuth = FirebaseAuth.getInstance(),
-) : MyPageRepository {
+class MyPageRepositoryImpl @Inject constructor() : MyPageRepository {
+    private val firestore = FirebaseFirestore.getInstance()
 
     override suspend fun fetchUserData(userId: String): TaskMateUser? {
         return try {

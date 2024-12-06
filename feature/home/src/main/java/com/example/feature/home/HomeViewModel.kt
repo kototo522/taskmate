@@ -11,10 +11,12 @@ import com.example.repository.HomeRepository
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel(private val repository: HomeRepository) : ViewModel() {
-
+class HomeViewModel @Inject constructor(
+    private val repository: HomeRepository,
+) : ViewModel() {
     private val _userState = mutableStateOf<TaskMateUser?>(null)
     val userState: State<TaskMateUser?> get() = _userState
 

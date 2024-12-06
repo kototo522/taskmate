@@ -6,9 +6,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-class TaskRepositoryImpl @Inject constructor(
-    private val firestore: FirebaseFirestore,
-) : TaskRepository {
+class TaskRepositoryImpl @Inject constructor() : TaskRepository {
+    private val firestore = FirebaseFirestore.getInstance()
 
     override suspend fun createTask(taskData: Map<String, Any?>, subjectId: String): Result<Unit> {
         return try {

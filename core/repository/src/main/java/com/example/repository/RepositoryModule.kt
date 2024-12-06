@@ -1,29 +1,45 @@
 package com.example.repository
 
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-interface RepositoryModule {
+abstract class RepositoryModule {
     @Binds
     @Singleton
-    fun TaskRepository(
+    abstract fun TaskRepository(
         taskRepositoryImpl: TaskRepositoryImpl,
     ): TaskRepository
 
     @Binds
     @Singleton
-    fun MyPageRepository(
+    abstract fun MyPageRepository(
         myPageRepositoryImpl: MyPageRepositoryImpl,
     ): MyPageRepository
 
     @Binds
     @Singleton
-    fun HomeRepository(
+    abstract fun HomeRepository(
         homeRepositoryImpl: HomeRepositoryImpl,
     ): HomeRepository
+}
+
+@Module
+@InstallIn(SingletonComponent::class)
+object FirebaseModule {
+
+    @Provides
+    @Singleton
+    fun provideFirebaseAuth(): FirebaseAuth = FirebaseAuth.getInstance()
+
+    @Provides
+    @Singleton
+    fun provideFirebaseFirestore(): FirebaseFirestore = FirebaseFirestore.getInstance()
 }

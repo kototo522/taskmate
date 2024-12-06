@@ -4,14 +4,13 @@ import android.util.Log
 import com.example.core.model.TaskMateGroup
 import com.example.core.model.TaskMateSubject
 import com.example.core.model.TaskMateUser
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
+import javax.inject.Inject
 
-class HomeRepositoryImpl : HomeRepository {
-    private val db = FirebaseFirestore.getInstance()
-    private val auth = FirebaseAuth.getInstance()
-
+class HomeRepositoryImpl @Inject constructor(
+    private val db: FirebaseFirestore,
+) : HomeRepository {
     override suspend fun fetchUserData(userId: String): TaskMateUser? {
         return try {
             val document = db.collection("users")

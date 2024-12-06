@@ -45,6 +45,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.AsyncImage
 import com.example.core.model.TaskMateGroup
@@ -61,7 +62,7 @@ import kotlinx.coroutines.launch
 fun MyPageScreen(
     navToSettingScreen: () -> Unit,
     groups: List<TaskMateGroup>,
-    viewModel: MyPageViewModel = viewModel(),
+    viewModel: MyPageViewModel = hiltViewModel(),
 ) {
     val user by remember { viewModel.userState }
     val context = LocalContext.current

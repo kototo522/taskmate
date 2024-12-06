@@ -16,28 +16,27 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.core.model.Class
-import com.example.core.model.TaskMateSubject
 import com.example.core.ui.taskmateComponents.appBar.MainTaskMateAppBar
 import com.example.feature.home.components.TimeSchedule
 
 @Composable
 fun HomeScreen(
-    subjects: List<TaskMateSubject>,
     navToSettingScreen: () -> Unit,
     navToSubjectListScreen: (Int, Int?) -> Unit,
-    viewModel: HomeViewModel = viewModel(),
+    viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val fetchedUser by remember { viewModel.userState }
+    val fetchedSubject by remember { viewModel.subjectsState }
     val dayClassList = listOf("1限", "2限", "3限", "4限")
     val userGroupIds = remember { mutableStateOf(fetchedUser?.groupId.orEmpty()) }
-    val filteredSubjects = remember(userGroupIds.value, subjects) {
-        subjects.filter { subject ->
+    val filteredSubjects = remember(userGroupIds.value, fetchedSubject) {
+        fetchedSubject.filter { subject ->
             userGroupIds.value.contains(subject.groupId)
         }
     }
-    val classList = remember(subjects) {
+    val classList = remember(fetchedSubject) {
         val days = listOf("月", "火", "水", "木", "金")
         days.map { day ->
             Class(

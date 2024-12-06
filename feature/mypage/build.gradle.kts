@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.google.services)
+    kotlin("kapt")
+    alias(libs.plugins.hilt)
 }
 
 android {
@@ -56,10 +58,11 @@ dependencies {
     implementation(libs.firebase.firestore)
     implementation(libs.firebase.firestore)
     implementation(libs.google.firebase.auth)
-    implementation(project(":core:repository"))
     implementation(libs.hilt.android)
-    implementation(libs.hilt.android)
-    implementation(libs.hilt.android)
+    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.androidx.hilt.work)
+    implementation(libs.androidx.hilt.navigation.compose)
+    kapt(libs.hilt.compiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -67,4 +70,5 @@ dependencies {
     implementation(libs.coil.network.okhttp)
     implementation(project(":core:data"))
     implementation(project(":core:ui"))
+    implementation(project(":core:repository"))
 }

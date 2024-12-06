@@ -18,16 +18,12 @@ import com.example.core.model.TaskMateSubject
 import com.example.core.model.TaskMateUser
 import com.example.taskmate.navigation.Navigation
 import com.example.taskmate.ui.theme.TaskmateTheme
-import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    @Inject
-    lateinit var analytics: FirebaseAnalytics
 
     private val db = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()

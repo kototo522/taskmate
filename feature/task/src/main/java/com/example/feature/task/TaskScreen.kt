@@ -12,7 +12,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -21,7 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.core.model.TaskMateGroup
 import com.example.core.model.TaskMateSubject
 import com.example.core.model.TaskMateTask
@@ -42,7 +41,7 @@ fun TaskScreen(
     subjects: List<TaskMateSubject>,
     navToSettingScreen: () -> Unit,
     navToSelectSubjectScreen: () -> Unit,
-    viewModel: TaskViewModel = viewModel(),
+    viewModel: TaskViewModel = hiltViewModel(),
 ) {
     viewModel.fetchTask()
     val context = LocalContext.current

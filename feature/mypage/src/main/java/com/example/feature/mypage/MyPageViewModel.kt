@@ -12,9 +12,10 @@ import com.example.core.model.TaskMateUser
 import com.example.repository.MyPageRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
-class MyPageViewModel(
+class MyPageViewModel @Inject constructor(
     private val repository: MyPageRepository,
 ) : ViewModel() {
 

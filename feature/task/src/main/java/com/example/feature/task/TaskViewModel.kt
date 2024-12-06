@@ -14,7 +14,6 @@ import javax.inject.Inject
 class TaskViewModel @Inject constructor(
     private val repository: TaskRepository,
 ) : ViewModel() {
-
     private val _tasks = mutableStateOf<List<TaskMateTask>>(emptyList())
     val tasks: List<TaskMateTask> get() = _tasks.value
 
