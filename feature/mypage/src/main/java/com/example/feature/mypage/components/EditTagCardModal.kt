@@ -35,7 +35,6 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.core.model.TaskMateGroup
-import com.example.core.model.TaskMateUser
 import com.example.core.ui.taskmateComponents.TaskMateAlertDialog
 import com.example.core.ui.taskmateComponents.icon.TaskMateIcons
 import com.example.feature.mypage.MyPageViewModel
