@@ -67,7 +67,6 @@ fun Navigation(
     val navStackBackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navStackBackEntry?.destination?.route
     val navToSettingScreen = { navController.navigate(SETTING_GRAPH_ROUTE) }
-    val popBackStack: () -> Unit = { navController.popBackStack() }
 
     Scaffold(
         bottomBar = {
@@ -90,7 +89,7 @@ fun Navigation(
                     homeNavGraph(homeNavigation, user, groups, subjects)
                     taskNavGraph(taskNavigation, users, user, groups, subjects)
                     composable(route = BottomNavBarItems.MyPage.route) {
-                        MyPageScreen(navToSettingScreen, groups)
+                        MyPageScreen(navToSettingScreen)
                     }
                 }
             }

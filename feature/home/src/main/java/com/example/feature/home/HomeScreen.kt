@@ -1,6 +1,5 @@
 package com.example.feature.home
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -17,36 +16,27 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.core.model.Class
-import com.example.core.model.TaskMateGroup
-import com.example.core.model.TaskMateSubject
-import com.example.core.model.TaskMateUser
 import com.example.core.ui.taskmateComponents.appBar.MainTaskMateAppBar
 import com.example.feature.home.components.TimeSchedule
 
 @Composable
 fun HomeScreen(
-    user: TaskMateUser?,
-    groups: List<TaskMateGroup>,
-    subjects: List<TaskMateSubject>,
     navToSettingScreen: () -> Unit,
     navToSubjectListScreen: (Int, Int?) -> Unit,
-    viewModel: HomeViewModel = viewModel(),
+    viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val fetchedUser by remember { viewModel.userState }
+    val fetchedSubject by remember { viewModel.subjectsState }
     val dayClassList = listOf("1限", "2限", "3限", "4限")
     val userGroupIds = remember { mutableStateOf(fetchedUser?.groupId.orEmpty()) }
-    val filteredSubjects = remember(userGroupIds.value, subjects) {
-        subjects.filter { subject ->
+    val filteredSubjects = remember(userGroupIds.value, fetchedSubject) {
+        fetchedSubject.filter { subject ->
             userGroupIds.value.contains(subject.groupId)
         }
     }
-    fetchedUser?.let { Log.e("Subjectuser", it.userName) }
-    Log.e("Subjectusergroupid", userGroupIds.value.toString())
-    Log.e("Subject", subjects.toString())
-    Log.e("filteredSubject", filteredSubjects.toString())
-    val classList = remember(subjects) {
+    val classList = remember(fetchedSubject) {
         val days = listOf("月", "火", "水", "木", "金")
         days.map { day ->
             Class(

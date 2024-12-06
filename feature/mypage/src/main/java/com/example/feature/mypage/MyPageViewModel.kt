@@ -9,15 +9,16 @@ import androidx.lifecycle.viewModelScope
 import com.example.core.model.TaskMateGroup
 import com.example.core.model.TaskMateSubject
 import com.example.core.model.TaskMateUser
+import com.example.repository.MyPageRepository
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.FirebaseFirestore
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MyPageViewModel : ViewModel() {
-    private val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
-    private val auth = FirebaseAuth.getInstance()
-    private var errorMessage: String = ""
+@HiltViewModel
+class MyPageViewModel @Inject constructor(
+    private val repository: MyPageRepository,
+) : ViewModel() {
 
     private val _userState = mutableStateOf<TaskMateUser?>(null)
     val userState: State<TaskMateUser?> get() = _userState
@@ -28,111 +29,112 @@ class MyPageViewModel : ViewModel() {
     private val _subjects = mutableStateOf<List<TaskMateSubject>>(emptyList())
     val subjectsState: State<List<TaskMateSubject>> get() = _subjects
 
-    fun fetchUserData() {
-        firestore.collection("users")
-            .whereEqualTo("userId", auth.currentUser?.uid)
-            .get()
-            .addOnSuccessListener { documents ->
-                val user = documents.map { it.toObject(TaskMateUser::class.java) }
-                    .find { it.userId == auth.currentUser?.uid }
+    private val _userGroups = mutableStateOf<List<TaskMateGroup>>(emptyList())
+    val userGroupsState: State<List<TaskMateGroup>> get() = _userGroups
+
+    private val _pastGroups = mutableStateOf<List<TaskMateGroup>>(emptyList())
+    val pastGroupsState: State<List<TaskMateGroup>> get() = _pastGroups
+
+    private val _errorMessage = mutableStateOf<String?>(null)
+    val errorMessage: State<String?> get() = _errorMessage
+
+    fun fetchAllData() {
+        viewModelScope.launch {
+            val userId = FirebaseAuth.getInstance().currentUser?.uid.orEmpty()
+            val user = repository.fetchUserData(userId)
+            if (user != null) {
                 _userState.value = user
-                if (user == null) {
-                    Log.e("MyPageViewModel", "User not found")
-                }
+                val allGroups = repository.fetchAllGroups()
+                _groups.value = allGroups
+
+                _userGroups.value = filterUserGroups(user, allGroups)
+                _pastGroups.value = filterPastGroups(user, allGroups)
             }
-            .addOnFailureListener { exception ->
-                Log.e("MyPageViewModel", "Error fetching user data", exception)
+            if (user != null) {
+                fetchAllGroups()
+                fetchSubjects()
             }
+        }
+    }
+
+    fun fetchUserData(userId: String) {
+        viewModelScope.launch {
+            try {
+                _userState.value = repository.fetchUserData(userId)
+            } catch (exception: Exception) {
+                _errorMessage.value = "Error fetching user data: ${exception.message}"
+            }
+        }
     }
 
     fun fetchAllGroups() {
-        firestore.collection("groups")
-            .get()
-            .addOnSuccessListener { groupDocuments ->
-                _groups.value = groupDocuments.map { it.toObject(TaskMateGroup::class.java) }
+        viewModelScope.launch {
+            try {
+                _groups.value = repository.fetchAllGroups()
+            } catch (exception: Exception) {
+                _errorMessage.value = "Error fetching groups: ${exception.message}"
             }
-            .addOnFailureListener { exception ->
-                Log.e("groupsDBError", exception.localizedMessage.orEmpty())
-            }
+        }
     }
 
     fun fetchSubjects() {
-        firestore.collection("subjects")
-            .get()
-            .addOnSuccessListener { subjectDocuments ->
-                _subjects.value = subjectDocuments.map { it.toObject(TaskMateSubject::class.java) }
-            }
-            .addOnFailureListener { exception ->
-                Log.e("subjectsDBError", exception.localizedMessage.orEmpty())
-            }
-    }
-
-    fun userGroupUpdate(
-        userId: String,
-        groups: List<TaskMateGroup>,
-        onSuccess: () -> Unit,
-        onFailure: (String) -> Unit,
-    ) {
         viewModelScope.launch {
             try {
-                val groupIds = groups.map { it.groupId }
-                firestore.collection("users").document(userId)
-                    .update("groupId", groupIds)
-                    .addOnSuccessListener { onSuccess() }
-                    .addOnFailureListener { exception ->
-                        errorMessage = exception.message ?: "ユーザー情報の更新に失敗しました。"
-                        onFailure(errorMessage)
-                    }
-            } catch (e: Exception) {
-                onFailure(e.message ?: "不明なエラーが発生しました。")
+                _subjects.value = repository.fetchSubjects()
+            } catch (exception: Exception) {
+                _errorMessage.value = "Error fetching subjects: ${exception.message}"
             }
         }
     }
 
-    fun deleteGroup(
-        userId: String,
-        groupId: String,
-        onSuccess: () -> Unit,
-        onFailure: (String) -> Unit,
-    ) {
+    fun updateUserGroups(userId: String, groups: List<TaskMateGroup>) {
         viewModelScope.launch {
             try {
-                firestore.collection("users").document(userId)
-                    .update("groupId", FieldValue.arrayRemove(groupId))
-                    .addOnSuccessListener {
-                        onSuccess()
-                    }
-                    .addOnFailureListener { exception ->
-                        errorMessage = exception.message ?: "グループの削除に失敗しました。"
-                        Log.e("MyPageViewModel", errorMessage)
-                        onFailure(errorMessage)
-                    }
-            } catch (e: Exception) {
-                val error = e.message ?: "不明なエラーが発生しました。"
-                Log.e("MyPageViewModel", error)
-                onFailure(error)
+                if (repository.updateUserGroups(userId, groups.map { it.groupId })) {
+                    Log.d("MyPageViewModel", "Groups updated successfully")
+                } else {
+                    _errorMessage.value = "Failed to update user groups"
+                }
+            } catch (exception: Exception) {
+                _errorMessage.value = "Error updating groups: ${exception.message}"
             }
         }
     }
 
-    fun changeIcon(
-        userId: String,
-        imageUrl: Uri,
-        onSuccess: () -> Unit,
-        onFailure: (String) -> Unit,
-    ) {
+    fun deleteGroup(userId: String, groupId: String) {
         viewModelScope.launch {
             try {
-                firestore.collection("users").document(userId)
-                    .update("iconUrl", imageUrl.toString())
-                    .addOnSuccessListener { onSuccess() }
-                    .addOnFailureListener { exception ->
-                        errorMessage = exception.message ?: "ユーザー情報の更新に失敗しました。"
-                        onFailure(errorMessage)
-                    }
-            } catch (e: Exception) {
-                onFailure(e.message ?: "不明なエラーが発生しました。")
+                if (repository.deleteGroupFromUser(userId, groupId)) {
+                    Log.d("MyPageViewModel", "Group deleted successfully")
+                } else {
+                    _errorMessage.value = "Failed to delete group"
+                }
+            } catch (exception: Exception) {
+                _errorMessage.value = "Error deleting group: ${exception.message}"
             }
         }
+    }
+
+    fun changeIcon(userId: String, imageUrl: Uri) {
+        viewModelScope.launch {
+            try {
+                if (repository.changeUserIcon(userId, imageUrl.toString())) {
+                    Log.d("MyPageViewModel", "Icon changed successfully")
+                } else {
+                    _errorMessage.value = "Failed to change icon"
+                }
+            } catch (exception: Exception) {
+                _errorMessage.value = "Error changing icon: ${exception.message}"
+            }
+        }
+    }
+
+    private fun filterUserGroups(user: TaskMateUser, allGroups: List<TaskMateGroup>): List<TaskMateGroup> {
+        return allGroups.filter { group -> user.groupId.contains(group.groupId) }
+    }
+
+    private fun filterPastGroups(user: TaskMateUser, allGroups: List<TaskMateGroup>): List<TaskMateGroup> {
+        val pastGroupIds = user.pastGroupId
+        return allGroups.filter { group -> pastGroupIds.contains(group.groupId) }
     }
 }

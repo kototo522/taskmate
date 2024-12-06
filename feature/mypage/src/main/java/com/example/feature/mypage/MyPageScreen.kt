@@ -46,6 +46,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.AsyncImage
 import com.example.core.model.TaskMateGroup
@@ -61,13 +62,15 @@ import kotlinx.coroutines.launch
 @Composable
 fun MyPageScreen(
     navToSettingScreen: () -> Unit,
-    groups: List<TaskMateGroup>,
-    viewModel: MyPageViewModel = viewModel(),
+    viewModel: MyPageViewModel = hiltViewModel(),
 ) {
     val user by remember { viewModel.userState }
-    LaunchedEffect(Unit) {
-        if (user == null || user?.userName == "ユーザネーム") {
-            viewModel.fetchUserData()
+    val groups by remember { viewModel.groupsState }
+    val userGroups by viewModel.userGroupsState
+
+    LaunchedEffect(user) {
+        if (user == null) {
+            viewModel.fetchAllData()
         }
     }
     val context = LocalContext.current
@@ -79,18 +82,6 @@ fun MyPageScreen(
     val userGroupIds = remember { mutableStateOf(user?.groupId.orEmpty()) }
     val userPastGroupIds = remember { mutableStateOf(user?.pastGroupId.orEmpty()) }
     val selectedGroup = remember { mutableStateOf<TaskMateGroup?>(null) }
-
-    val userGroups = remember(userGroupIds.value) {
-        derivedStateOf {
-            userGroupIds.value.let { ids ->
-                groups.filter { group ->
-                    ids.contains(group.groupId)
-                }.map { group ->
-                    group
-                }
-            }
-        }
-    }
 
     val userPastGroups = remember(userPastGroupIds.value) {
         derivedStateOf {
@@ -121,12 +112,6 @@ fun MyPageScreen(
                 viewModel.changeIcon(
                     userId = user!!.userId,
                     imageUrl = uri,
-                    onSuccess = {
-                        Log.d("MyPage", "アイコンが正常に更新されました。")
-                    },
-                    onFailure = { error ->
-                        Log.e("MyPage", "エラー: $error")
-                    },
                 )
             }
         },
@@ -249,10 +234,10 @@ fun MyPageScreen(
                     LazyRow(
                         modifier = Modifier.padding(8.dp),
                     ) {
-                        items(userGroups.value.size) { index ->
-                            TagCard(userGroups.value[index].groupName) {
+                        items(userGroups.size) { index ->
+                            TagCard(userGroups[index].groupName) {
                                 isDetailSheetOpen.value = true
-                                selectedGroup.value = userGroups.value[index]
+                                selectedGroup.value = userGroups[index]
                             }
                         }
                     }
@@ -262,18 +247,13 @@ fun MyPageScreen(
 
         if (isEditGroupSheetOpen.value) {
             EditTagCardModal(
-                user = user,
-                group = userGroups.value,
-                pastGroup = userPastGroups.value,
                 scope = scope,
                 sheetState = sheetState,
                 isSheetOpen = isEditGroupSheetOpen,
                 onSave = { selectedGroupIds ->
-                    viewModel.userGroupUpdate(
+                    viewModel.updateUserGroups(
                         userId = user?.userId ?: "",
                         groups = selectedGroupIds,
-                        onSuccess = { Log.d("MyPage", "グループ情報が正常に更新されました。") },
-                        onFailure = { error -> Log.e("MyPage", "エラー: $error") },
                     )
                 },
             )

@@ -2,10 +2,12 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.google.services)
+    kotlin("kapt")
+    alias(libs.plugins.hilt)
 }
 
 android {
-    namespace = "com.example.feature"
+    namespace = "com.example.feature.mypage"
     compileSdk = 34
 
     defaultConfig {
@@ -56,6 +58,11 @@ dependencies {
     implementation(libs.firebase.firestore)
     implementation(libs.firebase.firestore)
     implementation(libs.google.firebase.auth)
+    implementation(libs.hilt.android)
+    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.androidx.hilt.work)
+    implementation(libs.androidx.hilt.navigation.compose)
+    kapt(libs.hilt.compiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -63,4 +70,5 @@ dependencies {
     implementation(libs.coil.network.okhttp)
     implementation(project(":core:data"))
     implementation(project(":core:ui"))
+    implementation(project(":core:repository"))
 }

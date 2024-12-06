@@ -1,19 +1,22 @@
 package com.example.feature.home
 
-import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.core.model.TaskMateGroup
 import com.example.core.model.TaskMateSubject
 import com.example.core.model.TaskMateUser
+import com.example.repository.HomeRepository
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class HomeViewModel : ViewModel() {
-    private val db = FirebaseFirestore.getInstance()
-    private val auth = FirebaseAuth.getInstance()
-
+@HiltViewModel
+class HomeViewModel @Inject constructor(
+    private val repository: HomeRepository,
+) : ViewModel() {
     private val _userState = mutableStateOf<TaskMateUser?>(null)
     val userState: State<TaskMateUser?> get() = _userState
 
@@ -24,49 +27,15 @@ class HomeViewModel : ViewModel() {
     val subjectsState: State<List<TaskMateSubject>> get() = _subjects
 
     fun fetchAllData() {
-        fetchUserData { success ->
-            if (success) {
-                fetchAllGroups()
-                fetchSubjects()
+        viewModelScope.launch {
+            val userId = FirebaseAuth.getInstance().currentUser?.uid.orEmpty()
+            val user = repository.fetchUserData(userId)
+            _userState.value = user
+
+            if (user != null) {
+                _groups.value = repository.fetchAllGroups()
+                _subjects.value = repository.fetchSubjects()
             }
         }
-    }
-
-    private fun fetchUserData(callback: (Boolean) -> Unit) {
-        db.collection("users")
-            .whereEqualTo("userId", auth.currentUser?.uid)
-            .get()
-            .addOnSuccessListener { documents ->
-                val users = documents.map { it.toObject(TaskMateUser::class.java) }
-                val user = users.find { it.userId == auth.currentUser?.uid }
-                _userState.value = user
-                callback(user != null)
-            }
-            .addOnFailureListener { exception ->
-                Log.e("HomeViewModel", "Error fetching user data", exception)
-                callback(false)
-            }
-    }
-
-    private fun fetchAllGroups() {
-        db.collection("groups")
-            .get()
-            .addOnSuccessListener { groupDocuments ->
-                _groups.value = groupDocuments.map { it.toObject(TaskMateGroup::class.java) }
-            }
-            .addOnFailureListener { exception ->
-                Log.e("groupsDBError", exception.localizedMessage.orEmpty())
-            }
-    }
-
-    private fun fetchSubjects() {
-        db.collection("subjects")
-            .get()
-            .addOnSuccessListener { subjectDocuments ->
-                _subjects.value = subjectDocuments.map { it.toObject(TaskMateSubject::class.java) }
-            }
-            .addOnFailureListener { exception ->
-                Log.e("subjectsDBError", exception.localizedMessage.orEmpty())
-            }
     }
 }

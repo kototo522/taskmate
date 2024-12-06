@@ -12,12 +12,12 @@ lifecycleRuntimeKtx = "2.6.1"
 activityCompose = "1.8.0"
 composeBom = "2024.04.01"
 spotless = "6.21.0"
-appcompat = "1.6.1"
-material = "1.10.0"
-navigationCompose = "2.8.1"
-hilt = "2.44"
-uiGraphicsAndroid = "1.7.2"
-firebase-bom = "33.5.0"
+appcompat = "1.7.0"
+material = "1.12.0"
+navigationCompose = "2.8.4"
+hilt = "2.51.1"
+uiGraphicsAndroid = "1.7.5"
+firebase-bom = "33.6.0"
 google = "4.4.2"
 firebaseAuthKtx = "23.1.0"
 navigationRuntimeKtx = "2.8.3"
@@ -26,9 +26,12 @@ firebaseStorageKtx = "21.0.1"
 uiTextAndroid = "1.7.2"
 firebaseFirestore = "25.1.1"
 firebaseAuth = "23.1.0"
+hiltWork = "1.2.0"
+playServicesBase = "18.0.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltWork" }
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coilCompose" }
 coil-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coilCompose" }
 firebase-auth = { module = "com.google.firebase:firebase-auth" }
@@ -63,6 +66,8 @@ firebase-storage-ktx = { group = "com.google.firebase", name = "firebase-storage
 androidx-ui-text-android = { group = "androidx.compose.ui", name = "ui-text-android", version.ref = "uiTextAndroid" }
 firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version.ref = "firebaseFirestore" }
 google-firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
+androidx-hilt-work = { group = "androidx.hilt", name = "hilt-work", version.ref = "hiltWork" }
+play-services-base = { group = "com.google.android.gms", name = "play-services-base", version.ref = "playServicesBase" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

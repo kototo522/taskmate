@@ -8,32 +8,35 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import com.example.core.model.TaskMateGroup
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.core.model.TaskMateSubject
-import com.example.core.model.TaskMateUser
 import com.example.core.model.string.TaskMateStrings
 import com.example.core.ui.taskmateComponents.appBar.PopBackTaskMateAppBar
 import com.example.feature.task.components.SubjectCard
 
 @Composable
 fun SelectSubjectScreen(
-    user: TaskMateUser?,
-    groups: List<TaskMateGroup>,
-    subjects: List<TaskMateSubject>,
     navToAddTaskScreen: (TaskMateSubject) -> Unit,
     popBackStack: () -> Unit,
+    viewModel: TaskViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
+    val user by remember { viewModel.userState }
+    val groups by remember { viewModel.groupsState }
+    val subjects by remember { viewModel.subjectsState }
+    val userSubjects by remember { viewModel.userSubjects }
 
-    val userGroupIds = remember { mutableStateOf(user?.groupId.orEmpty()) }
-    val userSubjects = subjects.filter { subject ->
-        userGroupIds.value.contains(subject.groupId)
+    LaunchedEffect(user) {
+        if (user == null) {
+            viewModel.fetchAllData()
+        }
     }
 
     Scaffold(
