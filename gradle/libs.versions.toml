@@ -1,6 +1,7 @@
 [versions]
 agp = "8.6.0"
 coilCompose = "3.0.0-rc02"
+core = "3.5.1"
 googleServices = "4.4.2"
 gradle = "8.2.2"
 kotlin = "1.9.0"
@@ -28,12 +29,14 @@ firebaseFirestore = "25.1.1"
 firebaseAuth = "23.1.0"
 hiltWork = "1.2.0"
 playServicesBase = "18.0.1"
+zxingAndroidEmbedded = "4.3.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltWork" }
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coilCompose" }
 coil-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coilCompose" }
+core = { module = "com.google.zxing:core", version.ref = "core" }
 firebase-auth = { module = "com.google.firebase:firebase-auth" }
 google-services = { module = "com.google.gms:google-services", version.ref = "googleServices" }
 gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
@@ -68,6 +71,7 @@ firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore
 google-firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
 androidx-hilt-work = { group = "androidx.hilt", name = "hilt-work", version.ref = "hiltWork" }
 play-services-base = { group = "com.google.android.gms", name = "play-services-base", version.ref = "playServicesBase" }
+zxing-android-embedded = { module = "com.journeyapps:zxing-android-embedded", version.ref = "zxingAndroidEmbedded" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

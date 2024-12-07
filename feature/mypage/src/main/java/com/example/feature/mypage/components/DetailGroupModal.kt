@@ -12,8 +12,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -33,6 +37,10 @@ fun DetailGroupModal(
     sheetState: SheetState,
     isSheetOpen: MutableState<Boolean>,
 ) {
+    val isQROpen = remember { mutableStateOf(false) }
+    val QRsheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val coroutineScope = rememberCoroutineScope()
+
     ModalBottomSheet(
         onDismissRequest = {
             scope.launch {
@@ -69,7 +77,7 @@ fun DetailGroupModal(
                 ) {
                     Button(
                         onClick = {
-                            // TODO: QRコードでグループ追加できるようにする
+                            isQROpen.value = true
                         },
                         modifier = Modifier
                             .padding(horizontal = 12.dp)
@@ -80,6 +88,14 @@ fun DetailGroupModal(
                 }
             }
         }
+    }
+    if (isQROpen.value) {
+        ShowQRModal(
+            data = "https://example.com/group?groupId={groupId}&password={password}",
+            scope = coroutineScope,
+            sheetState = QRsheetState,
+            isSheetOpen = isQROpen,
+        )
     }
 }
 

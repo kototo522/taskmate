@@ -53,6 +53,7 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
+    implementation(libs.zxing.android.embedded)
     implementation(project(":core:data"))
     implementation(project(":core:ui"))
     implementation(libs.firebase.auth.ktx)

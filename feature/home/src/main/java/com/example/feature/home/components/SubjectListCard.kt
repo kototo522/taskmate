@@ -88,7 +88,7 @@ fun SubjectListCard(
                     modifier = Modifier.padding(vertical = 14.dp),
                 )
                 Text(
-                    text = "グループ名: $groupName",
+                    text = "",
                     modifier = Modifier.padding(bottom = 10.dp),
                     style = TextStyle(
                         fontSize = 14.sp,
